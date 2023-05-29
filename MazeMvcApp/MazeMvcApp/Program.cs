@@ -1,3 +1,7 @@
+using MazeMvcApp.Models.MazeGenerationAlgos;
+using MazeMvcApp.Models.MazeSolverAlgos;
+using MazeMvcApp.Models;
+
 namespace MazeMvcApp
 {
     public class Program
@@ -5,6 +9,15 @@ namespace MazeMvcApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            /*
+            Maze maze = new Maze(5, 5);
+            IMazeGenerator mazeGenerator = new HuntAndKill(maze);
+            mazeGenerator.GenerateMaze();
+            // Temporal dependence to consider: Maze has to be "perfect" before used in DFS class
+            IMazeSolver mazeSolver = new DepthFirstSearch(maze);
+            List<MazeCell> validPath = mazeSolver.FindValidPath();
+            */
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
