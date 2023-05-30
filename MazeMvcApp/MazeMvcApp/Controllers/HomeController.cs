@@ -9,7 +9,6 @@ namespace MazeMvcApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private Maze _maze;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,17 +19,17 @@ namespace MazeMvcApp.Controllers
             return View(_maze);
         }
 
-        public IActionResult GenerateMaze(Maze maze)
+        public IActionResult GenerateMaze(int a, int b)
         {
-            /*
-            IMazeGenerator mazeGenerator = new HuntAndKill(maze);
+            _maze = new Maze(a, b);
+            IMazeGenerator mazeGenerator = new HuntAndKill(_maze);
             mazeGenerator.GenerateMaze();
-            _maze = maze;
-            */
+
+
             return RedirectToAction(nameof(Index));
-            // Problem: If I return view, goese to different page
-            // return View(maze);
-        }
+            // Problem: If I return view, goese to different page
+            // return View(maze);
+        }
 
         public IActionResult Privacy()
         {
