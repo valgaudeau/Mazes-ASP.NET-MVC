@@ -9,7 +9,7 @@ namespace MazeMvcApp.Controllers
         {
             return View();
         }
-        */
+        
 
         // GET: /Maze/GenerateMaze
         public ActionResult GenerateMaze()
@@ -47,6 +47,7 @@ namespace MazeMvcApp.Controllers
 
             return Json(new { success = true, isCorrect = isCorrect });
         }
+        */
 
     }
 }
