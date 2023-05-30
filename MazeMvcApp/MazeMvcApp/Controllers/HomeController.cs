@@ -21,15 +21,13 @@ namespace MazeMvcApp.Controllers
 
         public IActionResult GenerateMaze(int a, int b)
         {
-            _maze = new Maze(a, b);
+            _maze = new Maze(a,b);
             IMazeGenerator mazeGenerator = new HuntAndKill(_maze);
             mazeGenerator.GenerateMaze();
-
-
+           
+            
             return RedirectToAction(nameof(Index));
-            // Problem: If I return view, goese to different page
-            // return View(maze);
-        }
+        }
 
         public IActionResult Privacy()
         {

@@ -1,92 +1,108 @@
 ﻿@model MazeMvcApp.Models.Maze
 
+
+
 <h1>Maze Generator</h1>
 
 <head>
-	<meta name="viewport" content="width=device-width" />
-	<title>Maze Generator App</title>
-	<style>
+    <meta name="viewport" content="width=device-width" />
+    <title>Maze Generator App</title>
 
-		body {
-			background-color: #f9f2f4;
-			color: #333;
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-		}
+    <style>
+        body {
+            background-color: #f9f2f4;
+            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-		h1 {
-			color: #4b0082;
-			text-align: center;
-			margin-top: 50px;
-		}
+        h1 {
+            color: #4b0082;
+            text-align: center;
+            margin-top: 50px;
+        }
 
-		.container {
-			max-width: 600px;
-			margin: 0 auto;
-			padding: 20px;
-		}
+        .container {
+           max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-		.maze-container {
-			background-color: #fff;
-			border: 1px solid #4b0082;
-			border-radius: 5px;
-			padding: 10px;
-			margin-top: 20px;
-		}
+        .maze-container {
+           background-color: #fff;
+            border: 1px solid #4b0082;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+        }
 
-		.form-control {
-			padding: 1rem 0.75rem;
-		}
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4b0082;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            margin-right: 20px;
+        }
 
-		.button {
-			display: inline-block;
-			padding: 10px 20px;
-			background-color: #4b0082;
-			color: #fff;
-			text-decoration: none;
-			border-radius: 5px;
-			margin-top: 20px;
-			margin-right: 20px;
-		}
+        .button:hover {
+            background-color: #800080;
+        }
+    </style>
 
-		.button:hover {
-			background-color: #800080;
-		}
-
-	</style>
 </head>
 
-<body>
-	<hr />
-	<a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
-	<a href="@Url.Action("GenerateMaze", "Maze")" class="button">Solve Maze</a>
-	<hr />
-	<div class="row">
-		<div class="card">
-			<div class="card-header">
-				<h5>
-					Create a new maze
-				</h5>
-			</div>
-			<div class="card-body">
-				<form asp-controller="Home" asp-action="GenerateMaze" method="post">
-					<div class="mb-3">
-						<label class="form-label">NRow</label>
-						<input  name="a" type="number" class="form-control" />
-					</div>
-					<div class="mb-3">
-						<label class="form-label">NCol</label>
-						<input  name="b" type="text" class="form-control" />
-					</div>
-					<div class="mb-3">
-						<button type="submit" class="btn btn-primary">Save</button>
-					</div>
-				</form>
-			</div>
-			<div class="card-footer">
-			</div>
-		</div>
-	</div>
+<body> 
+
+<hr />
+
+
+    <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
+    <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Solve Maze</a>
+
+    <hr />
+
+<div class="row">
+
+        <div class="card">
+            <div class="card-header">
+
+                <h5>
+                    Create a new maze
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <form asp-controller="Home" asp-action="GenerateMaze" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">NRow</label>
+                        <input  name="a" type="number" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">NCol</label>
+                        <input  name="b" type="text" class="form-control" />
+                    </div>
+
+
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="card-footer">
+            </div>
+        </div>
+
+
+
+</div>
 
 </body>
