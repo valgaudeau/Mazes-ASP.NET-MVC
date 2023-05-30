@@ -8,8 +8,8 @@
 
         // See https://stackoverflow.com/questions/3917796/how-to-implement-a-read-only-property
         // Goal here was avoiding anyone changing NRow or NCol after Maze creation
-        public int NRow { get { return _nRow; } }
-        public int NCol { get { return _nCol; } }
+        public int NRow { get; set; }
+        public int NCol { get; set; }
         public MazeCell StartCell { get; set; }
         public MazeCell EndCell { get; set; }
 
@@ -44,6 +44,11 @@
 
             StartCell = Cells[0][0];
             EndCell = Cells[NRow - 1][NCol - 1];
+        }
+
+        public Maze()
+        {
+
         }
 
         public MazeCell GetRandomCell()

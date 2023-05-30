@@ -1,6 +1,5 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@page
+@model MazeMvcApp.Models.Maze
 
 <!DOCTYPE html>
 <html>
@@ -69,21 +68,23 @@
         <h1>Play with Mazes</h1>
         <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
         <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Solve Maze</a>
-
-        @using (Html.BeginForm("Dimensions", "Home", FormMethod.Post))
-        {
-            <div>
-                <label for="Rows">Rows:</label>
-                @Html.TextBox("NumberOfRows")
+        
+        <!-- asp-action = name of method in controller ->
+        <form asp-controller="Home" asp-action="GenerateMaze" method="post">
+            <div class="mb-3">
+                <label class="form-label">NRow</label>
+                <input asp-for=NRow type="number" class="form-control" />
             </div>
 
-            <div>
-                <label for="Columns">Columns:</label>
-                @Html.TextBox("NumberOfColumns")
+            <div class="mb-3">
+                <label class="form-label">NCol</label>
+                <input asp-for=NCol type="text" class="form-control" />
             </div>
 
-            <button type="submit">Submit</button>
-        }
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
 
         <div class="maze-container">
             <table class="maze-table">
