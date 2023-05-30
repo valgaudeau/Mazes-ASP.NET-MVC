@@ -1,11 +1,9 @@
-﻿@page
-@model MazeMvcApp.Models.Maze
+﻿@model MazeMvcApp.Models.Maze
 
-<!DOCTYPE html>
-<html>
 
-<!-- HEAD -->
-<!--------------------------------------------------------------------------------------->
+
+<h1>Maze Generator</h1>
+
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Maze Generator App</title>
@@ -26,13 +24,13 @@
         }
 
         .container {
-            max-width: 600px;
+           max-width: 600px;
             margin: 0 auto;
             padding: 20px;
         }
 
         .maze-container {
-            background-color: #fff;
+           background-color: #fff;
             border: 1px solid #4b0082;
             border-radius: 5px;
             padding: 10px;
@@ -57,60 +55,54 @@
 
 </head>
 
-<!-- /HEAD -->
-<!--------------------------------------------------------------------------------------->
+<body> 
 
-<!-- BODY -->
-<!--------------------------------------------------------------------------------------->
-<body>
+<hr />
 
-    <div class="container">
-        <h1>Play with Mazes</h1>
-        <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
-        <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Solve Maze</a>
-        
-        <!-- asp-action = name of method in controller ->
-        <form asp-controller="Home" asp-action="GenerateMaze" method="post">
-            <div class="mb-3">
-                <label class="form-label">NRow</label>
-                <input asp-for=NRow type="number" class="form-control" />
+
+    <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
+    <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Solve Maze</a>
+
+    <hr />
+
+<div class="row">
+
+        <div class="card">
+            <div class="card-header">
+
+                <h5>
+                    Create a new maze
+                </h5>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">NCol</label>
-                <input asp-for=NCol type="text" class="form-control" />
+            <div class="card-body">
+
+                <form asp-controller="Home" asp-action="GenerateMaze" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">NRow</label>
+                        <input  name="a" type="number" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">NCol</label>
+                        <input  name="b" type="text" class="form-control" />
+                    </div>
+
+
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+
             </div>
 
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Save</button>
+            <div class="card-footer">
             </div>
-        </form>
-
-        <div class="maze-container">
-            <table class="maze-table">
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                </tr>
-            </table>
         </div>
-    </div>
+
+
+
+</div>
 
 </body>
-
-<!-- /BODY -->
-<!--------------------------------------------------------------------------------------->
-
-</html>
-
