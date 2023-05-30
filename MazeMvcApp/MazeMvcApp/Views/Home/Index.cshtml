@@ -102,19 +102,19 @@
                                         <div class="maze-cell">@Model.Cells[i][j].ToEmptyString()
                                             @if(@Model.Cells[i][j].TopEdge == true)
                                             {
-                                                <style>
-                                                    .maze-cell {
-                                                        border-top: 1px solid black;
-                                                    }
-                                                </style>
+
                                             }
-                                            @if(@Model.Cells[i][j].LeftEdge == true)
+                                            @if(@Model.Cells[i][j].LeftEdge == false)
                                             {
-                                                <style>
-                                                    .maze-cell {
-                                                        border-left: 1px solid black;
-                                                    }
-                                                </style>
+                                                <p>
+                                                    hi
+                                                </p>
+                                            }
+                                            @if (@Model.Cells[i][j].LeftEdge == false)
+                                            {
+                                                <p>
+                                                    hi
+                                                </p>
                                             }
 
                                         </div>
