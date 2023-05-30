@@ -101,7 +101,7 @@
 
         public string ToEmptyString()
         {
-            return "S";
+            return " ";
         }
     }
 }

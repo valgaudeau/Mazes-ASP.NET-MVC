@@ -99,7 +99,7 @@
                                 <div class="maze-row">
                                     @for (int j = 0; j < @Model.NCol; j++)
                                     {
-
+                                        <!-- creating new class for each cell -->
                                         <div class="maze-cell@(i)@(j)">
                                             
                                         @if (@Model.Cells[i][j].TopEdge == true)
@@ -107,6 +107,8 @@
                                             <style>
                                                 .maze-cell@(i)@(j) {
                                                     border-top: 1px solid purple;
+                                                    height: 20px;
+                                                    width: 20px;
                                                 }
                                             </style>
                                         }
@@ -116,22 +118,30 @@
                                             <style>
                                                 .maze-cell@(i)@(j) {
                                                     border-bottom: 1px solid purple;
+                                                    height: 20px;
+                                                    width: 20px;
                                                 }
                                             </style>
                                         }
-                                            @if (@Model.Cells[i][j].LeftEdge == true)
+
+                                        @if (@Model.Cells[i][j].LeftEdge == true)
                                         {
                                             <style>
                                                 .maze-cell@(i)@(j) {
                                                     border-left: 1px solid purple;
+                                                    height: 20px;
+                                                    width: 20px;
                                                 }
                                             </style>
                                         }
-                                            @if (@Model.Cells[i][j].RightEdge == true)
+
+                                        @if (@Model.Cells[i][j].RightEdge == true)
                                         {
                                             <style>
                                                 .maze-cell@(i)@(j){
                                                     border-right: 1px solid purple;
+                                                    height: 20px;
+                                                    width: 20px;
                                                 }
                                             </style>
                                         }
@@ -144,8 +154,6 @@
                             }
                         }
                     </div>
-
-
 
                 </div>
 
@@ -170,24 +178,7 @@
                         border-top: 1px solid black;
                         border-right: 1px solid black;
                         border-bottom: 1px solid black;
-                    } -->
-
-                    <!--  
-                    .maze-cell.left {
-                        border-left: 1px solid black;
-                    }
-
-                    .maze-cell.top {
-                        border-top: 1px solid black;
-                    }
-
-                    .maze-cell.right {
-                        border-right: 1px solid black;
-                    }
-
-                    .maze-cell.bottom {
-                        border-bottom: 1px solid black;
-                    }
+                    } 
                     -->
 
                 </style>
