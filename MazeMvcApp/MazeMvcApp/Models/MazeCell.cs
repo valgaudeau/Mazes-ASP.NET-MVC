@@ -98,5 +98,10 @@
             }
             return false;
         }
+
+        public string ToEmptyString()
+        {
+            return "S";
+        }
     }
 }

@@ -3,20 +3,18 @@
     public class Maze
     {
         public MazeCell[][] Cells { get; set; }
-        private readonly int _nRow;
-        private readonly int _nCol;
 
         // See https://stackoverflow.com/questions/3917796/how-to-implement-a-read-only-property
         // Goal here was avoiding anyone changing NRow or NCol after Maze creation
-        public int NRow { get; set; }
-        public int NCol { get; set; }
+        public int NRow { get; set; } = 1;
+        public int NCol { get; set; } = 1;
         public MazeCell StartCell { get; set; }
         public MazeCell EndCell { get; set; }
 
         public Maze(int nRow, int nCol)
         {
-            _nRow = nRow;
-            _nCol = nCol;
+            NRow = nRow;
+            NCol = nCol;
 
             // initialize cells in our maze
             MazeCell[][] cells = new MazeCell[nRow][];
@@ -55,7 +53,7 @@
         {
             var random = new Random();
 
-            return Cells[random.Next(_nRow)][random.Next(_nCol)];
+            return Cells[random.Next(NRow)][random.Next(NCol)];
         }
 
         private void MapCellNeighbours(MazeCell mazeCell)

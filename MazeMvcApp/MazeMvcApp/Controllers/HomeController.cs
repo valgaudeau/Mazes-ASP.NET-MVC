@@ -8,20 +8,23 @@ namespace MazeMvcApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private Maze _maze;
+        // The Maze field has to be static or it resets - Investigate later
+        private static Maze _maze = new Maze();
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
         public IActionResult Index()
-        {
+        {        
             return View(_maze);
         }
 
-        public IActionResult GenerateMaze(int a, int b)
+        public IActionResult GenerateMaze(int nRow, int nCol)
         {
-            _maze = new Maze(a,b);
+            _maze = new Maze(nRow, nCol);
+            // Create perfect maze
             IMazeGenerator mazeGenerator = new HuntAndKill(_maze);
             mazeGenerator.GenerateMaze();
                        
