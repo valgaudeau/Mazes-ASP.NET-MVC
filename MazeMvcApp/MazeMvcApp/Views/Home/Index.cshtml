@@ -99,7 +99,25 @@
                                 <div class="maze-row">
                                     @for (int j = 0; j < @Model.NCol; j++)
                                     {
-                                        <div class="maze-cell">@Model.Cells[i][j].ToEmptyString()</div>
+                                        <div class="maze-cell">@Model.Cells[i][j].ToEmptyString()
+                                            @if(@Model.Cells[i][j].TopEdge == true)
+                                            {
+                                                <style>
+                                                    .maze-cell {
+                                                        border-top: 1px solid black;
+                                                    }
+                                                </style>
+                                            }
+                                            @if(@Model.Cells[i][j].LeftEdge == true)
+                                            {
+                                                <style>
+                                                    .maze-cell {
+                                                        border-left: 1px solid black;
+                                                    }
+                                                </style>
+                                            }
+
+                                        </div>
                                     }
                                 </div>
                             }
@@ -120,6 +138,7 @@
                         display: flex;
                     }
 
+                    <!-- 
                     .maze-cell {
                         flex: 1;
                         background-color: white;
@@ -127,7 +146,7 @@
                         border-top: 1px solid black;
                         border-right: 1px solid black;
                         border-bottom: 1px solid black;
-                    }
+                    } -->
 
                     <!--  
                     .maze-cell.left {
