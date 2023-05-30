@@ -24,8 +24,7 @@ namespace MazeMvcApp.Controllers
             _maze = new Maze(a,b);
             IMazeGenerator mazeGenerator = new HuntAndKill(_maze);
             mazeGenerator.GenerateMaze();
-           
-            
+                       
             return RedirectToAction(nameof(Index));
         }
 
