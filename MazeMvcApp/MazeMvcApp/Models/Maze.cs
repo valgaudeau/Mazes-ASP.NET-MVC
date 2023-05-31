@@ -41,7 +41,9 @@
             }
 
             StartCell = Cells[0][0];
+            StartCell.TopEdge = false;
             EndCell = Cells[NRow - 1][NCol - 1];
+            EndCell.BottomEdge = false;
         }
 
         public Maze()

@@ -51,11 +51,13 @@
 
             if (Y == anotherCell.Y) // If same row, check if cells are neighbours
             {
+                // anotherCell is to the left of the currentCell
                 if (X - 1 == anotherCell.X)
                 {
                     LeftEdge = false;
                     anotherCell.RightEdge = false;
                 }
+                // anotherCell is to the right of the currentCell
                 else if (X + 1 == anotherCell.X)
                 {
                     RightEdge = false;
@@ -65,15 +67,17 @@
             }
             else if (X == anotherCell.X) // if same column, check if cells are neighbours
             {
+                // anotherCell is above currentCell
                 if (Y - 1 == anotherCell.Y)
-                {
-                    BottomEdge = false;
-                    anotherCell.TopEdge = false;
-                }
-                else if (Y + 1 == anotherCell.Y)
                 {
                     TopEdge = false;
                     anotherCell.BottomEdge = false;
+                }
+                // anotherCell is below currentCell
+                else if (Y + 1 == anotherCell.Y)
+                {
+                    BottomEdge = false;
+                    anotherCell.TopEdge = false;
                 }
                 else return;
             }
