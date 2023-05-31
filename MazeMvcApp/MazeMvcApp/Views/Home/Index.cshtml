@@ -57,6 +57,16 @@
 
     <hr />
 
+    <form asp-controller="Home" asp-action="DummyMethod" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">StartCell</label>
+                        <input name="startCell" type="number" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+    </form>
+
     <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
     <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Solve Maze</a>
 
@@ -73,7 +83,7 @@
             </div>
 
             <div class="card-body">
-
+                <!-- Home is the controller, asp-action is the method -->
                 <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                     <div class="mb-3">
                         <label class="form-label">NRow</label>
@@ -100,12 +110,12 @@
                                     @for (int j = 0; j < @Model.NCol; j++)
                                     {
                                         <!-- creating new class for each cell -->
-                                        <div class="maze-cell@(i)@(j)">
+                                        <div class="maze-cell@(i*2)@(j)">
                                             
                                         @if (@Model.Cells[i][j].TopEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i)@(j) {
+                                                .maze-cell@(i*2)@(j) {
                                                     border-top: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
@@ -116,7 +126,7 @@
                                         @if (@Model.Cells[i][j].BottomEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i)@(j) {
+                                                .maze-cell@(i*2)@(j) {
                                                     border-bottom: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
@@ -127,7 +137,7 @@
                                         @if (@Model.Cells[i][j].LeftEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i)@(j) {
+                                                .maze-cell@(i*2)@(j) {
                                                     border-left: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
@@ -138,7 +148,7 @@
                                         @if (@Model.Cells[i][j].RightEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i)@(j){
+                                                .maze-cell@(i*2)@(j){
                                                     border-right: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
