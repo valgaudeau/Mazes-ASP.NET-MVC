@@ -97,8 +97,8 @@
             }
             else if (X == neighbourCell.X) // same column
             {
-                if (Y - 1 == neighbourCell.Y) return !BottomEdge; // neighbour is below current cell
-                else if (Y + 1 == neighbourCell.Y) return !TopEdge; // neighbour is above current cell
+                if (Y - 1 == neighbourCell.Y) return !TopEdge; // neighbour is below current cell
+                else if (Y + 1 == neighbourCell.Y) return !BottomEdge; // neighbour is above current cell
             }
             return false;
         }
