@@ -10,6 +10,8 @@
         public int NCol { get; set; } = 1;
         public MazeCell StartCell { get; set; }
         public MazeCell EndCell { get; set; }
+        public bool IsSolved { get; set; } = false;
+        public List<MazeCell> ValidPath { get; set; }
 
         public Maze(int nRow, int nCol)
         {

@@ -1,5 +1,6 @@
 ﻿using MazeMvcApp.Models;
 using MazeMvcApp.Models.MazeGenerationAlgos;
+using MazeMvcApp.Models.MazeSolverAlgos;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -31,18 +32,24 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult SolveMaze()
+        {
+            IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
+            List<MazeCell> validPath = mazeSolver.FindValidPath();
+            _maze.ValidPath = validPath;
+            _maze.IsSolved = true;
+
+            return RedirectToAction(nameof(Index));
+        }
+
         /*
+        // Method for debugging purposes
         public IActionResult DummyMethod()
         {
             Maze shitMaze = _maze;
             Console.WriteLine("ye");
             return View(_maze);
         }*/
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
