@@ -109,13 +109,36 @@
                                 <div class="maze-row">
                                     @for (int j = 0; j < @Model.NCol; j++)
                                     {
+                                        double a = 100 / @Model.NCol;
+                                        string a2 = a.ToString() + '%';
+
                                         <!-- creating new class for each cell -->
                                         <div class="maze-cell-coords-y@(i)x@(j)">
+
+                                            @if (@Model.Cells[i][j] == @Model.StartCell) 
+                                            {
+                                                <style>
+                                                    .maze-cell-coords-y@(i)x@(j) {
+                                                        background-color: green;
+                                                    }
+                                                </style>
+                                            }
+
+                                            @if (@Model.Cells[i][j] == @Model.EndCell) 
+                                            {
+                                                <style>
+                                                    .maze-cell-coords-y@(i)x@(j) {
+                                                        background-color: red;
+                                                    }
+                                                </style>
+                                            }
                                             
-                                            <!-- Check if Maze has been solved -->
+                                            <!-- If maze is solved, display path --> 
                                             @if(@Model.IsSolved)
                                             {
-                                                if(@Model.ValidPath.Contains(@Model.Cells[i][j]))
+                                                if(@Model.ValidPath.Contains(@Model.Cells[i][j]) 
+                                                   && (@Model.Cells[i][j] != @Model.StartCell) 
+                                                   && (@Model.Cells[i][j] != @Model.EndCell) )
                                                 {
                                                     <style>
                                                     .maze-cell-coords-y@(i)x@(j) {
@@ -205,17 +228,6 @@
                     .maze-row {
                         display: flex;
                     }
-
-                    <!-- 
-                    .maze-cell {
-                        flex: 1;
-                        background-color: white;
-                        border-left: 1px solid black;
-                        border-top: 1px solid black;
-                        border-right: 1px solid black;
-                        border-bottom: 1px solid black;
-                    } 
-                    -->
 
                 </style>
 
