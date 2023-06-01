@@ -111,12 +111,12 @@
                                     @for (int j = 0; j < @Model.NCol; j++)
                                     {
                                         <!-- creating new class for each cell -->
-                                        <div class="maze-cell@(i*2)@(j)">
+                                        <div class="maze-cell-coords-y@(i)x@(j)">
                                             
                                         @if (@Model.Cells[i][j].TopEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i*2)@(j) {
+                                                .maze-cell-coords-y@(i)x@(j) {
                                                     border-top: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
@@ -127,7 +127,7 @@
                                         @if (@Model.Cells[i][j].BottomEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i*2)@(j) {
+                                                .maze-cell-coords-y@(i)x@(j) {
                                                     border-bottom: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
@@ -138,7 +138,7 @@
                                         @if (@Model.Cells[i][j].LeftEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i*2)@(j) {
+                                                .maze-cell-coords-y@(i)x@(j) {
                                                     border-left: 3px solid purple;
                                                     height: 20px;
                                                     width: 20px;
@@ -149,8 +149,22 @@
                                         @if (@Model.Cells[i][j].RightEdge == true)
                                         {
                                             <style>
-                                                .maze-cell@(i*2)@(j){
+                                                .maze-cell-coords-y@(i)x@(j) {
                                                     border-right: 3px solid purple;
+                                                    height: 20px;
+                                                    width: 20px;
+                                                }
+                                            </style>
+                                        }
+
+                                        <!-- Can all sides be open? -->
+                                        @if ( (@Model.Cells[i][j].TopEdge == false) 
+                                               && (@Model.Cells[i][j].BottomEdge == false)
+                                               && (@Model.Cells[i][j].LeftEdge == false)
+                                               && (@Model.Cells[i][j].RightEdge == false))
+                                        {
+                                            <style>
+                                                .maze-cell-coords-y@(i)x@(j) {
                                                     height: 20px;
                                                     width: 20px;
                                                 }
