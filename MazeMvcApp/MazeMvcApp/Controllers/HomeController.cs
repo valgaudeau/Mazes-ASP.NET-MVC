@@ -31,6 +31,14 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /*
+        public IActionResult DummyMethod()
+        {
+            Maze shitMaze = _maze;
+            Console.WriteLine("ye");
+            return View(_maze);
+        }*/
+
         public IActionResult Privacy()
         {
             return View();
