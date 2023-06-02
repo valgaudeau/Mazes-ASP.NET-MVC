@@ -60,6 +60,32 @@
             return Cells[random.Next(NRow)][random.Next(NCol)];
         }
 
+        // This method is because we don't want some of the edges to be displayed twice visually
+        public void MapEdgeDisplays()
+        {
+            for (int i = 0; i < NRow; i++)
+            {
+                for (int j = 0; j < NCol; j++)
+                {
+                    // For each possible edge, check if there is a visited neighbour
+                    // Since we move row by row left to right, we should just need to check Top & left edge
+                    MazeCell currentCell = Cells[i][j];
+                    currentCell.DisplayTopEdge = currentCell.TopEdge;
+                    currentCell.DisplayLeftEdge = currentCell.LeftEdge;
+
+                    if (currentCell.Y > 0 && currentCell.TopEdge == true)
+                    {
+                        currentCell.DisplayTopEdge = false;
+                    }
+
+                    if (currentCell.X > 0 && currentCell.LeftEdge == true)
+                    {
+                        currentCell.DisplayLeftEdge = false;
+                    }
+                }
+            }
+        }
+
         private void MapCellNeighbours(MazeCell mazeCell)
         {
             // Cell below

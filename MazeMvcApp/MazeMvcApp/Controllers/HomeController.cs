@@ -25,10 +25,12 @@ namespace MazeMvcApp.Controllers
         public IActionResult GenerateMaze(int nRow, int nCol)
         {
             _maze = new Maze(nRow, nCol);
+            
             // Create perfect maze
             IMazeGenerator mazeGenerator = new HuntAndKill(_maze);
             mazeGenerator.GenerateMaze();
-                       
+            _maze.MapEdgeDisplays();
+
             return RedirectToAction(nameof(Index));
         }
 
