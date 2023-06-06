@@ -70,7 +70,8 @@
     -->
 
     <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
-    <a href="@Url.Action("SolveMaze", "Home")" class="button" id="solveMaze">Solve Maze</a>
+    <button id="solveMaze">Change</button>
+
     <hr />
 
 <div class="row">
@@ -238,7 +239,7 @@
                 <style>
                     .transformed-state 
                     {
-                        background-color: blue;
+                        background-color: blue !important;
                         transition-property: background-color, transform;
                         transition-timing-function: ease-in-out;
                         transition-duration: 3s;
@@ -250,6 +251,7 @@
                         console.log("hi");
                         const elements = document.querySelectorAll("div.maze");
                         for (const element of elements) {
+                            console.log("hi");
                         element.classList.toggle("transformed-state");
                         }
                     }
