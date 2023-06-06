@@ -31,16 +31,22 @@ namespace MazeMvcApp.Controllers
             mazeGenerator.GenerateMaze();
             _maze.MapEdgeDisplays();
 
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult SolveMaze()
-        {
             IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
             List<MazeCell> validPath = mazeSolver.FindValidPath();
             _maze.ValidPath = validPath;
             _maze.IsSolved = true;
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult SolveMaze()
+        {
+            /*
+            IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
+            List<MazeCell> validPath = mazeSolver.FindValidPath();
+            _maze.ValidPath = validPath;
+            _maze.IsSolved = true;
+            */
             return RedirectToAction(nameof(Index));
         }
 
