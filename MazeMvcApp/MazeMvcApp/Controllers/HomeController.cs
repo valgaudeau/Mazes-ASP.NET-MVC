@@ -36,6 +36,8 @@ namespace MazeMvcApp.Controllers
             _maze.ValidPath = validPath;
             _maze.IsSolved = true;
 
+            ViewBag.Elements = validPath;
+
             return RedirectToAction(nameof(Index));
         }
 

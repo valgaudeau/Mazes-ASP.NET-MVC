@@ -1,4 +1,7 @@
 ﻿@model MazeMvcApp.Models.Maze
+@{
+    ViewBag.Title = "Home Page";
+}
 
 <h1>Maze Generator</h1>
 
@@ -102,19 +105,87 @@
                     </div>
                 </form>
 
+                <!-- TESTING TRANSITION PROPERTIES
+                <div class="box delay-1">0.5 seconds</div>
+
+                <div class="box delay-2">2 seconds</div>
+
+                <div class="box delay-3">4 seconds</div>
+
+                <button id="change">Change</button>
+
+                <style>
+                    .box 
+                    {
+                        margin: 20px;
+                        padding: 10px;
+                        display: inline-block;
+                        width: 100px;
+                        height: 100px;
+                        background-color: red;
+                        font-size: 18px;
+                        transition-property: background-color, font-size, transform, color;
+                        transition-timing-function: ease-in-out;
+                        transition-duration: 3s;
+                    }
+
+                    .transformed-state 
+                    {
+                        transform: rotate(270deg);
+                        background-color: blue;
+                        color: yellow;
+                        font-size: 12px;
+                        transition-property: background-color, font-size, transform, color;
+                        transition-timing-function: ease-in-out;
+                        transition-duration: 3s;
+                    }
+
+                    .delay-1 
+                    {
+                        transition-delay: 1s;
+                    }
+
+                    .delay-2 
+                    {
+                        transition-delay: 1s;
+                    }
+
+                    .delay-3 
+                    {
+                        transition-delay: 1s;
+                    }
+
+                </style>
+
+                <script>
+                    function change() {
+                        const elements = document.querySelectorAll("div.box");
+                        for (const element of elements) {
+                        element.classList.toggle("transformed-state");
+                        }
+                    }
+
+                    const changeButton = document.querySelector("#change");
+                    changeButton.addEventListener("click", change);
+
+                </script>
+                -->
+
                 <div class="maze-container">
                     <div class="maze">
                         @if (@Model.NRow > 1 && @Model.NCol > 1)
                         {
                             @for (int i = 0; i < @Model.NRow; i++)
                             {
+                                double delay = 0.5d;
                                 <div class="maze-row">
-
                                     @for (int j = 0; j < @Model.NCol; j++)
                                     {
                                         <!-- This is to make cell height & width a percentage of table row / col -->
                                         double a = 100 / @Model.NCol;
                                         string a2 = a.ToString() + '%';
+                                        
+                                        string delayStr = delay.ToString() + "s";
 
                                         <!-- creating new class for each cell -->
                                         <div class="maze-cell-coords-y@(i)x@(j)">
@@ -206,6 +277,17 @@
                                                 </style>
                                             }
 
+                                             <style>
+                                                .transformed-state 
+                                                {
+                                                    background-color: red !important;
+                                                    font-size: 18px;
+                                                    transition-property: background-color, font-size, transform, color;
+                                                    transition-timing-function: ease-in-out;
+                                                    transition-duration: 3s;
+                                                }
+                                            </style>
+
                                             <!-- If maze is solved, display path --> 
                                             @if(@Model.IsSolved)
                                             {
@@ -213,21 +295,33 @@
                                                    && (@Model.Cells[i][j] != @Model.StartCell) 
                                                    && (@Model.Cells[i][j] != @Model.EndCell) )
                                                 { 
-                                                    <style> .maze-cell-coords-y@(i)x@(j) 
-                                                    { 
-                                                        transition-property: background-color, transform;
-                                                        transition-timing-function: ease-in-out;
-                                                        transition-duration: 3s;
-                                                        transition-delay: 0.5s;
-                                                    } 
-                                                    </style> 
+                                                    <!-- space between solution and path allows me select solution in JS
+                                                        and path in CSS as follows. They're separate selectors now
+                                                    -->
+                                                    <div class="solution path-div-y@(i)x@(j)">
+                                                        S
+                                                    </div>
+
+                                                    <style>
+                                                        .path-div-y@(i)x@(j)
+                                                        {
+                                                            background-color: blue;
+                                                            color: yellow;
+                                                            font-size: 12px;
+                                                            transition-property: background-color, font-size, transform, color;
+                                                            transition-timing-function: ease-in-out;
+                                                            transition-duration: 3s;
+                                                            transition-delay: @delayStr;
+                                                        }
+                                                    </style>
+
                                                 }
                                             }
 
                                             @Model.Cells[i][j].ToEmptyString()
                                             
                                         </div>
-
+                                        delay = delay + 0.5;
                                     }
                                 </div>
                             }
@@ -236,23 +330,14 @@
 
                 </div>
 
-                <style>
-                    .transformed-state 
-                    {
-                        background-color: blue !important;
-                        transition-property: background-color, transform;
-                        transition-timing-function: ease-in-out;
-                        transition-duration: 3s;
-                    }
-                </style>
-
-                <script>
+                <script type="text/javascript">
                     function change() {
                         console.log("hi");
-                        const elements = document.querySelectorAll("div.maze");
+                        
+                        const elements = document.querySelectorAll("div.solution");
                         for (const element of elements) {
                             console.log("hi");
-                        element.classList.toggle("transformed-state");
+                            element.classList.toggle("transformed-state");
                         }
                     }
 
@@ -267,9 +352,6 @@
                         grid-template-rows: repeat(@Model.NRow, 20px);
                         background-color: white;
                         padding: 10px;
-                        transition-property: background-color, transform;
-                        transition-timing-function: ease-in-out;
-                        transition-duration: 3s;
                     }
 
                     .maze-row 
