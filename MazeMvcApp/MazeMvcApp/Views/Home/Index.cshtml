@@ -215,8 +215,7 @@
                                                 .transformed-state 
                                                 {
                                                     background-color: red !important;
-                                                    font-size: 18px;
-                                                    transition-property: background-color, font-size, transform, color;
+                                                    transition-property: background-color, transform;
                                                     transition-timing-function: ease-in-out;
                                                     transition-duration: 3s;
                                                 }
@@ -233,16 +232,16 @@
                                                         and path in CSS as follows. They're separate selectors now
                                                     -->
                                                     <div class="solution path-div-y@(i)x@(j)">
-                                                        S
+                                                        
                                                     </div>
 
                                                     <style>
                                                         .path-div-y@(i)x@(j)
                                                         {
-                                                            background-color: blue;
-                                                            color: yellow;
-                                                            font-size: 12px;
-                                                            transition-property: background-color, font-size, transform, color;
+                                                            width: 15px;
+                                                            height: 15px;
+                                                            background-color: white;
+                                                            transition-property: background-color, transform;
                                                             transition-timing-function: ease-in-out;
                                                             transition-duration: 3s;
                                                             transition-delay: @delayStr;
