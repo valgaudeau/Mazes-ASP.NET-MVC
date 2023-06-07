@@ -12,6 +12,7 @@
         public MazeCell EndCell { get; set; }
         public bool IsSolved { get; set; } = false;
         public List<MazeCell> ValidPath { get; set; }
+        public Dictionary<MazeCell, double> ValidPathDelayMap { get; set; }
 
         public Maze(int nRow, int nCol)
         {
@@ -84,6 +85,21 @@
                     }
                 }
             }
+        }
+
+        public void MapDisplayDelay()
+        {
+            double delay = 0.1d;
+            Dictionary<MazeCell, double> validPathDelayMap = new();
+
+            // Map valid path cells to transition-delay values
+            foreach (var cell in ValidPath)
+            {
+                validPathDelayMap.Add(cell, delay);
+                delay += 0.1;
+            }
+
+            ValidPathDelayMap = validPathDelayMap;
         }
 
         private void MapCellNeighbours(MazeCell mazeCell)

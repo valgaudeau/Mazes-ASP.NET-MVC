@@ -37,6 +37,7 @@
             }
 
             List<MazeCell> result = new List<MazeCell>(path);
+            result.Reverse(); // reverse because path is a stack
 
             return result;
         }
