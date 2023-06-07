@@ -96,7 +96,7 @@
             foreach (var cell in ValidPath)
             {
                 validPathDelayMap.Add(cell, delay);
-                delay += 0.1;
+                delay += 0.05;
             }
 
             ValidPathDelayMap = validPathDelayMap;
