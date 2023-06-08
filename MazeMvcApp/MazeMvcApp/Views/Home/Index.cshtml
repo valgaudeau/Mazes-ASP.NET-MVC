@@ -13,24 +13,25 @@
             padding: 0;
         }
 
+        .container {
+            max-width: 75%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         h1 {
             color: #4b0082;
             text-align: center;
             margin-top: 15px;
         }
 
-        .card-header {
-            background-color: white;
+        .card {
+            width: 50%;
+            background-color: lightgray;
         }
 
         .form-label {
             font-weight: bold;
-        }
-
-        .container {
-           max-width: 75%;
-            margin: 0 auto;
-            padding: 20px;
         }
 
         .maze-container {
@@ -75,235 +76,230 @@
     </form>
     -->
 
-<div class="row">
+    <div class="card">
 
-        <div class="card">
-            <div class="card-header">
-                <h1>
-                    Welcome to MazeWorld!
-                </h1>
-            </div>
+        <div class="card-header">
+            <h1>
+                Welcome to MazeWorld!
+            </h1>
+        </div>
 
-            <div class="card-body">
-
-                <!-- Home is the controller, asp-action is the method -->
-                <form asp-controller="Home" asp-action="GenerateMaze" method="post">
-                    <div class="mb-3">
-                        <label class="form-label">Number of Rows (3 - 40)</label>
-                        <input name="nRow" type="number" class="form-control" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Number of Columns (3 - 75) </label>
-                        <input name="nCol" type="number" class="form-control" />
-                    </div>
-
-                    <div class="mb-3">
-                        <button type="submit" class="button">Generate Maze</button>
-                    </div>
-                </form>
-
-                <!-- If I put this button in the form error happens, something to do with submit I think -->
+        <div class="card-body">
+            <!-- Home is the controller, asp-action is the method -->
+            <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                 <div class="mb-3">
-                    <button id="solveMaze" class="button">Display Path</button>
+                    <label class="form-label">Number of Rows (3 - 40)</label>
+                    <input name="nRow" type="number" class="form-control" />
                 </div>
 
-                <div class="maze-container">
-                    <div class="maze">
-                        @if (@Model.NRow > 1 && @Model.NCol > 1)
+                <div class="mb-3">
+                    <label class="form-label">Number of Columns (3 - 75) </label>
+                    <input name="nCol" type="number" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="button">Generate Maze</button>
+                </div>
+            </form>
+            <!-- If I put this button in the form error happens, something to do with submit I think -->
+            <div class="mb-3">
+                <button id="solveMaze" class="button">Display Path</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="maze-container">
+        <div class="maze">
+            @if (@Model.NRow > 1 && @Model.NCol > 1)
+            {
+                @for (int i = 0; i < @Model.NRow; i++)
+                {
+                    <div class="maze-row">
+                        @for (int j = 0; j < @Model.NCol; j++)
                         {
-                            @for (int i = 0; i < @Model.NRow; i++)
-                            {
-                                <div class="maze-row">
-                                    @for (int j = 0; j < @Model.NCol; j++)
+                            <!-- This is to make cell height & width a percentage of table row / col -->
+                            double a = 100 / @Model.NCol;
+                            string a2 = a.ToString() + '%';
+
+                            <!-- creating new class for each cell -->
+                            <div class="maze-cell-coords-y@(i)x@(j)">
+
+                                @if (@Model.Cells[i][j] == @Model.StartCell) 
+                                {
+                                    <style> .maze-cell-coords-y@(i)x@(j) { background-color: green; } </style>
+                                }
+
+                                @if (@Model.Cells[i][j] == @Model.EndCell) 
+                                {
+                                    <style> .maze-cell-coords-y@(i)x@(j) { background-color: red; } </style>
+                                }
+
+                                @if (@Model.Cells[i][j].DisplayTopEdge == true)
+                                {
+                                    <style>
+                                        .maze-cell-coords-y@(i)x@(j) 
+                                        {
+                                            position: relative;
+                                            border-top: 3px solid black;
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    </style>
+                                }
+
+                                @if (@Model.Cells[i][j].DisplayLeftEdge == true)
+                                {
+                                    <style>
+                                        .maze-cell-coords-y@(i)x@(j) 
+                                        {
+                                            position: relative;
+                                            border-left: 3px solid black;
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    </style>
+                                }
+
+                                @if ( (@Model.Cells[i][j].DisplayTopEdge == false)
+                                        && (@Model.Cells[i][j].DisplayLeftEdge == false) 
+                                        && (@Model.Cells[i][j].BottomEdge == false)
+                                        && (@Model.Cells[i][j].RightEdge == false) )
+                                {
+                                    <style>
+                                        .maze-cell-coords-y@(i)x@(j) 
+                                        {
+                                            position: relative;
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    </style>
+                                }
+
+                                @if (@Model.Cells[i][j].BottomEdge == true)
+                                {
+                                    <style>
+                                        .maze-cell-coords-y@(i)x@(j) 
+                                        {
+                                            position: relative;
+                                            border-bottom: 3px solid black;
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    </style>
+                                }
+
+                                @if (@Model.Cells[i][j].RightEdge == true)
+                                {
+                                    <style>
+                                        .maze-cell-coords-y@(i)x@(j) 
+                                        {
+                                            position: relative;
+                                            border-right: 3px solid black;
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    </style>
+                                }
+
+                                <!-- Can all sides be open? -->
+                                @if ( (@Model.Cells[i][j].TopEdge == false) 
+                                        && (@Model.Cells[i][j].BottomEdge == false)
+                                        && (@Model.Cells[i][j].LeftEdge == false)
+                                        && (@Model.Cells[i][j].RightEdge == false))
+                                {
+                                    <style>
+                                        .maze-cell-coords-y@(i)x@(j) 
+                                        {
+                                            position: relative;
+                                            height: 20px;
+                                            width: 20px;
+                                        }
+                                    </style>
+                                }
+
+                                    <style>
+                                    .transformed-state 
                                     {
-                                        <!-- This is to make cell height & width a percentage of table row / col -->
-                                        double a = 100 / @Model.NCol;
-                                        string a2 = a.ToString() + '%';
-
-                                        <!-- creating new class for each cell -->
-                                        <div class="maze-cell-coords-y@(i)x@(j)">
-
-                                            @if (@Model.Cells[i][j] == @Model.StartCell) 
-                                            {
-                                                <style> .maze-cell-coords-y@(i)x@(j) { background-color: green; } </style>
-                                            }
-
-                                            @if (@Model.Cells[i][j] == @Model.EndCell) 
-                                            {
-                                                <style> .maze-cell-coords-y@(i)x@(j) { background-color: red; } </style>
-                                            }
-
-                                            @if (@Model.Cells[i][j].DisplayTopEdge == true)
-                                            {
-                                                <style>
-                                                    .maze-cell-coords-y@(i)x@(j) 
-                                                    {
-                                                        position: relative;
-                                                        border-top: 3px solid black;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                    }
-                                                </style>
-                                            }
-
-                                            @if (@Model.Cells[i][j].DisplayLeftEdge == true)
-                                            {
-                                                <style>
-                                                    .maze-cell-coords-y@(i)x@(j) 
-                                                    {
-                                                        position: relative;
-                                                        border-left: 3px solid black;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                    }
-                                                </style>
-                                            }
-
-                                            @if ( (@Model.Cells[i][j].DisplayTopEdge == false)
-                                                   && (@Model.Cells[i][j].DisplayLeftEdge == false) 
-                                                   && (@Model.Cells[i][j].BottomEdge == false)
-                                                   && (@Model.Cells[i][j].RightEdge == false) )
-                                            {
-                                                <style>
-                                                    .maze-cell-coords-y@(i)x@(j) 
-                                                    {
-                                                        position: relative;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                    }
-                                                </style>
-                                            }
-
-                                            @if (@Model.Cells[i][j].BottomEdge == true)
-                                            {
-                                                <style>
-                                                    .maze-cell-coords-y@(i)x@(j) 
-                                                    {
-                                                        position: relative;
-                                                        border-bottom: 3px solid black;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                    }
-                                                </style>
-                                            }
-
-                                            @if (@Model.Cells[i][j].RightEdge == true)
-                                            {
-                                                <style>
-                                                    .maze-cell-coords-y@(i)x@(j) 
-                                                    {
-                                                        position: relative;
-                                                        border-right: 3px solid black;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                    }
-                                                </style>
-                                            }
-
-                                            <!-- Can all sides be open? -->
-                                            @if ( (@Model.Cells[i][j].TopEdge == false) 
-                                                   && (@Model.Cells[i][j].BottomEdge == false)
-                                                   && (@Model.Cells[i][j].LeftEdge == false)
-                                                   && (@Model.Cells[i][j].RightEdge == false))
-                                            {
-                                                <style>
-                                                    .maze-cell-coords-y@(i)x@(j) 
-                                                    {
-                                                        position: relative;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                    }
-                                                </style>
-                                            }
-
-                                             <style>
-                                                .transformed-state 
-                                                {
-                                                    background-color: #00ffa1 !important;
-                                                    transition-property: background-color, transform;
-                                                    transition-timing-function: linear;
-                                                    transition-duration: 3s;
-                                                }
-                                            </style>
-
-                                            <!-- If maze is solved, display path --> 
-                                            @if(@Model.IsSolved)
-                                            {
-                                                if(@Model.ValidPathDelayMap.ContainsKey(@Model.Cells[i][j])
-                                                && (@Model.Cells[i][j] != @Model.StartCell) 
-                                                && (@Model.Cells[i][j] != @Model.EndCell) )
-                                                {
-                                                    string delayStr = @Model.ValidPathDelayMap[@Model.Cells[i][j]].ToString() + "s";
-
-                                                    <!-- space betw een solution and path allows me select solution in JS
-                                                        and path in CSS as follows. They're separate selectors now
-                                                    -->
-                                                    <div class="solution path-div-y@(i)x@(j)">
-                                                        
-                                                    </div>
-
-                                                    <style>
-                                                        .path-div-y@(i)x@(j)
-                                                        {
-                                                            position: absolute;
-                                                            top: 0;
-                                                            right: 0;
-                                                            bottom: 0;
-                                                            left: 0;
-                                                            background-color: white;
-                                                            transition-property: background-color, transform;
-                                                            transition-timing-function: linear;
-                                                            transition-duration: 3s;
-                                                            transition-delay: @delayStr;
-                                                        }
-                                                    </style>
-                                                }
-                                            }
-
-                                            @Model.Cells[i][j].ToEmptyString()
-                                            
-                                        </div>
+                                        background-color: #00ffa1 !important;
+                                        transition-property: background-color, transform;
+                                        transition-timing-function: linear;
+                                        transition-duration: 3s;
                                     }
-                                </div>
-                            }
+                                </style>
+
+                                <!-- If maze is solved, display path --> 
+                                @if(@Model.IsSolved)
+                                {
+                                    if(@Model.ValidPathDelayMap.ContainsKey(@Model.Cells[i][j])
+                                    && (@Model.Cells[i][j] != @Model.StartCell) 
+                                    && (@Model.Cells[i][j] != @Model.EndCell) )
+                                    {
+                                        string delayStr = @Model.ValidPathDelayMap[@Model.Cells[i][j]].ToString() + "s";
+
+                                        <!-- space betw een solution and path allows me select solution in JS
+                                            and path in CSS as follows. They're separate selectors now
+                                        -->
+                                        <div class="solution path-div-y@(i)x@(j)">
+                                                        
+                                        </div>
+
+                                        <style>
+                                            .path-div-y@(i)x@(j)
+                                            {
+                                                position: absolute;
+                                                top: 0;
+                                                right: 0;
+                                                bottom: 0;
+                                                left: 0;
+                                                background-color: white;
+                                                transition-property: background-color, transform;
+                                                transition-timing-function: linear;
+                                                transition-duration: 3s;
+                                                transition-delay: @delayStr;
+                                            }
+                                        </style>
+                                    }
+                                }
+
+                                @Model.Cells[i][j].ToEmptyString()
+                                            
+                            </div>
                         }
                     </div>
+                }
+            }
+        </div>
 
-                </div>
+    </div>
 
-                <script type="text/javascript">
-                    function change() {
-                        console.log("hi");
+    <script type="text/javascript">
+        function change() {
+            console.log("hi");
                         
-                        const elements = document.querySelectorAll("div.solution");
-                        for (const element of elements) {
-                            console.log("hi");
-                            element.classList.toggle("transformed-state");
-                        }
-                    }
+            const elements = document.querySelectorAll("div.solution");
+            for (const element of elements) {
+                console.log("hi");
+                element.classList.toggle("transformed-state");
+            }
+        }
 
-                    const changeButton = document.querySelector("#solveMaze");
-                    changeButton.addEventListener("click", change);
-                </script>
+        const changeButton = document.querySelector("#solveMaze");
+        changeButton.addEventListener("click", change);
+    </script>
 
-                <style>
-                    .maze 
-                    {
-                        display: grid;
-                        grid-template-rows: repeat(@Model.NRow, 20px);
-                        padding: 5px;
-                        background-color: white;
-                    }
+    <style>
+        .maze 
+        {
+            display: grid;
+            grid-template-rows: repeat(@Model.NRow, 20px);
+            padding: 10px;
+            background-color: white;
+        }
 
-                    .maze-row 
-                    {
-                        display: flex;
-                    }
-                </style>
-
-            </div>
-
-</div>
+        .maze-row 
+        {
+            display: flex;
+        }
+    </style>
 
 </body>
