@@ -1,14 +1,12 @@
 ﻿@model MazeMvcApp.Models.Maze
 
-<h1>Maze Generator</h1>
-
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Maze Generator App</title>
 
     <style>
         body {
-            background-color: #f9f2f4;
+            background-color: lightblue;
             color: #333;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -18,20 +16,26 @@
         h1 {
             color: #4b0082;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 15px;
+        }
+
+        .card-header {
+            background-color: white;
+        }
+
+        .form-label {
+            font-weight: bold;
         }
 
         .container {
-           max-width: 600px;
+           max-width: 75%;
             margin: 0 auto;
             padding: 20px;
         }
 
         .maze-container {
            background-color: #fff;
-            border: 1px solid #4b0082;
             border-radius: 5px;
-            padding: 10px;
             margin-top: 20px;
         }
 
@@ -42,20 +46,22 @@
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 20px;
             margin-right: 20px;
         }
 
         .button:hover {
             background-color: #800080;
         }
+
+        .form-control {
+            width: 15%;
+        }
+
     </style>
 
 </head>
 
 <body> 
-
-    <hr />
 
     <!-- BUTTON FOR DEBUGGING PURPOSES
     <form asp-controller="Home" asp-action="DummyMethod" method="post">
@@ -69,38 +75,38 @@
     </form>
     -->
 
-    <a href="@Url.Action("GenerateMaze", "Maze")" class="button">Generate Maze</a>
-    <button id="solveMaze">Change</button>
-
-    <hr />
-
 <div class="row">
 
         <div class="card">
             <div class="card-header">
-
-                <h5>
-                    Create a new maze
-                </h5>
+                <h1>
+                    Maze Generator
+                </h1>
             </div>
 
             <div class="card-body">
+
                 <!-- Home is the controller, asp-action is the method -->
                 <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                     <div class="mb-3">
-                        <label class="form-label">NRow</label>
+                        <label class="form-label">Number of Rows (3 - 40)</label>
                         <input name="nRow" type="number" class="form-control" />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">NCol</label>
-                        <input name="nCol" type="text" class="form-control" />
+                        <label class="form-label">Number of Columns (3 - 75) </label>
+                        <input name="nCol" type="number" class="form-control" />
                     </div>
 
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="button">Generate Maze</button>
                     </div>
                 </form>
+
+                <!-- If I put this button in the form error happens, something to do with submit I think -->
+                <div class="mb-3">
+                    <button id="solveMaze" class="button">Display Path</button>
+                </div>
 
                 <div class="maze-container">
                     <div class="maze">
@@ -214,9 +220,9 @@
                                              <style>
                                                 .transformed-state 
                                                 {
-                                                    background-color: blue !important;
+                                                    background-color: #00ffa1 !important;
                                                     transition-property: background-color, transform;
-                                                    transition-timing-function: ease-in-out;
+                                                    transition-timing-function: linear;
                                                     transition-duration: 3s;
                                                 }
                                             </style>
@@ -247,7 +253,7 @@
                                                             left: 0;
                                                             background-color: white;
                                                             transition-property: background-color, transform;
-                                                            transition-timing-function: ease-in-out;
+                                                            transition-timing-function: linear;
                                                             transition-duration: 3s;
                                                             transition-delay: @delayStr;
                                                         }
@@ -287,21 +293,15 @@
                         display: grid;
                         grid-template-rows: repeat(@Model.NRow, 20px);
                         background-color: white;
-                        padding: 10px;
                     }
 
                     .maze-row 
                     {
                         display: flex;
                     }
-
                 </style>
 
             </div>
-
-            <div class="card-footer">
-            </div>
-        </div>
 
 </div>
 
