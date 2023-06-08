@@ -41,17 +41,6 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult SolveMaze()
-        {
-            /*
-            IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
-            List<MazeCell> validPath = mazeSolver.FindValidPath();
-            _maze.ValidPath = validPath;
-            _maze.IsSolved = true;
-            */
-            return RedirectToAction(nameof(Index));
-        }
-
         /*
         // Method for debugging purposes
         public IActionResult DummyMethod()
