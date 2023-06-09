@@ -28,12 +28,12 @@
             margin-top: 15px;
         }
 
-        /* the margin:auto; horizontally centers the card even as the maze width increases */
+        /* margin:auto; horizontally centers the card even as the maze width increases */
         .card {
             background-color: snow;
             max-width: 500px;
             margin: auto;
-            box-shadow: 5px 5px 5px 5px;
+            box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
         }
 
         .form-label {
@@ -44,6 +44,19 @@
            background-color: #fff;
             border-radius: 5px;
             padding-top: 50px;
+        }
+
+        /* max-wdith: max-content makes maze div outer div width fit inner div width */
+        .maze {
+            display: grid;
+            grid-template-rows: repeat(@Model.NRow, 20px);
+            background-color: white;
+            max-width: max-content;
+            box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+        }
+
+        .maze-row {
+            display: flex;
         }
 
         .button {
@@ -63,9 +76,7 @@
         .form-control {
             width: 15%;
         }
-
     </style>
-
 </head>
 
 <body> 
@@ -289,20 +300,5 @@
         const changeButton = document.querySelector("#solveMaze");
         changeButton.addEventListener("click", change);
     </script>
-
-    <style>
-        .maze 
-        {
-            display: grid;
-            grid-template-rows: repeat(@Model.NRow, 20px);
-            padding: 10px;
-            background-color: white;
-        }
-
-        .maze-row 
-        {
-            display: flex;
-        }
-    </style>
 
 </body>
