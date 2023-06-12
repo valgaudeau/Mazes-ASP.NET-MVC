@@ -24,7 +24,7 @@
 
             for (int i = 0; i < nRow; i++)
             {
-                cells[i] = new MazeCell[nRow];
+                cells[i] = new MazeCell[nCol];
 
                 for (int j = 0; j < nCol; j++)
                 {

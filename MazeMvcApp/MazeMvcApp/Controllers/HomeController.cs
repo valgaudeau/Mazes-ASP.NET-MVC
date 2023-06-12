@@ -24,6 +24,11 @@ namespace MazeMvcApp.Controllers
 
         public IActionResult GenerateMaze(int nRow, int nCol)
         {
+            if( (nRow  < 3) || (nCol < 3) )
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             _maze = new Maze(nRow, nCol);
             
             // Create perfect maze
