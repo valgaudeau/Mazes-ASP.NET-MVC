@@ -91,10 +91,69 @@
         .form-control {
             width: 70px;
         }
+
     </style>
 </head>
 
-<body> 
+<body>
+    
+        <button onclick="openPopup()">HOW TO USE</button>
+
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2>Popup Window</h2>
+        <p>This is the content of the popup window.</p>
+      </div>
+    </div>
+
+    <style>
+        .popup {
+          display: none; /* Hidden by default */
+          position: fixed; /* Fixed position */
+          z-index: 1; /* Place the popup on top of other elements */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scrolling if needed */
+          background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+        }
+
+        .popup-content {
+          background-color: #fefefe;
+          margin: 10% auto; /* Centered vertically and horizontally */
+          padding: 20px;
+          border: 1px solid #888;
+          max-width: 400px;
+          border-radius: 10px;
+        }
+
+        .close {
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: #000;
+          text-decoration: none;
+          cursor: pointer;
+        }
+    </style>
+
+    <script>
+        function openPopup() {
+          document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+          document.getElementById("popup").style.display = "none";
+        }
+    </script>
+
 
     <!-- BUTTON FOR DEBUGGING PURPOSES
     <form asp-controller="Home" asp-action="DummyMethod" method="post">
