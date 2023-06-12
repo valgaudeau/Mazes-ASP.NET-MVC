@@ -31,7 +31,8 @@
         /* margin:auto; horizontally centers the card even as the maze width increases */
         .card {
             background-color: snow;
-            max-width: 500px;
+            min-width: 420px;
+            max-width: 420px;
             margin: auto;
             box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
         }
@@ -39,7 +40,7 @@
         .form-group {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .form-label {
@@ -105,7 +106,7 @@
 
         <div class="card-header">
             <h1>
-                Welcome to MazeWorld!
+                Maze Generator
             </h1>
         </div>
 
@@ -127,9 +128,8 @@
                 </div>
             </form>
             <!-- If I put this button in the form error happens, something to do with submit I think -->
-            <div class="mb-3">
-                <button id="solveMaze" class="button">Display Path</button>
-            </div>
+
+            <button id="solveMaze" class="button">Display Path</button>
         </div>
     </div>
 
