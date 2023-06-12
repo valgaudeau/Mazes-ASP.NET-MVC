@@ -31,8 +31,8 @@
         /* margin:auto; horizontally centers the card even as the maze width increases */
         .card {
             background-color: snow;
-            min-width: 420px;
-            max-width: 420px;
+            width: 420px;
+            height: 345px;
             margin: auto;
             box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
         }
@@ -43,6 +43,13 @@
             margin-bottom: 15px;
         }
 
+        /* 
+        .button-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }*/
+
         .form-label {
             font-weight: bold;
             margin-left: 12px;
@@ -50,7 +57,6 @@
         }
 
         .maze-container {
-           background-color: #fff;
             border-radius: 5px;
             padding-top: 50px;
         }
@@ -130,6 +136,8 @@
             <!-- If I put this button in the form error happens, something to do with submit I think -->
 
             <button id="solveMaze" class="button">Display Path</button>
+            <button id="clearMaze" class="button">Clear Maze</button>
+
         </div>
     </div>
 
@@ -298,10 +306,8 @@
 
     <script type="text/javascript">
         function change() {
-            console.log("hi");
             const elements = document.querySelectorAll("div.solution");
             for (const element of elements) {
-                console.log("hi");
                 element.classList.toggle("transformed-state");
             }
         }
