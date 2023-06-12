@@ -36,8 +36,16 @@
             box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
         }
 
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
         .form-label {
             font-weight: bold;
+            margin-left: 12px;
+            margin-bottom: 0px;
         }
 
         .maze-container {
@@ -104,17 +112,17 @@
         <div class="card-body">
             <!-- Home is the controller, asp-action is the method -->
             <form asp-controller="Home" asp-action="GenerateMaze" method="post">
-                <div class="mb-3">
-                    <label class="form-label">Number of Rows (3 - 40)</label>
+                <div class="form-group">
                     <input name="nRow" type="number" class="form-control" />
+                     <label class="form-label">Number of Rows (3 - 40)</label>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Number of Columns (3 - 75) </label>
+                <div class="form-group">
                     <input name="nCol" type="number" class="form-control" />
+                    <label class="form-label">Number of Columns (3 - 75) </label>
                 </div>
 
-                <div class="mb-3">
+                <div class="form-group">
                     <button type="submit" class="button">Create Maze</button>
                 </div>
             </form>
