@@ -8,7 +8,7 @@
         body {
             background-color: white;
             color: #333;
-            font-family: Arial, sans-serif;
+            font-family: monospace, Arial;
             margin: 0;
             padding: 0;
         }
@@ -32,7 +32,6 @@
         .card {
             background-color: snow;
             width: 420px;
-            height: 345px;
             margin: auto;
             box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
         }
@@ -40,6 +39,7 @@
         .form-group {
             display: flex;
             align-items: center;
+            margin-top: 12px;
             margin-bottom: 15px;
         }
 
@@ -92,22 +92,14 @@
             width: 70px;
         }
 
-    </style>
-</head>
+         #appTutorial {
+          color: blue;
+          text-decoration: underline;
+          cursor: pointer;
+          font-weight: bold;
+          margin: auto;
+        }
 
-<body>
-    
-        <button onclick="openPopup()">HOW TO USE</button>
-
-    <div id="popup" class="popup">
-      <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <h2>Popup Window</h2>
-        <p>This is the content of the popup window.</p>
-      </div>
-    </div>
-
-    <style>
         .popup {
           display: none; /* Hidden by default */
           position: fixed; /* Fixed position */
@@ -125,7 +117,7 @@
           margin: 10% auto; /* Centered vertically and horizontally */
           padding: 20px;
           border: 1px solid #888;
-          max-width: 400px;
+          max-width: 550px;
           border-radius: 10px;
         }
 
@@ -142,18 +134,12 @@
           text-decoration: none;
           cursor: pointer;
         }
+
     </style>
 
-    <script>
-        function openPopup() {
-          document.getElementById("popup").style.display = "block";
-        }
+</head>
 
-        function closePopup() {
-          document.getElementById("popup").style.display = "none";
-        }
-    </script>
-
+<body>
 
     <!-- BUTTON FOR DEBUGGING PURPOSES
     <form asp-controller="Home" asp-action="DummyMethod" method="post">
@@ -176,6 +162,17 @@
         </div>
 
         <div class="card-body">
+
+             <a id="appTutorial" onclick="openPopup()">Tutorial</a>
+
+            <div id="popup" class="popup">
+              <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <h2>Welcome to Maze Generator!</h2>
+                <p></p>
+              </div>
+            </div>
+
             <!-- Home is the controller, asp-action is the method -->
             <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                 <div class="form-group">
@@ -364,6 +361,7 @@
     </div>
 
     <script type="text/javascript">
+
         function change() {
             const elements = document.querySelectorAll("div.solution");
             for (const element of elements) {
@@ -372,6 +370,15 @@
         }
         const changeButton = document.querySelector("#solveMaze");
         changeButton.addEventListener("click", change);
+
+        function openPopup() {
+          document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+          document.getElementById("popup").style.display = "none";
+        }
+
     </script>
 
 </body>
