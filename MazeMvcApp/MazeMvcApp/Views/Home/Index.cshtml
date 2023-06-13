@@ -138,6 +138,38 @@
           cursor: pointer;
         }
 
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Fixed position */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scrolling if needed */
+        background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+        }
+
+        .modal-content {
+         background-color: #fefefe;
+         margin: 10% auto; /* Centered vertically and horizontally */
+         padding: 20px;
+         border: 1px solid #888;
+         max-width: 550px;
+         border-radius: 10px;
+        }
+
+        #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        }
+
+
         .close:hover,
         .close:focus {
           color: #000;
@@ -173,6 +205,7 @@
 
         <div class="card-body">
 
+            <!-- 
             <a id="appTutorial" onclick="openPopup()">Tutorial</a>
 
             <div id="popup" class="popup">
@@ -198,8 +231,30 @@
                         or by yourself</li>
                     <li><i>Reset</i> will remove the displayed maze if one is present</li>
                 </ul>
+                <button id="prev-button">Previous</button>
+                <button id="next-button">Next</button>
               </div>
             </div>
+            -->
+
+            <!-- Button to open the modal -->
+            <button id="open-modal-btn">Open Modal</button>
+
+            <!-- The modal -->
+            <div id="modal" class="modal">
+              <div class="modal-content">
+                <!-- Your content here -->
+                <h2>Modal Content 1</h2>
+                <p>This is the content of modal 1.</p>
+              <button id="prev-btn">Previous</button>
+              <button id="next-btn">Next</button>
+              <span id="close-modal-btn">&times;</span>
+              </div>
+
+            </div>
+
+            <!-- Overlay -->
+            <div id="overlay"></div>
 
             <!-- Home is the controller, asp-action is the method -->
             <form asp-controller="Home" asp-action="GenerateMaze" method="post">
@@ -399,6 +454,70 @@
         const changeButton = document.querySelector("#solveMaze");
         changeButton.addEventListener("click", change);
 
+        // Get references to DOM elements
+        const openModalBtn = document.getElementById('open-modal-btn');
+        const modal = document.getElementById('modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const overlay = document.getElementById('overlay');
+
+        // Modal content
+        const modalContent = [
+          {
+            title: 'Modal Content 1',
+            content: 'This is the content of modal 1.',
+          },
+          {
+            title: 'Modal Content 2',
+            content: 'This is the content of modal 2.',
+          },
+          // Add more modal content as needed
+        ];
+
+        let currentIndex = 0;
+
+        // Function to show the modal
+        function showModal() {
+          modal.style.display = 'block';
+          overlay.style.display = 'block';
+        }
+
+        // Function to hide the modal
+        function hideModal() {
+          modal.style.display = 'none';
+          overlay.style.display = 'none';
+        }
+
+        // Function to show the current modal content
+        function showContent(index) {
+          const content = modalContent[index];
+          const modalTitle = modal.querySelector('h2');
+          const modalText = modal.querySelector('p');
+          modalTitle.textContent = content.title;
+          modalText.textContent = content.content;
+
+          // Update visibility of buttons
+          prevBtn.disabled = index === 0;
+          nextBtn.disabled = index === modalContent.length - 1;
+        }
+
+        // Event listeners
+        openModalBtn.addEventListener('click', showModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        prevBtn.addEventListener('click', () => {
+          currentIndex--;
+          showContent(currentIndex);
+        });
+        nextBtn.addEventListener('click', () => {
+          currentIndex++;
+          showContent(currentIndex);
+        });
+
+        // Show the initial modal content
+        showContent(currentIndex);
+
+        /* 
         function openPopup() {
           document.getElementById("popup").style.display = "block";
         }
@@ -406,6 +525,7 @@
         function closePopup() {
           document.getElementById("popup").style.display = "none";
         }
+        */
 
     </script>
 
