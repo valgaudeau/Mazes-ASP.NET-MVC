@@ -6,7 +6,7 @@
 
     <style>
         body {
-            background-color: white;
+            background-color: #c1bebe;
             color: #333;
             font-family: monospace, Arial;
             margin: 0;
@@ -34,6 +34,16 @@
             width: 420px;
             margin: auto;
             box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+        }
+
+        /* Added .card selector so that this should just affect the h2 and h4 for the pop-up */
+        .card h2 {
+            margin-left: 17px;
+            text-decoration: underline;
+        }
+
+        .card h4 {
+            text-decoration: underline;
         }
 
         .form-group {
@@ -163,13 +173,31 @@
 
         <div class="card-body">
 
-             <a id="appTutorial" onclick="openPopup()">Tutorial</a>
+            <a id="appTutorial" onclick="openPopup()">Tutorial</a>
 
             <div id="popup" class="popup">
               <div class="popup-content">
                 <span class="close" onclick="closePopup()">&times;</span>
-                <h2>Welcome to Maze Generator!</h2>
-                <p></p>
+                <h2>Welcome to Maze Generator</h2>
+                <p>The goal of this application is to generate mazes of various sizes and complexities, and
+                    allow users to have fun interacting with those mazes.
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Generate mazes according to your size specifications</li>
+                        <li>Have the app display a valid path through the generated maze</li>
+                        <li>Choose new start and end points</li>
+                        <li>Draw your own path through the maze just by hovering over cells with your mouse</li>
+                    </ul>
+                <h4>What the buttons and inputs do:</h4>
+                <ul>
+                    <li>Choose how many rows and columns you want the generated maze to have with the input boxes.
+                        Once you have entered both, click on the <i>Generate Maze</i> button and a new maze will be created.</li>
+                    <li><i>Display Path</i> will progressively display the valid path through the maze which you have 
+                        generated. Note that there is only one valid path.</li>
+                    <li><i>Clear Path</i> will clear the maze of any path which has been generated either by the app itself
+                        or by yourself</li>
+                    <li><i>Reset</i> will remove the displayed maze if one is present</li>
+                </ul>
               </div>
             </div>
 
