@@ -243,9 +243,10 @@
             <!-- The modal -->
             <div id="modal" class="modal">
               <div class="modal-content">
-                <!-- Your content here -->
-                <h2>Modal Content 1</h2>
-                <p>This is the content of modal 1.</p>
+                <!-- Keep these empty, populate with JS -->
+                <h2></h2>
+                <p></p>
+                <ul id="modal-list"></ul>
               <button id="prev-btn">Previous</button>
               <button id="next-btn">Next</button>
               <span id="close-modal-btn">&times;</span>
@@ -465,56 +466,72 @@
         // Modal content
         const modalContent = [
           {
-            title: 'Modal Content 1',
-            content: 'This is the content of modal 1.',
+            title: 'Welcome to the Maze Generator',
+            content: 'The goal of this application is to generate mazes of various sizes and complexities, and allow users to have fun interacting with those mazes.',
+            listData: [ 'test1', 'test2', 'test3' ]
           },
           {
             title: 'Modal Content 2',
             content: 'This is the content of modal 2.',
+            listData: [ 'secondmodal', 'secondmodal2', 'secondmodal3' ]
           },
           // Add more modal content as needed
         ];
 
         let currentIndex = 0;
 
-        // Function to show the modal
         function showModal() {
           modal.style.display = 'block';
           overlay.style.display = 'block';
         }
 
-        // Function to hide the modal
         function hideModal() {
           modal.style.display = 'none';
           overlay.style.display = 'none';
         }
 
-        // Function to show the current modal content
+        // Populate current modal content
         function showContent(index) {
+          // Retrieve current modal content from modalContent list and map it to appropriate element
           const content = modalContent[index];
           const modalTitle = modal.querySelector('h2');
           const modalText = modal.querySelector('p');
+          const modalList = document.getElementById('modal-list');
+          
           modalTitle.textContent = content.title;
           modalText.textContent = content.content;
+          for(i = 0; i < content.listData.length; ++i) {
+              var li = document.createElement('li');
+              li.innerText = content.listData[i];
+              modalList.appendChild(li);
+          }
 
-          // Update visibility of buttons
           prevBtn.disabled = index === 0;
           nextBtn.disabled = index === modalContent.length - 1;
         }
 
-        // Event listeners
+        // Event listeners to control flow
         openModalBtn.addEventListener('click', showModal);
         closeModalBtn.addEventListener('click', hideModal);
+
         prevBtn.addEventListener('click', () => {
+          // Clear modalList here, otherwise just keeps appending repeating li
+          // elements on each previous or next button click in the modal
+          const modalList = document.getElementById('modal-list');
+          modalList.innerHTML = '';
           currentIndex--;
           showContent(currentIndex);
         });
+
         nextBtn.addEventListener('click', () => {
+          // Clear modalList here, otherwise just keeps appending repeating li
+          // elements on each previous or next button click in the modal
+          const modalList = document.getElementById('modal-list');
+          modalList.innerHTML = '';
           currentIndex++;
           showContent(currentIndex);
         });
 
-        // Show the initial modal content
         showContent(currentIndex);
 
         /* 

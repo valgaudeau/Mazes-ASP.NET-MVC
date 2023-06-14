@@ -24,7 +24,7 @@ namespace MazeMvcApp.Controllers
 
         public IActionResult GenerateMaze(int nRow, int nCol)
         {
-            if( (nRow  < 3) || (nCol < 3) )
+            if( (nRow  < 3) || (nRow > 50) || (nCol < 3) || (nCol > 50) )
             {
                 return RedirectToAction(nameof(Index));
             }
