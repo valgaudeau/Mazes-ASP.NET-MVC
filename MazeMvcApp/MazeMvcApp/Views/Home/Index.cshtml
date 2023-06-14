@@ -5,7 +5,8 @@
     <title>Maze Generator App</title>
 
     <style>
-        body {
+        body 
+        {
             background-color: #c1bebe;
             color: #333;
             font-family: monospace, Arial;
@@ -13,7 +14,8 @@
             padding: 0;
         }
 
-        .container {
+        .container 
+        {
             max-width: 75%;
             margin: 0 auto;
             display: flex;
@@ -22,14 +24,16 @@
             padding: 20px;
         }
 
-        h1 {
+        h1 
+        {
             color: #4b0082;
             text-align: center;
             margin-top: 15px;
         }
 
         /* margin:auto; horizontally centers the card even as the maze width increases */
-        .card {
+        .card 
+        {
             background-color: snow;
             width: 420px;
             margin: auto;
@@ -37,49 +41,49 @@
         }
 
         /* Added .card selector so that this should just affect the h2 and h4 for the pop-up */
-        .card h2 {
+        .card h2 
+        {
             margin-left: 17px;
             margin-bottom: 1rem;
             text-decoration: underline;
         }
 
-        .card h4 {
+        .card h4 
+        {
             margin-left: 17px;
             margin-bottom: 1rem;
             text-decoration: underline;
         }
 
-        .card p {
+        .card p 
+        {
             margin-left: 17px;
         }
 
-        .form-group {
+        .form-group 
+        {
             display: flex;
             align-items: center;
             margin-top: 12px;
             margin-bottom: 15px;
         }
 
-        /* 
-        .button-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }*/
-
-        .form-label {
+        .form-label 
+        {
             font-weight: bold;
             margin-left: 12px;
             margin-bottom: 0px;
         }
 
-        .maze-container {
+        .maze-container 
+        {
             border-radius: 5px;
             padding-top: 50px;
         }
 
         /* max-wdith: max-content makes maze div outer div width fit inner div width */
-        .maze {
+        .maze 
+        {
             display: grid;
             grid-template-rows: repeat(@Model.NRow, 20px);
             background-color: white;
@@ -87,11 +91,13 @@
             box-shadow: rgba(136, 165, 191, 1) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
         }
 
-        .maze-row {
+        .maze-row 
+        {
             display: flex;
         }
 
-        .button {
+        .button 
+        {
             display: inline-block;
             padding: 10px 20px;
             background-color: #4b0082;
@@ -101,96 +107,77 @@
             margin-right: 20px;
         }
 
-        .button:hover {
+        .button:hover
+        {
             background-color: #800080;
         }
 
-        .form-control {
+        .form-control 
+        {
             width: 70px;
         }
 
-         #appTutorial {
-          color: blue;
-          text-decoration: underline;
-          cursor: pointer;
-          font-weight: bold;
-          margin: auto;
+         #appTutorial
+         {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: bold;
+            margin: auto;
         }
 
-        .popup {
-          display: none; /* Hidden by default */
-          position: fixed; /* Fixed position */
-          z-index: 1; /* Place the popup on top of other elements */
-          left: 0;
-          top: 0;
-          width: 100%; /* Full width */
-          height: 100%; /* Full height */
-          overflow: auto; /* Enable scrolling if needed */
-          background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+        #open-modal-btn 
+        {
+           color: blue;
+           text-decoration: underline;
+           cursor: pointer;
+           font-weight: bold;
+           margin: auto;
         }
 
-        .popup-content {
-          background-color: #fefefe;
-          margin: 10% auto; /* Centered vertically and horizontally */
-          padding: 20px;
-          border: 1px solid #888;
-          max-width: 550px;
-          border-radius: 10px;
+        #close-modal-btn
+        {
+           float: right;
+           font-size: 28px;
+           font-weight: bold;
+           cursor: pointer;
         }
 
-        .close {
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-          cursor: pointer;
+        .modal 
+        {
+           display: none; /* Hidden by default */
+           position: fixed; /* Fixed position */
+           z-index: 1; /* Place the modal popup on top of other elements */
+           left: 0;
+           top: 0;
+           width: 100%; /* Full width */
+           height: 100%; /* Full height */
+           overflow: auto; /* Enable scrolling if needed */
+           background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
         }
 
-        #open-modal-btn {
-          color: blue;
-          text-decoration: underline;
-          cursor: pointer;
-          font-weight: bold;
-          margin: auto;
+        .modal-content 
+        {
+           display: block;
+           background-color: #fefefe;
+           margin: 10% auto; /* Centered vertically and horizontally */
+           padding: 20px;
+           border: 1px solid #888;
+           max-width: 550px;
+           border-radius: 10px;
         }
 
-        #close-modal-btn {
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-          cursor: pointer;
-        }
-
-        .modal {
-          display: none; /* Hidden by default */
-          position: fixed; /* Fixed position */
-          z-index: 1; /* Place the popup on top of other elements */
-          left: 0;
-          top: 0;
-          width: 100%; /* Full width */
-          height: 100%; /* Full height */
-          overflow: auto; /* Enable scrolling if needed */
-          background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
-        }
-
-        .modal-content {
-          display: block;
-          background-color: #fefefe;
-          margin: 10% auto; /* Centered vertically and horizontally */
-          padding: 20px;
-          border: 1px solid #888;
-          max-width: 550px;
-          border-radius: 10px;
-        }
-
-        #prev-btn {
-          margin-left: 17px;
+        #prev-btn 
+        {
+           margin-left: 17px;
         }
 
         .close:hover,
-        .close:focus {
-          color: #000;
-          text-decoration: none;
-          cursor: pointer;
+        .close:focus 
+        {
+           color: #000;
+           text-decoration: none;
+           cursor: pointer;
         }
 
     </style>
@@ -220,39 +207,6 @@
         </div>
 
         <div class="card-body">
-
-            <!-- 
-            <a id="appTutorial" onclick="openPopup()">Tutorial</a>
-
-            <div id="popup" class="popup">
-              <div class="popup-content">
-                <span class="close" onclick="closePopup()">&times;</span>
-                <h2>Welcome to Maze Generator</h2>
-                <p>The goal of this application is to generate mazes of various sizes and complexities, and
-                    allow users to have fun interacting with those mazes.
-                    <h4>Key Features:</h4>
-                    <ul>
-                        <li>Generate mazes according to your size specifications</li>
-                        <li>Have the app display a valid path through the generated maze</li>
-                        <li>Choose new start and end points</li>
-                        <li>Draw your own path through the maze just by hovering over cells with your mouse</li>
-                    </ul>
-                <h4>What the buttons and inputs do:</h4>
-                <ul>
-                    <li>Choose how many rows and columns you want the generated maze to have with the input boxes.
-                        Once you have entered both, click on the <i>Generate Maze</i> button and a new maze will be created.</li>
-                    <li><i>Display Path</i> will progressively display the valid path through the maze which you have 
-                        generated. Note that there is only one valid path.</li>
-                    <li><i>Clear Path</i> will clear the maze of any path which has been generated either by the app itself
-                        or by yourself</li>
-                    <li><i>Reset</i> will remove the displayed maze if one is present</li>
-                </ul>
-                <button id="prev-button">Previous</button>
-                <button id="next-button">Next</button>
-              </div>
-            </div>
-            -->
-
             <!-- Button to open the modal -->
             <a id="open-modal-btn">Tutorial</a>
 
@@ -458,16 +412,19 @@
     </div>
 
     <script type="text/javascript">
-
-        function change() {
+        // DISPLAY VALID PATH CODE
+        function change() 
+        {
             const elements = document.querySelectorAll("div.solution");
-            for (const element of elements) {
+            for (const element of elements) 
+            {
                 element.classList.toggle("transformed-state");
             }
         }
         const changeButton = document.querySelector("#solveMaze");
         changeButton.addEventListener("click", change);
 
+        // MULTIPLE MODAL CODE
         // Get references to DOM elements
         const openModalBtn = document.getElementById('open-modal-btn');
         const modal = document.getElementById('modal');
@@ -491,22 +448,23 @@
             listData: [ 'Choose how many rows and columns you want the generated maze to have with the input boxes. Once you have entered both, click on the Generate Maze button',
                        'The Clear Path button will clear the maze of any path which has been generated either by the app or by yourself', 
                         'The Reset button will remove the displayed maze if one is present' ]
-          },
-          // Add more modal content as needed
-        ];
+          }];
 
         let currentIndex = 0;
 
-        function showModal() {
+        function showModal() 
+        {
           document.getElementById("modal").style.display = "block";
         }
 
-        function hideModal() {
+        function hideModal() 
+        {
           document.getElementById("modal").style.display = "none";
         }
 
         // Populate current modal content
-        function showContent(index) {
+        function showContent(index) 
+        {
           // Retrieve current modal content from modalContent list and map it to appropriate element
           const content = modalContent[index];
           const modalTitle = modal.querySelector('h2');
@@ -517,7 +475,8 @@
           modalTitle.textContent = content.title;
           modalText.textContent = content.content;
           modalSubheader.textContent = content.subheader;
-          for(i = 0; i < content.listData.length; ++i) {
+          for(i = 0; i < content.listData.length; ++i) 
+          {
               var li = document.createElement('li');
               li.innerText = content.listData[i];
               modalList.appendChild(li);
@@ -531,9 +490,9 @@
         openModalBtn.addEventListener('click', showModal);
         closeModalBtn.addEventListener('click', hideModal);
 
+        // Clear modalList for prev and next buttons , otherwise just keeps appending 
+        // repeating li elements on each previous or next button click in the modal
         prevBtn.addEventListener('click', () => {
-          // Clear modalList here, otherwise just keeps appending repeating li
-          // elements on each previous or next button click in the modal
           const modalList = document.getElementById('modal-list');
           modalList.innerHTML = '';
           currentIndex--;
@@ -541,8 +500,6 @@
         });
 
         nextBtn.addEventListener('click', () => {
-          // Clear modalList here, otherwise just keeps appending repeating li
-          // elements on each previous or next button click in the modal
           const modalList = document.getElementById('modal-list');
           modalList.innerHTML = '';
           currentIndex++;
@@ -550,16 +507,6 @@
         });
 
         showContent(currentIndex);
-
-        /* 
-        function openPopup() {
-          document.getElementById("popup").style.display = "block";
-        }
-
-        function closePopup() {
-          document.getElementById("popup").style.display = "none";
-        }
-        */
 
     </script>
 
