@@ -138,37 +138,42 @@
           cursor: pointer;
         }
 
+        #open-modal-btn {
+          color: blue;
+          text-decoration: underline;
+          cursor: pointer;
+          font-weight: bold;
+          margin: auto;
+        }
+
+        #close-modal-btn {
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+
         .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Fixed position */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scrolling if needed */
-        background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+          display: none; /* Hidden by default */
+          position: fixed; /* Fixed position */
+          z-index: 1; /* Place the popup on top of other elements */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scrolling if needed */
+          background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
         }
 
         .modal-content {
-         background-color: #fefefe;
-         margin: 10% auto; /* Centered vertically and horizontally */
-         padding: 20px;
-         border: 1px solid #888;
-         max-width: 550px;
-         border-radius: 10px;
+          display: block;
+          background-color: #fefefe;
+          margin: 10% auto; /* Centered vertically and horizontally */
+          padding: 20px;
+          border: 1px solid #888;
+          max-width: 550px;
+          border-radius: 10px;
         }
-
-        #overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 998;
-        }
-
 
         .close:hover,
         .close:focus {
@@ -238,23 +243,20 @@
             -->
 
             <!-- Button to open the modal -->
-            <button id="open-modal-btn">Open Modal</button>
+            <a id="open-modal-btn">Tutorial</a>
 
             <!-- The modal -->
             <div id="modal" class="modal">
               <div class="modal-content">
+                <span id="close-modal-btn">&times;</span>
                 <!-- Keep these empty, populate with JS -->
                 <h2></h2>
                 <p></p>
                 <ul id="modal-list"></ul>
                 <button id="prev-btn">Previous</button>
                 <button id="next-btn">Next</button>
-                <span id="close-modal-btn">&times;</span>
               </div>
             </div>
-
-            <!-- Overlay -->
-            <div id="overlay"></div>
 
             <!-- Home is the controller, asp-action is the method -->
             <form asp-controller="Home" asp-action="GenerateMaze" method="post">
@@ -482,13 +484,11 @@
         let currentIndex = 0;
 
         function showModal() {
-          modal.style.display = 'block';
-          overlay.style.display = 'block';
+          document.getElementById("modal").style.display = "block";
         }
 
         function hideModal() {
-          modal.style.display = 'none';
-          overlay.style.display = 'none';
+          document.getElementById("modal").style.display = "none";
         }
 
         // Populate current modal content
