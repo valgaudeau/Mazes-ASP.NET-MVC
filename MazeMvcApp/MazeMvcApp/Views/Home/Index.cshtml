@@ -251,6 +251,11 @@
                 <button type="submit">Clear Maze</button>
             }
 
+            @using (Html.BeginForm("ClearPath", "Home", FormMethod.Post))
+            {
+                <button type="submit">Clear Path</button>
+            }
+
         </div>
     </div>
 
