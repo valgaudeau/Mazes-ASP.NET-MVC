@@ -443,15 +443,70 @@
         // ALLOW USER TO DRAW THEIR OWN PATH
         // Maybe should be left click to draw path, right to eraze
         // Also the startCell and EndCell shouldn't get colored over
+        /*
         const mazeCells = document.querySelectorAll("div.maze-cell");
         for (const cell of mazeCells)
         {
-            cell.addEventListener("mouseover", func, false);
+            cell.addEventListener("mousedown", func, false);
         }
-        function func()
+        function func(event)
         {
-            this.setAttribute("style", "background-color:blue;")
-        }
+            if(event.buttons === 0)
+            {
+                this.setAttribute("style", "background-color:lightblue;") // left mouse button
+            }
+            else if(event.buttons === 2)
+            {
+                this.setAttribute("style", "background-color:white;") // right mouse button
+            }
+        }*/
+
+        document.addEventListener('DOMContentLoaded', function() 
+        {
+          let cells = document.querySelectorAll("div.maze-cell");
+          let isMouseDown = false;
+
+          cells.forEach(function(cell) 
+          {
+            cell.addEventListener('mousedown', function(event) 
+            {
+              if (event.button === 0) // Left mouse button
+              { 
+                this.style.backgroundColor = 'lightblue';
+              } 
+              else if (event.button === 2) // Right mouse button
+              { 
+                this.style.backgroundColor = 'white';
+              }
+              isMouseDown = true;
+            });
+
+            cell.addEventListener('mouseup', function() 
+            {
+              isMouseDown = false;
+            });
+
+            cell.addEventListener('mouseover', function() 
+            {
+              if (isMouseDown) 
+              {
+                if (event.buttons === 1) // Left mouse button
+                { 
+                  this.style.backgroundColor = 'lightblue';
+                } 
+                else if (event.buttons === 2) // Right mouse button
+                { 
+                  this.style.backgroundColor = 'white';
+                }
+              }
+            });
+
+            cell.addEventListener('contextmenu', function(event) 
+            {
+              event.preventDefault();
+            });
+          });
+        });
 
         // MULTIPLE MODAL
         // Get references to DOM elements
