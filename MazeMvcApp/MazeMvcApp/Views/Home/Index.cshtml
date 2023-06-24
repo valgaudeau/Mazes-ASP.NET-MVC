@@ -229,12 +229,12 @@
             <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                 <div class="form-group">
                     <input name="nRow" type="number" class="form-control" />
-                     <label class="form-label">Number of Rows (3 - 50)</label>
+                     <label class="form-label">Number of Rows (3 - 60)</label>
                 </div>
 
                 <div class="form-group">
                     <input name="nCol" type="number" class="form-control" />
-                    <label class="form-label">Number of Columns (3 - 50) </label>
+                    <label class="form-label">Number of Columns (3 - 60) </label>
                 </div>
 
                 <div class="form-group">
@@ -244,7 +244,12 @@
             <!-- If I put this button in the form error happens, something to do with submit I think -->
 
             <button id="solveMaze" class="button">Display Path</button>
-            <button id="clearMaze" class="button">Clear Maze</button>
+            <!-- <button id="clearMaze" class="button">Clear Maze</button> -->
+
+            @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
+            {
+                <button type="submit">Clear Maze</button>
+            }
 
         </div>
     </div>

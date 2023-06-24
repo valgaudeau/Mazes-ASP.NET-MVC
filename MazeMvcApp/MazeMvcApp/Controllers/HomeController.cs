@@ -24,7 +24,7 @@ namespace MazeMvcApp.Controllers
 
         public IActionResult GenerateMaze(int nRow, int nCol)
         {
-            if( (nRow  < 3) || (nRow > 50) || (nCol < 3) || (nCol > 50) )
+            if( (nRow  < 3) || (nRow > 60) || (nCol < 3) || (nCol > 60) )
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -43,6 +43,12 @@ namespace MazeMvcApp.Controllers
 
             _maze.MapDisplayDelay();
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult ClearMaze()
+        {
+            _maze = new Maze();
             return RedirectToAction(nameof(Index));
         }
 
