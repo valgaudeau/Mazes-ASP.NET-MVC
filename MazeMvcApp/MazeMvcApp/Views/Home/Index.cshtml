@@ -461,10 +461,10 @@
             }
         }*/
 
+        // DOMContentLoaded fires when the initial HTML document is completely loaded & parsed
         document.addEventListener('DOMContentLoaded', function() 
         {
           let cells = document.querySelectorAll("div.maze-cell");
-          let isMouseDown = false;
 
           cells.forEach(function(cell) 
           {
@@ -478,18 +478,11 @@
               { 
                 this.style.backgroundColor = 'white';
               }
-              isMouseDown = true;
             });
 
-            cell.addEventListener('mouseup', function() 
-            {
-              isMouseDown = false;
-            });
-
+            // This is needed so that js detects user is keeping left or right button held down
             cell.addEventListener('mouseover', function() 
             {
-              if (isMouseDown) 
-              {
                 if (event.buttons === 1) // Left mouse button
                 { 
                   this.style.backgroundColor = 'lightblue';
@@ -498,9 +491,9 @@
                 { 
                   this.style.backgroundColor = 'white';
                 }
-              }
             });
 
+            // This prevents the context menu from popping up when the user right clicks on a cell
             cell.addEventListener('contextmenu', function(event) 
             {
               event.preventDefault();
