@@ -214,7 +214,7 @@
 
         <div class="card-body">
             <!-- Button to open the modal -->
-            <a id="open-modal-btn">Tutorial</a>
+            <a id="open-modal-btn">TUTORIAL</a>
 
             <!-- The modal -->
             <div id="modal" class="modal">
@@ -248,18 +248,22 @@
             </form>
             <!-- If I put this button in the form error happens, something to do with submit I think -->
 
-            <button id="solveMaze" class="button">Display Path</button>
-            <!-- <button id="clearMaze" class="button">Clear Maze</button> -->
+            <div class="form-group">
+                <button id="solveMaze" class="button">Display Path</button>
+                <!-- <button id="clearMaze" class="button">Clear Maze</button> -->
 
-            @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
-            {
-                <button type="submit">Clear Maze</button>
-            }
+                @using (Html.BeginForm("ClearPath", "Home", FormMethod.Post))
+                {
+                    <button class="button" type="submit">Clear Path</button>
+                }
+            </div>
 
-            @using (Html.BeginForm("ClearPath", "Home", FormMethod.Post))
-            {
-                <button type="submit">Clear Path</button>
-            }
+            <div class="form-group">
+                @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
+                {
+                    <button class="button" type="submit">Clear Maze</button>
+                }
+            </div>
 
         </div>
     </div>
@@ -485,11 +489,11 @@
             {
                 if (event.buttons === 1) // Left mouse button
                 { 
-                  this.style.backgroundColor = 'lightblue';
+                    this.style.backgroundColor = 'lightblue';
                 } 
                 else if (event.buttons === 2) // Right mouse button
                 { 
-                  this.style.backgroundColor = 'white';
+                    this.style.backgroundColor = 'white';
                 }
             });
 
@@ -516,7 +520,7 @@
             title: 'Welcome to Maze Generator',
             content: 'The goal of this application is to generate mazes of various sizes and complexities, and allow users to have fun interacting with those mazes.',
             subheader: 'Key Features:',
-            listData: [ 'Generate mazes according to your specifications', 'Choose new start & end positions', 'Draw your own path through the maze just by hovering over cells with your mouse' ]
+            listData: [ 'Generate mazes according to your specifications', 'Draw your own path through the maze: Hold left mouse-button down to draw your path, and hold right mouse-button down to eraze your path', 'Display a valid path through the maze automatically' ]
           },
           {
             title: 'Buttons & Inputs',
@@ -524,7 +528,7 @@
             subheader: '',
             listData: [ 'Choose how many rows and columns you want the generated maze to have with the input boxes. Once you have entered both, click on the Generate Maze button',
                        'The Clear Path button will clear the maze of any path which has been generated either by the app or by yourself', 
-                        'The Reset button will remove the displayed maze if one is present' ]
+                        'The Clear Maze button will destroy the current maze if one exists' ]
           }];
 
         let currentIndex = 0;
