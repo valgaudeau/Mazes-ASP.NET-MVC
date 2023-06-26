@@ -103,6 +103,20 @@
             ValidPathDelayMap = validPathDelayMap;
         }
 
+        // Because we use a static maze instance in the controller, this method should be used after an algorithm
+        // has finished solving the maze so that the cells property traversed is set back to false and we can then
+        // solve the maze again with a different algorithm using that property once again
+        public void UntraverseAllCells()
+        {
+            foreach(var cellRow in Cells)
+            {
+                foreach(var cell in cellRow)
+                {
+                    cell.Traversed = false;
+                }
+            }
+        }
+
         private void MapCellNeighbours(MazeCell mazeCell)
         {
             // Cell below

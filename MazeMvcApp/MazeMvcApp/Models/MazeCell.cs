@@ -13,10 +13,10 @@
         public int Y { get; set; }
         public List<MazeCell> Neighbours { get; set; } = new();
 
-        // flag when finding path through the maze
+        // flag when using IMazeSolver implementation
         public bool Traversed { get; set; } = false;
 
-        // flag when using hunt & kill algorithm
+        // flag when using IMazeGenerator implementation
         public bool Visited { get; private set; } = false;
 
         public MazeCell(int rowNumber, int columnNumber)

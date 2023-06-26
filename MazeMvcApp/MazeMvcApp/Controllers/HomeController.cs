@@ -40,14 +40,14 @@ namespace MazeMvcApp.Controllers
             List<MazeCell> validPath = mazeSolver.FindValidPath();
             _maze.ValidPath = validPath;
             _maze.IsSolved = true;
+            _maze.UntraverseAllCells();
 
             _maze.MapDisplayDelay();
 
-            // CURRENT PROBLEMS:
-            // 1) Algorithm display only works if I add it here instead of in its own button - Maybe I need a boolean check?
-            // 2) May want to change how I'm displaying things, meaning not creating new class for validPath and algorithmDisplay, but instead just in the cell
+            // I'm thinking it makes sense to have it by default, because the user would be confused why he can displayed a valid path
+            // after creating maze but pressing display algorithm working doesn't do anything (since he knows it has already run)
             _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
-            Console.WriteLine("Hi");
+            
             return RedirectToAction(nameof(Index));
         }
 
@@ -62,9 +62,13 @@ namespace MazeMvcApp.Controllers
             // I would like to store the scroll position so page reloads on same position even if it hits controller
             // TempData["ScrollPosition"] = Request["scrollPosition"];
 
-            // Later, modify logic depending on received string
             IMazeSolver dfs = new DepthFirstSearch(_maze);
             _maze.AlgorithmDisplayMap = dfs.GetAlgorithmSearchDisplayMap();
+            _maze.UntraverseAllCells();
+
+            // CURRENT PROBLEMS:
+            // May want to change how I'm displaying things, meaning not creating new class for validPath and algorithmDisplay, but instead just in the cell
+
             return RedirectToAction(nameof(Index));
         }
 
