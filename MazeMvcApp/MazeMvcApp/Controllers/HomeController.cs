@@ -47,7 +47,7 @@ namespace MazeMvcApp.Controllers
             // I'm thinking it makes sense to have it by default, because the user would be confused why he can displayed a valid path
             // after creating maze but pressing display algorithm working doesn't do anything (since he knows it has already run)
             _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
-            
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -62,9 +62,29 @@ namespace MazeMvcApp.Controllers
             // I would like to store the scroll position so page reloads on same position even if it hits controller
             // TempData["ScrollPosition"] = Request["scrollPosition"];
 
-            IMazeSolver dfs = new DepthFirstSearch(_maze);
-            _maze.AlgorithmDisplayMap = dfs.GetAlgorithmSearchDisplayMap();
-            _maze.UntraverseAllCells();
+            if(selectedAlgorithm == "dfs")
+            {
+                // do nothing since this is what we've got implemented by default
+                IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
+                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                _maze.UntraverseAllCells();
+                return RedirectToAction(nameof(Index));
+            }
+            else if(selectedAlgorithm == "bfs")
+            {
+                IMazeSolver mazeSolver = new BreadthFirstSearch(_maze);
+                // This shouldn't be in the loop, fix it later
+                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                _maze.UntraverseAllCells();
+                return RedirectToAction(nameof(Index));
+            }
+            else if (selectedAlgorithm == "aStar")
+            {
+                // IMazeSolver mazeSolver = new AStarSearch(_maze);
+            }
+
+            // _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+            // _maze.UntraverseAllCells();
 
             // May want to change how I'm displaying valid path & algorithm at work, meaning not creating new class for
             // validPath and algorithmDisplay, but instead just in the cell
