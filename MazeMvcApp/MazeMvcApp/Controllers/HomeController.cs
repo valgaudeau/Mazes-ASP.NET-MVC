@@ -52,12 +52,6 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // To Clear Path, all I have to do is reload the page (atleast for now)
-        public IActionResult ClearPath()
-        {
-            return RedirectToAction(nameof(Index));
-        }
-
         /*
         // Method for debugging purposes
         public IActionResult DummyMethod()

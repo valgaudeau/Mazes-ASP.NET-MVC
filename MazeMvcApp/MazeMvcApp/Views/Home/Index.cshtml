@@ -250,14 +250,7 @@
 
             <div class="form-group">
                 <button id="solveMaze" class="button">Display Path</button>
-                <!-- <button id="clearMaze" class="button">Clear Maze</button> -->
-
-                <!-- CHANGE THIS BUTTON TO BE JUST A JS RELOAD - MIGHT BE ABLE TO KEEP WINDOW ON SAME POSITION TOO! 
-                    See https://stackoverflow.com/questions/3715047/how-to-reload-a-page-using-javascript ->
-                @using (Html.BeginForm("ClearPath", "Home", FormMethod.Post))
-                {
-                    <button class="button" type="submit">Clear Path</button>
-                }
+                <button id="clearPath" class="button">Clear Path</button>
             </div>
 
             <div class="form-group">
@@ -435,7 +428,7 @@
 
     <script type="text/javascript">
         // DISPLAY VALID PATH
-        function change() 
+        function solveMazeFunc() 
         {
             const elements = document.querySelectorAll("div.solution");
             for (const element of elements) 
@@ -443,8 +436,21 @@
                 element.classList.toggle("transformed-state");
             }
         }
-        const changeButton = document.querySelector("#solveMaze");
-        changeButton.addEventListener("click", change);
+
+        const solveMazeButton = document.querySelector("#solveMaze");
+        solveMazeButton.addEventListener("click", solveMazeFunc);
+
+        // CLEAR VALID PATH
+        function clearValidPath()
+        {
+            var scrollX = window.scrollX || window.pageXOffset;
+            var scrollY = window.scrollY || window.pageYOffset;
+            window.location.reload();
+            window.scrollTo(scrollX, scrollY);
+        }
+
+        const clearPathButton = document.querySelector("#clearPath");
+        clearPathButton.addEventListener("click", clearValidPath);
 
         // ALLOW USER TO DRAW THEIR OWN PATH
         // Maybe should be left click to draw path, right to eraze
