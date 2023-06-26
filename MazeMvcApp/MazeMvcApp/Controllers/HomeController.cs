@@ -43,6 +43,12 @@ namespace MazeMvcApp.Controllers
 
             _maze.MapDisplayDelay();
 
+            // CURRENT PROBLEMS:
+            // 1) Algorithm display only works if I add it here instead of in its own button - Maybe I need a boolean check?
+            // 2) Its not showing the algorithm working in order, shows the valid path immediately. Probably due to how I'm adding the cells to the dictionary
+            // 3) May want to change how I'm displaying things, meaning not creating new class for validPath and algorithmDisplay, but instead just in the cell
+            _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -54,19 +60,14 @@ namespace MazeMvcApp.Controllers
 
         public IActionResult ChooseAlgorithm(string selectedAlgorithm)
         {
-            Console.WriteLine(selectedAlgorithm);
+            // I would like to store the scroll position so page reloads on same position even if it hits controller
+            // TempData["ScrollPosition"] = Request["scrollPosition"];
 
+            // Later, modify logic depending on received string
+            IMazeSolver dfs = new DepthFirstSearch(_maze);
+            _maze.AlgorithmDisplayMap = dfs.GetAlgorithmSearchDisplayMap();
             return RedirectToAction(nameof(Index));
         }
-
-        /*
-        // Method for debugging purposes
-        public IActionResult DummyMethod()
-        {
-            Maze shitMaze = _maze;
-            Console.WriteLine("ye");
-            return View(_maze);
-        }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

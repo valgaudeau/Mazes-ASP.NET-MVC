@@ -3,5 +3,6 @@
     public interface IMazeSolver
     {
         List<MazeCell> FindValidPath();
+        Dictionary<MazeCell, double> GetAlgorithmSearchDisplayMap();
     }
 }

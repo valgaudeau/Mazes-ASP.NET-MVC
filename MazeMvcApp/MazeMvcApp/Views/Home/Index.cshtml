@@ -186,23 +186,29 @@
            cursor: pointer;
         }
 
+        /* for the css transition used in valid path display */
+        .transformed-state-validPath 
+        {
+            background-color: #00ffa1 !important;
+            transition-property: background-color, transform;
+            transition-timing-function: linear;
+            transition-duration: 3s;
+        }
+
+         /* for the css transition used in the algorithm search display */
+        .transformed-state-algorithmSearchDisplay 
+        {
+            background-color: yellow !important;
+            transition-property: background-color, transform;
+            transition-timing-function: linear;
+            transition-duration: 3s;
+        }
+
     </style>
 
 </head>
 
 <body>
-
-    <!-- BUTTON FOR DEBUGGING PURPOSES
-    <form asp-controller="Home" asp-action="DummyMethod" method="post">
-                    <div class="mb-3">
-                        <label class="form-label">StartCell</label>
-                        <input name="startCell" type="number" class="form-control" />
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-    </form>
-    -->
 
     <div class="card">
 
@@ -259,6 +265,8 @@
                     <button class="button" type="submit">Clear Maze</button>
                 }
             </div>
+
+            <button id="algorithmSearchDisplay" class="button">Show Algorithm</button>
 
             <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
               <select id="dropdown" name="selectedAlgorithm">
@@ -382,47 +390,61 @@
                                     </style>
                                 }
 
-                                    <style>
-                                    .transformed-state 
-                                    {
-                                        background-color: #00ffa1 !important;
-                                        transition-property: background-color, transform;
-                                        transition-timing-function: linear;
-                                        transition-duration: 3s;
-                                    }
-                                </style>
-
-                                <!-- If maze is solved, display path --> 
-                                @if(@Model.IsSolved)
+                                <!-- Display algorithm working -->
+                                @if(Model.AlgorithmDisplayMap.ContainsKey(Model.Cells[i][j])
+                                && (@Model.Cells[i][j] != @Model.StartCell) 
+                                && (@Model.Cells[i][j] != @Model.EndCell) )
                                 {
-                                    if(@Model.ValidPathDelayMap.ContainsKey(@Model.Cells[i][j])
-                                    && (@Model.Cells[i][j] != @Model.StartCell) 
-                                    && (@Model.Cells[i][j] != @Model.EndCell) )
-                                    {
-                                        string delayStr = @Model.ValidPathDelayMap[@Model.Cells[i][j]].ToString() + "s";
+                                    string delayStrAlgorithmDisplay = @Model.AlgorithmDisplayMap[@Model.Cells[i][j]].ToString() + "s";
 
-                                        <!-- space between solution and path allows me select solution in JS
-                                            and path in CSS as follows. They're separate selectors now
-                                        -->
-                                        <div class="solution path-div-y@(i)x@(j)">
+                                    <div class="algorithmPath path-div-y@(i)x@(j)">
                                                         
-                                        </div>
+                                    </div>
 
-                                        <style>
-                                            .path-div-y@(i)x@(j)
-                                            {
-                                                position: absolute;
-                                                top: 0;
-                                                right: 0;
-                                                bottom: 0;
-                                                left: 0;
-                                                transition-property: background-color, transform;
-                                                transition-timing-function: linear;
-                                                transition-duration: 3s;
-                                                transition-delay: @delayStr;
-                                            }
-                                        </style>
-                                    }
+                                    <style>
+                                        .path-div-y@(i)x@(j)
+                                        {
+                                            position: absolute;
+                                            top: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            left: 0;
+                                            transition-property: background-color, transform;
+                                            transition-timing-function: linear;
+                                            transition-duration: 3s;
+                                            transition-delay: @delayStrAlgorithmDisplay;
+                                        }
+                                    </style>
+                                }
+
+                                <!-- Valid path display -->
+                                @if(@Model.ValidPathDelayMap.ContainsKey(@Model.Cells[i][j])
+                                && (@Model.Cells[i][j] != @Model.StartCell) 
+                                && (@Model.Cells[i][j] != @Model.EndCell) )
+                                {
+                                    string delayStrValidPath = @Model.ValidPathDelayMap[@Model.Cells[i][j]].ToString() + "s";
+
+                                    <!-- space between solution and path allows me select solution in JS
+                                        and path in CSS as follows. They're separate selectors now
+                                    -->
+                                    <div class="solution path-div-y@(i)x@(j)">
+                                                        
+                                    </div>
+
+                                    <style>
+                                        .path-div-y@(i)x@(j)
+                                        {
+                                            position: absolute;
+                                            top: 0;
+                                            right: 0;
+                                            bottom: 0;
+                                            left: 0;
+                                            transition-property: background-color, transform;
+                                            transition-timing-function: linear;
+                                            transition-duration: 3s;
+                                            transition-delay: @delayStrValidPath;
+                                        }
+                                    </style>
                                 }
 
                                 @Model.Cells[i][j].ToEmptyString()
@@ -436,13 +458,14 @@
     </div>
 
     <script type="text/javascript">
+
         // DISPLAY VALID PATH
         function solveMazeFunc() 
         {
             const elements = document.querySelectorAll("div.solution");
             for (const element of elements) 
             {
-                element.classList.toggle("transformed-state");
+                element.classList.toggle("transformed-state-validPath");
             }
         }
 
@@ -460,6 +483,19 @@
 
         const clearPathButton = document.querySelector("#clearPath");
         clearPathButton.addEventListener("click", clearValidPath);
+
+        // ALGORITHM SEARCH DISPLAY
+        function showSearchAlgorithmWorking() 
+        {
+            const elements = document.querySelectorAll("div.algorithmPath");
+            for (const element of elements) 
+            {
+                element.classList.toggle("transformed-state-algorithmSearchDisplay");
+            }
+        }
+
+        const algorithmSearchDisplayButton = document.querySelector("#algorithmSearchDisplay");
+        algorithmSearchDisplayButton.addEventListener("click", showSearchAlgorithmWorking);
 
         // ALLOW USER TO DRAW THEIR OWN PATH
         // Maybe should be left click to draw path, right to eraze

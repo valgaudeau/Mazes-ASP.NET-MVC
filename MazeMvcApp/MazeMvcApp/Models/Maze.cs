@@ -12,7 +12,8 @@
         public MazeCell EndCell { get; set; }
         public bool IsSolved { get; set; } = false;
         public List<MazeCell> ValidPath { get; set; }
-        public Dictionary<MazeCell, double> ValidPathDelayMap { get; set; }
+        public Dictionary<MazeCell, double> ValidPathDelayMap { get; set; } = new Dictionary<MazeCell, double>();
+        public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
 
         public Maze(int nRow, int nCol)
         {
