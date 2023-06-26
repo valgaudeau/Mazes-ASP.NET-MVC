@@ -52,6 +52,13 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult ChooseAlgorithm(string selectedAlgorithm)
+        {
+            Console.WriteLine(selectedAlgorithm);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         /*
         // Method for debugging purposes
         public IActionResult DummyMethod()

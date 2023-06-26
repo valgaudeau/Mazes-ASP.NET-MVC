@@ -246,8 +246,8 @@
                     <button type="submit" class="button">Create Maze</button>
                 </div>
             </form>
-            <!-- If I put this button in the form error happens, something to do with submit I think -->
 
+            <!-- If I put these buttons in the form an error happens, something to do with submit I think -->
             <div class="form-group">
                 <button id="solveMaze" class="button">Display Path</button>
                 <button id="clearPath" class="button">Clear Path</button>
@@ -259,6 +259,15 @@
                     <button class="button" type="submit">Clear Maze</button>
                 }
             </div>
+
+            <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
+              <select id="dropdown" name="selectedAlgorithm">
+                <option value="dfs">Depth-First Search</option>
+                <option value="bfs">Breadth-First Search</option>
+                <option value="aStar">A*</option>
+              </select>
+              <button type="submit">Confirm</button>
+            </form>
 
         </div>
     </div>
