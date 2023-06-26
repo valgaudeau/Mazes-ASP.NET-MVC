@@ -45,10 +45,9 @@ namespace MazeMvcApp.Controllers
 
             // CURRENT PROBLEMS:
             // 1) Algorithm display only works if I add it here instead of in its own button - Maybe I need a boolean check?
-            // 2) Its not showing the algorithm working in order, shows the valid path immediately. Probably due to how I'm adding the cells to the dictionary
-            // 3) May want to change how I'm displaying things, meaning not creating new class for validPath and algorithmDisplay, but instead just in the cell
+            // 2) May want to change how I'm displaying things, meaning not creating new class for validPath and algorithmDisplay, but instead just in the cell
             _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
-
+            Console.WriteLine("Hi");
             return RedirectToAction(nameof(Index));
         }
 

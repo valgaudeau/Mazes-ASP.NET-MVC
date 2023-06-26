@@ -198,7 +198,7 @@
          /* for the css transition used in the algorithm search display */
         .transformed-state-algorithmSearchDisplay 
         {
-            background-color: yellow !important;
+            background-color: pink !important;
             transition-property: background-color, transform;
             transition-timing-function: linear;
             transition-duration: 3s;
@@ -397,12 +397,12 @@
                                 {
                                     string delayStrAlgorithmDisplay = @Model.AlgorithmDisplayMap[@Model.Cells[i][j]].ToString() + "s";
 
-                                    <div class="algorithmPath path-div-y@(i)x@(j)">
+                                    <div class="algorithmPath alg-path-div-y@(i)x@(j)">
                                                         
                                     </div>
 
                                     <style>
-                                        .path-div-y@(i)x@(j)
+                                        .alg-path-div-y@(i)x@(j)
                                         {
                                             position: absolute;
                                             top: 0;
@@ -441,7 +441,7 @@
                                             left: 0;
                                             transition-property: background-color, transform;
                                             transition-timing-function: linear;
-                                            transition-duration: 3s;
+                                            transition-duration: 1.5s;
                                             transition-delay: @delayStrValidPath;
                                         }
                                     </style>

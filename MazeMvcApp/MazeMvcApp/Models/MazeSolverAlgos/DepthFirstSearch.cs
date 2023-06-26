@@ -19,20 +19,26 @@
             Stack<MazeCell> path = new Stack<MazeCell>();
             path.Push(startingCell);
             startingCell.Traversed = true;
-            AlgorithmDisplayMap.Add(startingCell, delay);
-            delay += 0.05;
             var currentCell = startingCell;
 
             while (currentCell != _maze.EndCell)
             {
+                if(!AlgorithmDisplayMap.ContainsKey(currentCell))
+                {
+                    AlgorithmDisplayMap.Add(currentCell, delay);
+                    delay += 0.02;
+                }
+                else
+                {
+                    delay += 0.02; // I like adding this extra delay, makes transition smoother when moving to another search branch
+                }
+
                 MazeCell nextCell = new MazeCell();
 
                 if (IsMovePossible(currentCell, out nextCell))
                 {
                     currentCell = nextCell;
                     currentCell.Traversed = true;
-                    AlgorithmDisplayMap.Add(currentCell, delay);
-                    delay += 0.05;
                     path.Push(currentCell);
                 }
                 else
