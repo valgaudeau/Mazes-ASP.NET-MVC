@@ -66,8 +66,8 @@ namespace MazeMvcApp.Controllers
             _maze.AlgorithmDisplayMap = dfs.GetAlgorithmSearchDisplayMap();
             _maze.UntraverseAllCells();
 
-            // CURRENT PROBLEMS:
-            // May want to change how I'm displaying things, meaning not creating new class for validPath and algorithmDisplay, but instead just in the cell
+            // May want to change how I'm displaying valid path & algorithm at work, meaning not creating new class for
+            // validPath and algorithmDisplay, but instead just in the cell
 
             return RedirectToAction(nameof(Index));
         }
