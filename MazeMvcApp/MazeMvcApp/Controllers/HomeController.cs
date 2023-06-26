@@ -67,15 +67,13 @@ namespace MazeMvcApp.Controllers
                 // do nothing since this is what we've got implemented by default
                 IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
                 _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
-                _maze.UntraverseAllCells();
                 return RedirectToAction(nameof(Index));
             }
             else if(selectedAlgorithm == "bfs")
             {
                 IMazeSolver mazeSolver = new BreadthFirstSearch(_maze);
-                // This shouldn't be in the loop, fix it later
+                // This shouldn't be in the loop, fix it later not sure how tho
                 _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
-                _maze.UntraverseAllCells();
                 return RedirectToAction(nameof(Index));
             }
             else if (selectedAlgorithm == "aStar")
