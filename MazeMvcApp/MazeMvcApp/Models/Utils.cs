@@ -20,8 +20,7 @@
             // See https://stackoverflow.com/questions/273313/randomize-a-listt
             for (int i = neighbours.Count; i > 0; i--)
             {
-                // They write _random.Next(0, i) but then it can be the same element so I changed it to (0, i - 1)
-                Swap(neighbours, i - 1, _random.Next(0, i - 1));
+                Swap(neighbours, i - 1, _random.Next(0, i));
             }
             return neighbours;
         }
