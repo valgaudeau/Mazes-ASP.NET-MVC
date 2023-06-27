@@ -122,29 +122,29 @@
             // Cell to the right
             if (mazeCell.X + 1 < NCol)
             {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X + 1]);
                 mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y][mazeCell.X + 1]);
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X + 1]);
             }
 
             // Cell to the left
             if (mazeCell.X - 1 >= 0)
             {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X - 1]);
                 mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y][mazeCell.X - 1]);
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X - 1]);
             }
 
             // Cell below
             if (mazeCell.Y - 1 >= 0)
             {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y - 1][mazeCell.X]);
                 mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y - 1][mazeCell.X]);
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y - 1][mazeCell.X]);
             }
 
             // Cell above
             if (mazeCell.Y + 1 < NRow)
             {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y + 1][mazeCell.X]);
                 mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y + 1][mazeCell.X]);
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y + 1][mazeCell.X]);
             }
 
             // Shuffle for RandomizedNeighbours to randomize access order by Hunt and Kill methods
