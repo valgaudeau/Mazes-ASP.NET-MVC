@@ -205,6 +205,13 @@
             transition-property: background-color, transform;
         }
 
+        .maze-cell
+        {
+            position: relative;
+            height: 20px;
+            width: 20px;
+        }
+
     </style>
 
 </head>
@@ -310,28 +317,12 @@
 
                                 @if (@Model.Cells[i][j].DisplayTopEdge == true)
                                 {
-                                    <style>
-                                        .coords-y@(i)x@(j) 
-                                        {
-                                            position: relative;
-                                            border-top: 3px solid black;
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    </style>
+                                    <style> .coords-y@(i)x@(j) { border-top: 3px solid black; } </style>
                                 }
 
                                 @if (@Model.Cells[i][j].DisplayLeftEdge == true)
                                 {
-                                    <style>
-                                        .coords-y@(i)x@(j) 
-                                        {
-                                            position: relative;
-                                            border-left: 3px solid black;
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    </style>
+                                    <style> .coords-y@(i)x@(j) { border-left: 3px solid black; } </style>
                                 }
 
                                 @if ( (@Model.Cells[i][j].DisplayTopEdge == false)
@@ -339,40 +330,17 @@
                                         && (@Model.Cells[i][j].BottomEdge == false)
                                         && (@Model.Cells[i][j].RightEdge == false) )
                                 {
-                                    <style>
-                                        .coords-y@(i)x@(j) 
-                                        {
-                                            position: relative;
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    </style>
+                                    <style> .coords-y@(i)x@(j) { } </style>
                                 }
 
                                 @if (@Model.Cells[i][j].BottomEdge == true)
                                 {
-                                    <style>
-                                        .coords-y@(i)x@(j) 
-                                        {
-                                            position: relative;
-                                            border-bottom: 3px solid black;
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    </style>
+                                    <style> .coords-y@(i)x@(j) { border-bottom: 3px solid black; } </style>
                                 }
 
                                 @if (@Model.Cells[i][j].RightEdge == true)
                                 {
-                                    <style>
-                                        .coords-y@(i)x@(j) 
-                                        {
-                                            position: relative;
-                                            border-right: 3px solid black;
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    </style>
+                                    <style> .coords-y@(i)x@(j) { border-right: 3px solid black; } </style>
                                 }
 
                                 <!-- All edges open -->
@@ -381,14 +349,7 @@
                                         && (@Model.Cells[i][j].LeftEdge == false)
                                         && (@Model.Cells[i][j].RightEdge == false))
                                 {
-                                    <style>
-                                        .coords-y@(i)x@(j) 
-                                        {
-                                            position: relative;
-                                            height: 20px;
-                                            width: 20px;
-                                        }
-                                    </style>
+                                    <style> .coords-y@(i)x@(j) { } </style>
                                 }
 
                                 <!-- Display algorithm working -->
