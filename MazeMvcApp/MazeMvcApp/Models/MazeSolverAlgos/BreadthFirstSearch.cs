@@ -29,7 +29,17 @@
                 }
                 else
                 {
-                    delay += 0.02;
+                    delay += 0.01;
+                }
+
+                // So that I don't get stuck, I need to Enqueue all neighbours of current node
+                // See Obsidian notes for why this algo was getting stuck sometimes
+                foreach (MazeCell neighbourCell in currentCell.Neighbours)
+                {
+                    if ((!neighbourCell.Traversed) && (currentCell.IsConnectedTo(neighbourCell)))
+                    {
+                        path.Enqueue(neighbourCell);
+                    }
                 }
 
                 MazeCell nextCell = new MazeCell();

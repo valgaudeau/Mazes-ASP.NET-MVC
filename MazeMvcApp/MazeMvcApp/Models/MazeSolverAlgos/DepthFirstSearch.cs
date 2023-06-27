@@ -30,7 +30,7 @@
                 }
                 else
                 {
-                    delay += 0.02; // I like adding this extra delay, makes transition smoother when moving to another search branch
+                    delay += 0.01; // I like adding this extra delay, makes transition smoother when moving to another search branch
                 }
 
                 MazeCell nextCell = new MazeCell();
