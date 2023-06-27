@@ -11,7 +11,10 @@
         public bool DisplayLeftEdge { get; set; } = true;
         public int X { get; set; }
         public int Y { get; set; }
+        // Use Neighbours in Pathfinding Algorithms to have always the same search behaviour
         public List<MazeCell> Neighbours { get; set; } = new();
+        // Use RandomizedNeighbours in Hunt & Kill to avoid generating similar mazes
+        public List<MazeCell> RandomizedNeighbours { get; set; } = new();
 
         // flag when using IMazeSolver implementation
         public bool Traversed { get; set; } = false;
@@ -32,7 +35,7 @@
 
         public int GetNumberOfEdges()
         {
-            return Neighbours.Count;
+            return RandomizedNeighbours.Count;
         }
 
         public MazeCell GetUnvisitedNeighbour()
@@ -40,7 +43,7 @@
             // INTERESTING: Even though I shuffle list of neighbours when I populate that list in the Maze constructor,
             // this method seems to always return neighbour cells in the same order. Must be something to do with LINQ 
             // return Neighbours.Find(c => c.Visited != true);
-            foreach (MazeCell neighbour in Neighbours)
+            foreach (MazeCell neighbour in RandomizedNeighbours)
             {
                 if (!neighbour.Visited) return neighbour;
             }

@@ -119,32 +119,36 @@
 
         private void MapCellNeighbours(MazeCell mazeCell)
         {
-            // Cell below
-            if (mazeCell.Y - 1 >= 0)
+            // Cell to the right
+            if (mazeCell.X + 1 < NCol)
             {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y - 1][mazeCell.X]);
-            }
-
-            // Cell above
-            if (mazeCell.Y + 1 < NRow)
-            {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y + 1][mazeCell.X]);
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X + 1]);
+                mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y][mazeCell.X + 1]);
             }
 
             // Cell to the left
             if (mazeCell.X - 1 >= 0)
             {
                 mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X - 1]);
+                mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y][mazeCell.X - 1]);
             }
 
-            // Cell to the right
-            if (mazeCell.X + 1 < NCol)
+            // Cell below
+            if (mazeCell.Y - 1 >= 0)
             {
-                mazeCell.Neighbours.Add(Cells[mazeCell.Y][mazeCell.X + 1]);
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y - 1][mazeCell.X]);
+                mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y - 1][mazeCell.X]);
             }
 
-            // Shuffle neighbours to randomize access order by Hunt and Kill methods
-            mazeCell.Neighbours = Utils.ShuffleList(mazeCell.Neighbours);
+            // Cell above
+            if (mazeCell.Y + 1 < NRow)
+            {
+                mazeCell.Neighbours.Add(Cells[mazeCell.Y + 1][mazeCell.X]);
+                mazeCell.RandomizedNeighbours.Add(Cells[mazeCell.Y + 1][mazeCell.X]);
+            }
+
+            // Shuffle for RandomizedNeighbours to randomize access order by Hunt and Kill methods
+            mazeCell.RandomizedNeighbours = Utils.ShuffleList(mazeCell.RandomizedNeighbours);
         }
 
     }

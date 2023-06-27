@@ -69,7 +69,7 @@
                         continue;
                     }
 
-                    var nextCell = currentCell.Neighbours.Find(c => c.Visited);
+                    var nextCell = currentCell.RandomizedNeighbours.Find(c => c.Visited);
 
                     if (nextCell != null)
                     {
