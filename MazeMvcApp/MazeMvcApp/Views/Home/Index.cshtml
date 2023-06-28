@@ -424,6 +424,7 @@
         // DISPLAY VALID PATH
         function solveMazeFunc() 
         {
+            console.log("hello from solveMazeFunc");
             const elements = document.querySelectorAll("div.solution");
             for (const element of elements) 
             {
@@ -454,6 +455,15 @@
             {
                 element.classList.toggle("transformed-state-algorithmSearchDisplay");
             }
+
+            // Its hard to see the actual path through the maze (particularly when its Bi-Directional cases)
+            // after the algorithm stops working. This is why I want to trigger SolveMazeFunc() here AFTER 
+            // algorithmSearchDisplay stops working
+            // setTimeout(solveMazeFunc, 5000);
+
+            console.log("hi");
+            solveMazeFunc();
+            console.log("hello");
         }
 
         const algorithmSearchDisplayButton = document.querySelector("#algorithmSearchDisplay");
