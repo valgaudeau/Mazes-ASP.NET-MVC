@@ -307,30 +307,30 @@
                             <!-- Added space between maze-cell and coords-y etc because I needed to select the cells in js -->
                             <div class="maze-cell coords-y@(i)x@(j)">
 
-                                @if (@Model.Cells[i][j] == @Model.StartCell) 
+                                @if(@Model.Cells[i][j] == @Model.StartCell) 
                                 {
                                     <style> .coords-y@(i)x@(j) { background-color: green; } </style>
                                 }
 
-                                @if (@Model.Cells[i][j] == @Model.EndCell) 
+                                @if(@Model.Cells[i][j] == @Model.EndCell) 
                                 {
                                     <style> .coords-y@(i)x@(j) { background-color: red; } </style>
                                 }
 
-                                @if (@Model.Cells[i][j].DisplayTopEdge == true)
+                                @if(@Model.Cells[i][j].DisplayTopEdge == true)
                                 {
                                     <style> .coords-y@(i)x@(j) { border-top: 3px solid black; } </style>
                                 }
 
-                                @if (@Model.Cells[i][j].DisplayLeftEdge == true)
+                                @if(@Model.Cells[i][j].DisplayLeftEdge == true)
                                 {
                                     <style> .coords-y@(i)x@(j) { border-left: 3px solid black; } </style>
                                 }
 
-                                @if ( (@Model.Cells[i][j].DisplayTopEdge == false)
-                                        && (@Model.Cells[i][j].DisplayLeftEdge == false) 
-                                        && (@Model.Cells[i][j].BottomEdge == false)
-                                        && (@Model.Cells[i][j].RightEdge == false) )
+                                @if((@Model.Cells[i][j].DisplayTopEdge == false)
+                                 && (@Model.Cells[i][j].DisplayLeftEdge == false) 
+                                 && (@Model.Cells[i][j].BottomEdge == false)
+                                 && (@Model.Cells[i][j].RightEdge == false))
                                 {
                                     <style> .coords-y@(i)x@(j) { } </style>
                                 }
@@ -346,10 +346,10 @@
                                 }
 
                                 <!-- All edges open -->
-                                @if ( (@Model.Cells[i][j].TopEdge == false) 
-                                        && (@Model.Cells[i][j].BottomEdge == false)
-                                        && (@Model.Cells[i][j].LeftEdge == false)
-                                        && (@Model.Cells[i][j].RightEdge == false))
+                                @if((@Model.Cells[i][j].TopEdge == false) 
+                                 && (@Model.Cells[i][j].BottomEdge == false)
+                                 && (@Model.Cells[i][j].LeftEdge == false)
+                                 && (@Model.Cells[i][j].RightEdge == false))
                                 {
                                     <style> .coords-y@(i)x@(j) { } </style>
                                 }

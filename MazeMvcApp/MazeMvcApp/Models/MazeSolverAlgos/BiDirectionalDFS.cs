@@ -33,7 +33,7 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             bool turn = true; // true for topStart's turn, false for bottomStart
             double delay = 0.1d; // for the display mapping - Don't like mixing it here, make method later with instance var
 
-            while (!IsIntersecting(pathTopStart, pathBottomStart, out MazeCell? intersectionCell))
+            while (!IsIntersecting(pathTopStart, pathBottomStart, out MazeCell? intCell))
             {
                 // Don't add extra delays for Bi-Directional if it does ContainsKey
                 if (!AlgorithmDisplayMap.ContainsKey(currentCellTopPath))
@@ -43,7 +43,7 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
 
                 if (!AlgorithmDisplayMap.ContainsKey(currentCellBottomPath))
                 {
-                    AlgorithmDisplayMap.Add(currentCellTopPath, delay);
+                    AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
                 }
 
                 if(turn == true)
@@ -80,7 +80,17 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
                 delay += 0.02;
             }
 
-            List<MazeCell> result = new List<MazeCell>(pathTopStart.Union(pathBottomStart));
+            // Need to add this here for now since intersectionCell gets popped off stack
+            // Very ugly, will need to refactor all this
+            if(IsIntersecting(pathTopStart, pathBottomStart, out MazeCell? intersectionCell))
+            {
+                if(!AlgorithmDisplayMap.ContainsKey(intersectionCell))
+                {
+					AlgorithmDisplayMap.Add(intersectionCell, delay);
+				}
+			}
+
+			List<MazeCell> result = new List<MazeCell>(pathTopStart.Union(pathBottomStart));
             result.Reverse(); // reverse because path is a stack
             _maze.UntraverseAllCells();
 
@@ -111,7 +121,12 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             {
                 foreach(MazeCell bottomPathCell in pathBottomStartArr)
                 {
-                    if(topPathCell == bottomPathCell)
+                    // Logic: The paths cannot hold the same cell with the current logic since if a cell has been marked
+                    // as traversed, it can't be added to the path. So we check if topPathCell has bottomPathCell as a
+                    // neighbour, and if path is open between them
+                    // May rework this logic later and not have Traversed property in MazeCell
+                    if((topPathCell.Neighbours.Contains(bottomPathCell))
+                    && (topPathCell.IsConnectedTo(bottomPathCell)))
                     {
                         intersectionCell = topPathCell;
                         return true;
