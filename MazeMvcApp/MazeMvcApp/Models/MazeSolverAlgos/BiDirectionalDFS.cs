@@ -93,6 +93,7 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
 			List<MazeCell> result = new List<MazeCell>(pathTopStart.Union(pathBottomStart));
             result.Reverse(); // reverse because path is a stack
             _maze.UntraverseAllCells();
+            _maze.PopulateFinalDisplayTimer();
 
             return result;
         }

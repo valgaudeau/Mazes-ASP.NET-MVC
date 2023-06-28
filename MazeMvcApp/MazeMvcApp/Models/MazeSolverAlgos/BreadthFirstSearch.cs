@@ -57,6 +57,7 @@
 
             List<MazeCell> result = new List<MazeCell>(path);
             _maze.UntraverseAllCells();
+            _maze.PopulateFinalDisplayTimer();
 
             return result;
         }

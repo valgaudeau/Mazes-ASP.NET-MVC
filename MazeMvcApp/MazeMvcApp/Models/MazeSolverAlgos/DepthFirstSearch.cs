@@ -50,7 +50,8 @@
             result.Reverse(); // reverse because path is a stack
             // We need this to reset all cells to untraversed once we've found valid path as we may want to apply different
             // search algorithms on the same maze for display algorithm purposes and need cells to be untraversed for it to work
-            _maze.UntraverseAllCells(); 
+            _maze.UntraverseAllCells();
+            _maze.PopulateFinalDisplayTimer();
 
             return result;
         }

@@ -14,6 +14,9 @@
         public List<MazeCell> ValidPath { get; set; }
         public Dictionary<MazeCell, double> ValidPathDelayMap { get; set; } = new Dictionary<MazeCell, double>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
+        // FinalDisplayTimer stores the highest double value from AlgorithmDisplayMap and is used to trigger
+        // the valid path display once the algorithm display finishes
+        public double FinalDisplayTimer { get; set; } 
 
         public Maze(int nRow, int nCol)
         {
@@ -114,6 +117,21 @@
                 {
                     cell.Traversed = false;
                 }
+            }
+        }
+
+        public void PopulateFinalDisplayTimer()
+        {
+            if(AlgorithmDisplayMap.Count > 0)
+            {
+                // Note that taking last value didn't work for all algos
+                double max = 0;
+
+                foreach(KeyValuePair<MazeCell, double> kvp in AlgorithmDisplayMap)
+                {
+                    max = Math.Max(max, kvp.Value);
+                }
+                FinalDisplayTimer = max;
             }
         }
 

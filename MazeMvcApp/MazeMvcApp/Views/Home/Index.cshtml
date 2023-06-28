@@ -457,13 +457,10 @@
             }
 
             // Its hard to see the actual path through the maze (particularly when its Bi-Directional cases)
-            // after the algorithm stops working. This is why I want to trigger SolveMazeFunc() here AFTER 
-            // algorithmSearchDisplay stops working
-            // setTimeout(solveMazeFunc, 5000);
-
-            console.log("hi");
-            solveMazeFunc();
-            console.log("hello");
+            // after the algorithm stops working. That's why I SolveMazeFunc() here.
+            let timeout;
+            let timeoutDuration = @Model.FinalDisplayTimer * 1000 + 500;
+            timeout = setTimeout(solveMazeFunc, timeoutDuration);
         }
 
         const algorithmSearchDisplayButton = document.querySelector("#algorithmSearchDisplay");
