@@ -14,12 +14,12 @@
         // See https://varsubham.medium.com/maze-path-finding-using-dfs-e9c5fa14106f 
         public List<MazeCell> FindValidPath()
         {
-            double delay = 0.1d; // for the display mapping - Don't like mixing it here but not sure how to avoid it
             var startingCell = _maze.StartCell;
             Stack<MazeCell> path = new Stack<MazeCell>();
             path.Push(startingCell);
             startingCell.Traversed = true;
             var currentCell = startingCell;
+            double delay = 0.1d; // for the display mapping - Don't like mixing it here, make method later with instance var
 
             while (currentCell != _maze.EndCell)
             {
@@ -33,9 +33,7 @@
                     delay += 0.01; // I like adding this extra delay, makes transition smoother when moving to another search branch
                 }
 
-                MazeCell nextCell = new MazeCell();
-
-                if (IsMovePossible(currentCell, out nextCell))
+                if (IsMovePossible(currentCell, out MazeCell? nextCell))
                 {
                     currentCell = nextCell;
                     currentCell.Traversed = true;
@@ -70,7 +68,7 @@
             }
         }
 
-        private bool IsMovePossible(MazeCell currentCell, out MazeCell nextCell)
+        private bool IsMovePossible(MazeCell currentCell, out MazeCell? nextCell)
         {
             // Check if we can move to neighbour cells & if they are untraversed
             foreach (MazeCell neighbourCell in currentCell.Neighbours)

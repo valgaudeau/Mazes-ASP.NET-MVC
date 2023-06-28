@@ -3,6 +3,8 @@ using MazeMvcApp.Models.MazeGenerationAlgos;
 using MazeMvcApp.Models.MazeSolverAlgos;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net;
+using System.Reflection;
 
 namespace MazeMvcApp.Controllers
 {
@@ -62,17 +64,29 @@ namespace MazeMvcApp.Controllers
             // I would like to store the scroll position so page reloads on same position even if it hits controller
             // TempData["ScrollPosition"] = Request["scrollPosition"];
 
-            if(selectedAlgorithm == "dfs")
+            if(selectedAlgorithm == "DFS")
             {
                 // do nothing since this is what we've got implemented by default
                 IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
                 _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
                 return RedirectToAction(nameof(Index));
             }
-            else if(selectedAlgorithm == "bfs")
+            else if(selectedAlgorithm == "BFS")
             {
                 IMazeSolver mazeSolver = new BreadthFirstSearch(_maze);
                 // This shouldn't be in the loop, fix it later not sure how tho
+                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                return RedirectToAction(nameof(Index));
+            }
+            else if(selectedAlgorithm == "bidir-DFS")
+            {
+                IMazeSolver mazeSolver = new BiDirectionalDFS(_maze);
+                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                return RedirectToAction(nameof(Index));
+            }
+            else if (selectedAlgorithm == "bidir-BFS")
+            {
+                IMazeSolver mazeSolver = new BiDirectionalBFS(_maze);
                 _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
                 return RedirectToAction(nameof(Index));
             }

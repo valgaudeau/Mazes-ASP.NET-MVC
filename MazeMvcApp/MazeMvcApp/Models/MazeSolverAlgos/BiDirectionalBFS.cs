@@ -1,11 +1,11 @@
 ﻿namespace MazeMvcApp.Models.MazeSolverAlgos
 {
-    public class BreadthFirstSearch : IMazeSolver
+    public class BiDirectionalBFS : IMazeSolver
     {
         private readonly Maze _maze;
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
 
-        public BreadthFirstSearch(Maze maze)
+        public BiDirectionalBFS(Maze maze)
         {
             _maze = maze;
         }
@@ -13,12 +13,12 @@
         // Return ordered list of cells that represent a valid path through the Maze
         public List<MazeCell> FindValidPath()
         {
+            double delay = 0.1d;
             var startingCell = _maze.StartCell;
             Queue<MazeCell> path = new();
             path.Enqueue(startingCell);
             startingCell.Traversed = true;
             var currentCell = startingCell;
-            double delay = 0.1d;
 
             while (currentCell != _maze.EndCell)
             {
@@ -42,7 +42,9 @@
                     }
                 }
 
-                if (IsMovePossible(currentCell, out MazeCell? nextCell))
+                MazeCell nextCell = new MazeCell();
+
+                if (IsMovePossible(currentCell, out nextCell))
                 {
                     currentCell = nextCell;
                     currentCell.Traversed = true;
@@ -88,6 +90,5 @@
             nextCell = null;
             return false;
         }
-
     }
 }
