@@ -58,6 +58,7 @@
             }
 
             List<MazeCell> result = new List<MazeCell>(path);
+            _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             _maze.UntraverseAllCells();
 
             return result;
