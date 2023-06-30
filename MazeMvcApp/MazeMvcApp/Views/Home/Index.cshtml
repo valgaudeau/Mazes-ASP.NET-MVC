@@ -99,6 +99,29 @@
             display: flex;
         }
 
+        .maze-cell
+        {
+            position: relative;
+            height: 20px;
+            width: 20px;
+        }
+
+        /* for the css transition used in valid path display */
+        .transformed-state-validPath 
+        {
+            background-color: #00ffa1 !important;
+            transition-property: background-color, transform;
+            transition-timing-function: linear;
+            transition-duration: 3s;
+        }
+
+        /* for the css transition used in the algorithm search display */
+        .transformed-state-algorithmSearchDisplay 
+        {
+            background-color: pink !important;
+            transition-property: background-color, transform;
+        }
+
         .button 
         {
             display: inline-block;
@@ -187,29 +210,6 @@
            color: #000;
            text-decoration: none;
            cursor: pointer;
-        }
-
-        /* for the css transition used in valid path display */
-        .transformed-state-validPath 
-        {
-            background-color: #00ffa1 !important;
-            transition-property: background-color, transform;
-            transition-timing-function: linear;
-            transition-duration: 3s;
-        }
-
-         /* for the css transition used in the algorithm search display */
-        .transformed-state-algorithmSearchDisplay 
-        {
-            background-color: pink !important;
-            transition-property: background-color, transform;
-        }
-
-        .maze-cell
-        {
-            position: relative;
-            height: 20px;
-            width: 20px;
         }
 
     </style>
