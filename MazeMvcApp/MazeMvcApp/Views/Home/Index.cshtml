@@ -29,7 +29,6 @@
 
         h1 
         {
-            color: #4b0082;
             text-align: center;
             margin-top: 15px;
         }
@@ -129,9 +128,10 @@
             background-color: #4b0082;
             color: #fff;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 7px;
             margin-right: 20px;
             width: 140px;
+            box-shadow: 3px 3px 4px #bbb
         }
 
         .button:hover
@@ -144,19 +144,10 @@
             width: 70px;
         }
 
-         #appTutorial
-         {
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: bold;
-            margin: auto;
-        }
-
         #open-modal-btn 
         {
-           color: blue;
-           text-decoration: underline;
+           background-color: lightgreen;
+           border-radius: 50%;
            cursor: pointer;
            font-weight: bold;
            margin: auto;
@@ -228,7 +219,7 @@
 
         <div class="card-body">
             <!-- Button to open the modal -->
-            <a id="open-modal-btn">TUTORIAL</a>
+            <button id="open-modal-btn">?</button>
 
             <!-- The modal -->
             <div id="modal" class="modal">
@@ -249,12 +240,12 @@
                 <div class="form-group">
                     <!-- The value="Model.NRow" is to display last entered value -->
                     <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
-                     <label class="form-label">Number of Rows (3 - 60)</label>
+                     <label class="form-label">Rows (3 to 100 cells)</label>
                 </div>
 
                 <div class="form-group">
                     <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
-                    <label class="form-label">Number of Columns (3 - 60) </label>
+                    <label class="form-label">Columns (3 to 100 cells) </label>
                 </div>
 
                 <div class="form-group">
@@ -280,7 +271,7 @@
             <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
               <select id="dropdown" name="selectedAlgorithm">
                 <option value="DFS">Depth-First Search</option>
-                <option value="BFS">Breadth-First Search</option>
+                <option value="BFS" selected>Breadth-First Search</option>
                 <option value="bidir-BFS">Bi-Directional Breadth-First Search</option>
                 <option value="bidir-DFS">Bi-Directional Depth-First Search</option>
                 <option value="aStar">A*</option>
