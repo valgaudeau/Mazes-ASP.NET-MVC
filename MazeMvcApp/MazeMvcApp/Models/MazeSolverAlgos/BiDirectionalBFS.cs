@@ -4,8 +4,8 @@
     {
         private readonly Maze _maze;
         public List<MazeCell> ValidPath { get; set; } = new List<MazeCell>();
-        public Stack<MazeCell> PathTopStart { get; set; } = new Stack<MazeCell>();
-        public Stack<MazeCell> PathBottomStart { get; set; } = new Stack<MazeCell>();
+        public Queue<MazeCell> PathTopStart { get; set; } = new Queue<MazeCell>();
+        public Queue<MazeCell> PathBottomStart { get; set; } = new Queue<MazeCell>();
         public Queue<MazeCell> VisitedCellsTopPath { get; set; } = new Queue<MazeCell>();
         public Queue<MazeCell> VisitedCellsBottomPath { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
@@ -20,72 +20,88 @@
             MazeCell startCellTopPath = _maze.StartCell;
             MazeCell startCellBottomPath = _maze.EndCell;
 
-            PathTopStart.Push(startCellTopPath);
-            PathBottomStart.Push(startCellBottomPath);
+            PathTopStart.Enqueue(startCellTopPath);
+            PathBottomStart.Enqueue(startCellBottomPath);
             VisitedCellsTopPath.Enqueue(startCellTopPath);
             VisitedCellsBottomPath.Enqueue(startCellBottomPath);
 
-            MazeCell currentCellTopPath = startCellTopPath;
-            MazeCell currentCellBottomPath = startCellBottomPath;
+            MazeCell topPathCurrentCell = startCellTopPath;
+            MazeCell bottomPathPathCurrentCell = startCellBottomPath;
             bool turn = true; // true for topStart's turn, false for bottomStart
 
             double delay = 0.1d;
-            AlgorithmDisplayMap.Add(currentCellTopPath, delay);
-            AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
+            AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
+            AlgorithmDisplayMap.Add(bottomPathPathCurrentCell, delay);
             delay += 0.02;
 
             while (!IsIntersecting(out MazeCell? intCell))
             {
+                // So that I don't get stuck, I need to Enqueue all neighbours of current node before further processing
+                foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
+                {
+                    if ((!VisitedCellsTopPath.Contains(neighbourCell)) && (topPathCurrentCell.IsConnectedTo(neighbourCell)))
+                    {
+                        PathTopStart.Enqueue(neighbourCell);
+                    }
+                }
+
+                foreach (MazeCell neighbourCell in bottomPathPathCurrentCell.Neighbours)
+                {
+                    if ((!VisitedCellsBottomPath.Contains(neighbourCell)) && (bottomPathPathCurrentCell.IsConnectedTo(neighbourCell)))
+                    {
+                        PathBottomStart.Enqueue(neighbourCell);
+                    }
+                }
+
                 if (turn == true)
                 {
-                    if (IsMovePossible(currentCellTopPath, turn, out MazeCell? nextCell))
+                    if (IsMovePossible(topPathCurrentCell, turn, out MazeCell? nextCell))
                     {
-                        currentCellTopPath = nextCell;
-                        PathTopStart.Push(currentCellTopPath);
-                        VisitedCellsTopPath.Enqueue(currentCellTopPath);
+                        topPathCurrentCell = nextCell;
+                        PathTopStart.Enqueue(topPathCurrentCell);
+                        VisitedCellsTopPath.Enqueue(topPathCurrentCell);
                         turn = false;
                     }
                     else
                     {
-                        PathTopStart.Pop();
-                        currentCellTopPath = PathTopStart.Peek();
+                        PathTopStart.Dequeue();
+                        topPathCurrentCell = PathTopStart.Peek();
                     }
                 }
 
                 if (turn == false)
                 {
-                    if (IsMovePossible(currentCellBottomPath, turn, out MazeCell? nextCell))
+                    if (IsMovePossible(bottomPathPathCurrentCell, turn, out MazeCell? nextCell))
                     {
-                        currentCellBottomPath = nextCell;
-                        PathBottomStart.Push(currentCellBottomPath);
-                        VisitedCellsBottomPath.Enqueue(currentCellBottomPath);
+                        bottomPathPathCurrentCell = nextCell;
+                        PathBottomStart.Enqueue(bottomPathPathCurrentCell);
+                        VisitedCellsBottomPath.Enqueue(bottomPathPathCurrentCell);
                         turn = true;
                     }
                     else
                     {
-                        PathBottomStart.Pop();
-                        currentCellBottomPath = PathBottomStart.Peek();
+                        PathBottomStart.Dequeue();
+                        bottomPathPathCurrentCell = PathBottomStart.Peek();
                     }
                 }
 
                 // This needs to be here for Bi-dir, not at the top, otherwise the last
                 // added cell does not get included in the display mapping
                 // Also not adding extra delays between branch swaps for BiDir
-                if (!AlgorithmDisplayMap.ContainsKey(currentCellTopPath))
+                if (!AlgorithmDisplayMap.ContainsKey(topPathCurrentCell))
                 {
-                    AlgorithmDisplayMap.Add(currentCellTopPath, delay);
+                    AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
                 }
 
-                if (!AlgorithmDisplayMap.ContainsKey(currentCellBottomPath))
+                if (!AlgorithmDisplayMap.ContainsKey(bottomPathPathCurrentCell))
                 {
-                    AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
+                    AlgorithmDisplayMap.Add(bottomPathPathCurrentCell, delay);
                 }
 
                 delay += 0.02;
             }
 
             ValidPath = new List<MazeCell>(PathTopStart.Union(PathBottomStart));
-            ValidPath.Reverse(); // reverse because path is a stack
             _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             _maze.PopulateFinalDisplayTimer();
 
