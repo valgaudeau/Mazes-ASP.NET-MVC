@@ -17,8 +17,6 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             _maze = maze;
         }
 
-        // Return ordered list of cells that represent a valid path through the Maze
-        // See https://varsubham.medium.com/maze-path-finding-using-dfs-e9c5fa14106f 
         public List<MazeCell> FindValidPath()
         {
             MazeCell startCellTopPath = _maze.StartCell;

@@ -12,7 +12,6 @@
             _maze = maze;
         }
 
-        // Return ordered list of cells that represent a valid path through the Maze
         public List<MazeCell> FindValidPath()
         {
             var startingCell = _maze.StartCell;

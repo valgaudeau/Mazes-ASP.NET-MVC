@@ -57,46 +57,15 @@ namespace MazeMvcApp.Controllers
         {
             // I would like to store the scroll position so page reloads on same position even if it hits controller
             // TempData["ScrollPosition"] = Request["scrollPosition"];
+            IMazeSolver mazeSolver;
 
-            if(selectedAlgorithm == "DFS")
-            {
-                // do nothing since this is what we've got implemented by default
-                IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
-                mazeSolver.FindValidPath();
-                return RedirectToAction(nameof(Index));
-            }
-            else if(selectedAlgorithm == "BFS")
-            {
-                IMazeSolver mazeSolver = new BreadthFirstSearch(_maze);
-                // This shouldn't be in the loop, fix it later not sure how tho
-                mazeSolver.FindValidPath();
-                return RedirectToAction(nameof(Index));
-            }
-            else if(selectedAlgorithm == "bidir-DFS")
-            {
-                IMazeSolver mazeSolver = new BiDirectionalDFS(_maze);
-                mazeSolver.FindValidPath();
-                return RedirectToAction(nameof(Index));
-            }
-            else if (selectedAlgorithm == "bidir-BFS")
-            {
-                /*
-                IMazeSolver mazeSolver = new BiDirectionalBFS(_maze);
-                mazeSolver.FindValidPath();
-                return RedirectToAction(nameof(Index));
-                */
-            }
-            else if (selectedAlgorithm == "aStar")
-            {
-                // IMazeSolver mazeSolver = new AStarSearch(_maze);
-            }
+            mazeSolver = selectedAlgorithm == "DFS" ? new DepthFirstSearch(_maze)
+                       : selectedAlgorithm == "BFS" ? new BreadthFirstSearch(_maze)
+                       : selectedAlgorithm == "bidir-DFS" ? new BiDirectionalDFS(_maze)
+                       : selectedAlgorithm == "bidir-BFS" ? new BiDirectionalBFS(_maze)
+                       : new DepthFirstSearch(_maze); // default
 
-            // _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
-            // _maze.UntraverseAllCells();
-
-            // May want to change how I'm displaying valid path & algorithm at work, meaning not creating new class for
-            // validPath and algorithmDisplay, but instead just in the cell
-
+            mazeSolver.FindValidPath();
             return RedirectToAction(nameof(Index));
         }
 
