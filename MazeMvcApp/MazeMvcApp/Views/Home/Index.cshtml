@@ -247,12 +247,13 @@
             <!-- Home is the controller, asp-action is the method -->
             <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                 <div class="form-group">
-                    <input name="nRow" type="number" class="form-control" />
+                    <!-- The value="Model.NRow" is to display last entered value -->
+                    <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
                      <label class="form-label">Number of Rows (3 - 60)</label>
                 </div>
 
                 <div class="form-group">
-                    <input name="nCol" type="number" class="form-control" />
+                    <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
                     <label class="form-label">Number of Columns (3 - 60) </label>
                 </div>
 

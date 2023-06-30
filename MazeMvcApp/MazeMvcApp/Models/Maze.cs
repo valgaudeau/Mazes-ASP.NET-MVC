@@ -6,8 +6,8 @@
 
         // See https://stackoverflow.com/questions/3917796/how-to-implement-a-read-only-property
         // Goal here was avoiding anyone changing NRow or NCol after Maze creation
-        public int NRow { get; set; } = 1;
-        public int NCol { get; set; } = 1;
+        public int NRow { get; set; } = 0;
+        public int NCol { get; set; } = 0;
         public MazeCell StartCell { get; set; }
         public MazeCell EndCell { get; set; }
         public bool IsSolved { get; set; } = false;
