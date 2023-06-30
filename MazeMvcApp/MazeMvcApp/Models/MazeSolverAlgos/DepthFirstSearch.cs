@@ -3,6 +3,9 @@
     public class DepthFirstSearch : IMazeSolver
     {
         private readonly Maze _maze;
+        public Stack<MazeCell> ValidPath { get; set; } = new Stack<MazeCell>();
+        // Make VisitedCells a Queue so I can populate AlgorithmDisplayMap AFTER FindValidPath
+        public Queue<MazeCell> VisitedCells { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
 
         public DepthFirstSearch(Maze maze)
@@ -15,58 +18,56 @@
         public List<MazeCell> FindValidPath()
         {
             var startingCell = _maze.StartCell;
-            Stack<MazeCell> path = new Stack<MazeCell>();
-            path.Push(startingCell);
-            startingCell.Traversed = true;
+
+            ValidPath.Push(startingCell);
+            VisitedCells.Enqueue(startingCell);
+
             var currentCell = startingCell;
-            double delay = 0.1d; // for the display mapping - Don't like mixing it here, make method later with instance var
 
             while (currentCell != _maze.EndCell)
             {
-                if(!AlgorithmDisplayMap.ContainsKey(currentCell))
-                {
-                    AlgorithmDisplayMap.Add(currentCell, delay);
-                    delay += 0.02;
-                }
-                else
-                {
-                    delay += 0.01; // I like adding this extra delay, makes transition smoother when moving to another search branch
-                }
-
                 if (IsMovePossible(currentCell, out MazeCell? nextCell))
                 {
                     currentCell = nextCell;
-                    currentCell.Traversed = true;
-                    path.Push(currentCell);
+                    ValidPath.Push(currentCell);
+                    VisitedCells.Enqueue(currentCell);
                 }
                 else
                 {
-                    path.Pop();
-                    currentCell = path.Peek();
+                    ValidPath.Pop();
+                    currentCell = ValidPath.Peek();
                 }
             }
 
-            List<MazeCell> result = new List<MazeCell>(path);
+            List<MazeCell> result = new List<MazeCell>(ValidPath);
             result.Reverse(); // reverse because path is a stack
-            // We need this to reset all cells to untraversed once we've found valid path as we may want to apply different
-            // search algorithms on the same maze for display algorithm purposes and need cells to be untraversed for it to work
-            _maze.UntraverseAllCells();
-            _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
+            MapAlgorithmDisplay();
+
             _maze.PopulateFinalDisplayTimer();
 
             return result;
         }
 
-        public Dictionary<MazeCell, double> GetAlgorithmSearchDisplayMap()
+        private void MapAlgorithmDisplay()
         {
-            if(AlgorithmDisplayMap.Count > 1) // check if dictionary already populated
+            if(AlgorithmDisplayMap.Count == 0)
             {
-                return AlgorithmDisplayMap;
-            }
-            else
-            {
-                FindValidPath();
-                return AlgorithmDisplayMap;
+                double delay = 0.1d;
+
+                // Should be ordered the way I want since its a Queue
+                foreach (MazeCell cell in VisitedCells)
+                {
+                    if (!AlgorithmDisplayMap.ContainsKey(cell))
+                    {
+                        AlgorithmDisplayMap.Add(cell, delay);
+                        delay += 0.02;
+                    }
+                    else
+                    {
+                        delay += 0.01; // adding this extra delay makes branch transitions smoother
+                    }
+                }
+                _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             }
         }
 
@@ -75,7 +76,7 @@
             // Check if we can move to neighbour cells & if they are untraversed
             foreach (MazeCell neighbourCell in currentCell.Neighbours)
             {
-                if ((!neighbourCell.Traversed) && (currentCell.IsConnectedTo(neighbourCell)))
+                if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
                 {
                     nextCell = neighbourCell;
                     return true;

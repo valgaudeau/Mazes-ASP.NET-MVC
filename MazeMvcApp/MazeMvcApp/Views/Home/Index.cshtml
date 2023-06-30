@@ -459,7 +459,7 @@
             // Its hard to see the actual path through the maze (particularly when its Bi-Directional cases)
             // after the algorithm stops working. That's why I SolveMazeFunc() here.
             let timeout;
-            let timeoutDuration = @Model.FinalDisplayTimer * 1000 + 500;
+            let timeoutDuration = @Model.FinalDisplayTimer * 1000 + 250;
             timeout = setTimeout(solveMazeFunc, timeoutDuration);
         }
 

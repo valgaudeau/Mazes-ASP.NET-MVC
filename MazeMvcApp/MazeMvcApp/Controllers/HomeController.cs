@@ -42,13 +42,7 @@ namespace MazeMvcApp.Controllers
             List<MazeCell> validPath = mazeSolver.FindValidPath();
             _maze.ValidPath = validPath;
             _maze.IsSolved = true;
-            _maze.UntraverseAllCells();
-
             _maze.MapDisplayDelay();
-
-            // I'm thinking it makes sense to have it by default, because the user would be confused why he can displayed a valid path
-            // after creating maze but pressing display algorithm working doesn't do anything (since he knows it has already run)
-            _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
 
             return RedirectToAction(nameof(Index));
         }
@@ -68,26 +62,26 @@ namespace MazeMvcApp.Controllers
             {
                 // do nothing since this is what we've got implemented by default
                 IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
-                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                mazeSolver.FindValidPath();
                 return RedirectToAction(nameof(Index));
             }
             else if(selectedAlgorithm == "BFS")
             {
                 IMazeSolver mazeSolver = new BreadthFirstSearch(_maze);
                 // This shouldn't be in the loop, fix it later not sure how tho
-                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                mazeSolver.FindValidPath();
                 return RedirectToAction(nameof(Index));
             }
             else if(selectedAlgorithm == "bidir-DFS")
             {
                 IMazeSolver mazeSolver = new BiDirectionalDFS(_maze);
-                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                mazeSolver.FindValidPath();
                 return RedirectToAction(nameof(Index));
             }
             else if (selectedAlgorithm == "bidir-BFS")
             {
                 IMazeSolver mazeSolver = new BiDirectionalBFS(_maze);
-                _maze.AlgorithmDisplayMap = mazeSolver.GetAlgorithmSearchDisplayMap();
+                mazeSolver.FindValidPath();
                 return RedirectToAction(nameof(Index));
             }
             else if (selectedAlgorithm == "aStar")
