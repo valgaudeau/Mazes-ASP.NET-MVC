@@ -47,6 +47,21 @@
             return result;
         }
 
+        private bool IsMovePossible(MazeCell currentCell, out MazeCell? nextCell)
+        {
+            // Check if we can move to neighbour cells & if they are untraversed
+            foreach (MazeCell neighbourCell in currentCell.Neighbours)
+            {
+                if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
+                {
+                    nextCell = neighbourCell;
+                    return true;
+                }
+            }
+            nextCell = null;
+            return false;
+        }
+
         private void MapAlgorithmDisplay()
         {
             if(AlgorithmDisplayMap.Count == 0)
@@ -68,21 +83,6 @@
                 }
                 _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             }
-        }
-
-        private bool IsMovePossible(MazeCell currentCell, out MazeCell? nextCell)
-        {
-            // Check if we can move to neighbour cells & if they are untraversed
-            foreach (MazeCell neighbourCell in currentCell.Neighbours)
-            {
-                if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
-                {
-                    nextCell = neighbourCell;
-                    return true;
-                }
-            }
-            nextCell = null;
-            return false;
         }
 
     }

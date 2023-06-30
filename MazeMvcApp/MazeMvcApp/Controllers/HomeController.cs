@@ -80,9 +80,11 @@ namespace MazeMvcApp.Controllers
             }
             else if (selectedAlgorithm == "bidir-BFS")
             {
+                /*
                 IMazeSolver mazeSolver = new BiDirectionalBFS(_maze);
                 mazeSolver.FindValidPath();
                 return RedirectToAction(nameof(Index));
+                */
             }
             else if (selectedAlgorithm == "aStar")
             {

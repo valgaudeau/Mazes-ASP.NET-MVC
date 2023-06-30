@@ -5,6 +5,11 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
     public class BiDirectionalDFS : IMazeSolver
     {
         private readonly Maze _maze;
+        public List<MazeCell> ValidPath { get; set; } = new List<MazeCell>();
+        public Stack<MazeCell> PathTopStart { get; set; } = new Stack<MazeCell>();
+        public Stack<MazeCell> PathBottomStart { get; set; } = new Stack<MazeCell>();
+        public Queue<MazeCell> VisitedCellsTopPath { get; set; } = new Queue<MazeCell>();
+        public Queue<MazeCell> VisitedCellsBottomPath { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
 
         public BiDirectionalDFS(Maze maze)
@@ -19,23 +24,57 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             MazeCell startCellTopPath = _maze.StartCell;
             MazeCell startCellBottomPath = _maze.EndCell;
 
-            Stack<MazeCell> pathTopStart = new Stack<MazeCell>();
-            Stack<MazeCell> pathBottomStart = new Stack<MazeCell>();
-
-            pathTopStart.Push(startCellTopPath);
-            pathBottomStart.Push(startCellBottomPath);
-
-            startCellTopPath.Traversed = true;
-            startCellBottomPath.Traversed = true;
+            PathTopStart.Push(startCellTopPath);
+            PathBottomStart.Push(startCellBottomPath);
+            VisitedCellsTopPath.Enqueue(startCellTopPath);
+            VisitedCellsBottomPath.Enqueue(startCellBottomPath);
 
             MazeCell currentCellTopPath = startCellTopPath;
             MazeCell currentCellBottomPath = startCellBottomPath;
             bool turn = true; // true for topStart's turn, false for bottomStart
-            double delay = 0.1d; // for the display mapping - Don't like mixing it here, make method later with instance var
 
-            while (!IsIntersecting(pathTopStart, pathBottomStart, out MazeCell? intCell))
+            double delay = 0.1d;
+            AlgorithmDisplayMap.Add(currentCellTopPath, delay);
+            AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
+            delay += 0.02;
+
+            while (!IsIntersecting(out MazeCell? intCell))
             {
-                // Don't add extra delays for Bi-Directional if it does ContainsKey
+                if (turn == true)
+                {
+                    if (IsMovePossible(currentCellTopPath, turn, out MazeCell? nextCell))
+                    {
+                        currentCellTopPath = nextCell;
+                        PathTopStart.Push(currentCellTopPath);
+                        VisitedCellsTopPath.Enqueue(currentCellTopPath);
+                        turn = false;
+                    }
+                    else
+                    {
+                        PathTopStart.Pop();
+                        currentCellTopPath = PathTopStart.Peek();
+                    }
+                }
+                
+                if(turn == false)
+                {
+                    if (IsMovePossible(currentCellBottomPath, turn, out MazeCell? nextCell))
+                    {
+                        currentCellBottomPath = nextCell;
+                        PathBottomStart.Push(currentCellBottomPath);
+                        VisitedCellsBottomPath.Enqueue(currentCellBottomPath);
+                        turn = true;
+                    }
+                    else
+                    {
+                        PathBottomStart.Pop();
+                        currentCellBottomPath = PathBottomStart.Peek();
+                    }
+                }
+
+                // This needs to be here for Bi-dir, not at the top, otherwise the last
+                // added cell does not get included in the display mapping
+                // Also not adding extra delays between branch swaps for BiDir
                 if (!AlgorithmDisplayMap.ContainsKey(currentCellTopPath))
                 {
                     AlgorithmDisplayMap.Add(currentCellTopPath, delay);
@@ -46,77 +85,22 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
                     AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
                 }
 
-                if(turn == true)
-                {
-                    if (IsMovePossible(currentCellTopPath, out MazeCell? nextCell))
-                    {
-                        currentCellTopPath = nextCell;
-                        currentCellTopPath.Traversed = true;
-                        pathTopStart.Push(currentCellTopPath);
-                        turn = false;
-                    }
-                    else
-                    {
-                        pathTopStart.Pop();
-                        currentCellTopPath = pathTopStart.Peek();
-                    }
-                }
-                
-                if(turn == false)
-                {
-                    if (IsMovePossible(currentCellBottomPath, out MazeCell? nextCell))
-                    {
-                        currentCellBottomPath = nextCell;
-                        currentCellBottomPath.Traversed = true;
-                        pathBottomStart.Push(currentCellBottomPath);
-                        turn = true;
-                    }
-                    else
-                    {
-                        pathBottomStart.Pop();
-                        currentCellBottomPath = pathBottomStart.Peek();
-                    }
-                }
                 delay += 0.02;
             }
 
-            // Need to add this here for now since intersectionCell gets popped off stack
-            // Very ugly, will need to refactor all this
-            if(IsIntersecting(pathTopStart, pathBottomStart, out MazeCell? intersectionCell))
-            {
-                if(!AlgorithmDisplayMap.ContainsKey(intersectionCell))
-                {
-					AlgorithmDisplayMap.Add(intersectionCell, delay);
-				}
-			}
+            ValidPath = new List<MazeCell>(PathTopStart.Union(PathBottomStart));
+            ValidPath.Reverse(); // reverse because path is a stack
+            _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
 
-			List<MazeCell> result = new List<MazeCell>(pathTopStart.Union(pathBottomStart));
-            result.Reverse(); // reverse because path is a stack
-            _maze.UntraverseAllCells();
-            _maze.PopulateFinalDisplayTimer();
-
-            return result;
+            return ValidPath;
         }
 
-        public Dictionary<MazeCell, double> GetAlgorithmSearchDisplayMap()
-        {
-            if (AlgorithmDisplayMap.Count > 1) // check if dictionary already populated
-            {
-                return AlgorithmDisplayMap;
-            }
-            else
-            {
-                FindValidPath();
-                return AlgorithmDisplayMap;
-            }
-        }
-
-        private bool IsIntersecting(Stack<MazeCell> pathTopStart, Stack<MazeCell> pathBottomStart, out MazeCell? intersectionCell)
+        private bool IsIntersecting(out MazeCell? intersectionCell)
         {
             // Careful here that if I manipulate the stacks, it will affect the actual references used 
-            // Maybe create 2 new objects
-            MazeCell[] pathTopStartArr = pathTopStart.ToArray();
-            MazeCell[] pathBottomStartArr = pathBottomStart.ToArray();
+            // Using Paths not VisitedCells because we know there is only 1 valid path through the maze
+            MazeCell[] pathTopStartArr = PathTopStart.ToArray();
+            MazeCell[] pathBottomStartArr = PathBottomStart.ToArray();
             
             foreach(MazeCell topPathCell in pathTopStartArr)
             {
@@ -138,12 +122,15 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             return false;
         }
 
-        private bool IsMovePossible(MazeCell currentCell, out MazeCell? nextCell)
+        private bool IsMovePossible(MazeCell currentCell, bool turn, out MazeCell? nextCell)
         {
-            // Check if we can move to neighbour cells & if they are untraversed
+            // For Bi-Directional algo, I also need to tell the function which path is making the call
+            // so that I can use the correct VisitedCells(Top/Bottom)Path check
+            var VisitedCellsToCheck = turn == true ? VisitedCellsTopPath : VisitedCellsBottomPath;
+
             foreach (MazeCell neighbourCell in currentCell.Neighbours)
             {
-                if ((!neighbourCell.Traversed) && (currentCell.IsConnectedTo(neighbourCell)))
+                if ((!VisitedCellsToCheck.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
                 {
                     nextCell = neighbourCell;
                     return true;
