@@ -91,6 +91,7 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             ValidPath = new List<MazeCell>(PathTopStart.Union(PathBottomStart));
             ValidPath.Reverse(); // reverse because path is a stack
             _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
+            _maze.PopulateFinalDisplayTimer();
 
             return ValidPath;
         }

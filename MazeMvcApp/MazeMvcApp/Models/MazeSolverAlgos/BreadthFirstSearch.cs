@@ -28,7 +28,7 @@
                 // See Obsidian notes for why this algo was getting stuck sometimes compared to DFS
                 foreach (MazeCell neighbourCell in currentCell.Neighbours)
                 {
-                    if ((!neighbourCell.Traversed) && (currentCell.IsConnectedTo(neighbourCell)))
+                    if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
                     {
                         ValidPath.Enqueue(neighbourCell);
                     }

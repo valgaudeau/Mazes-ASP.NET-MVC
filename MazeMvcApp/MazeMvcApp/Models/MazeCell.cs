@@ -15,10 +15,6 @@
         public List<MazeCell> Neighbours { get; set; } = new();
         // Use RandomizedNeighbours in Hunt & Kill to avoid generating similar mazes
         public List<MazeCell> RandomizedNeighbours { get; set; } = new();
-
-        // flag when using IMazeSolver implementation
-        public bool Traversed { get; set; } = false;
-
         // flag when using IMazeGenerator implementation
         public bool Visited { get; private set; } = false;
 
