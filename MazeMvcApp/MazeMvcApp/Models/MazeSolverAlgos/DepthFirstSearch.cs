@@ -42,7 +42,6 @@
             List<MazeCell> result = new List<MazeCell>(ValidPath);
             result.Reverse(); // reverse because path is a stack
             MapAlgorithmDisplay();
-
             _maze.PopulateFinalDisplayTimer();
 
             return result;

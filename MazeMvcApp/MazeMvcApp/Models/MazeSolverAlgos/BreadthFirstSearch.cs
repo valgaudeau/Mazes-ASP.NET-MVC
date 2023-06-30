@@ -3,6 +3,8 @@
     public class BreadthFirstSearch : IMazeSolver
     {
         private readonly Maze _maze;
+        public Queue<MazeCell> ValidPath { get; set; } = new Queue<MazeCell>();
+        public Queue<MazeCell> VisitedCells { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
 
         public BreadthFirstSearch(Maze maze)
@@ -14,65 +16,64 @@
         public List<MazeCell> FindValidPath()
         {
             var startingCell = _maze.StartCell;
-            Queue<MazeCell> path = new();
-            path.Enqueue(startingCell);
-            startingCell.Traversed = true;
+
+            ValidPath.Enqueue(startingCell);
+            VisitedCells.Enqueue(startingCell);
+
             var currentCell = startingCell;
-            double delay = 0.1d;
 
             while (currentCell != _maze.EndCell)
             {
-                if (!AlgorithmDisplayMap.ContainsKey(currentCell))
-                {
-                    AlgorithmDisplayMap.Add(currentCell, delay);
-                    delay += 0.02;
-                }
-                else
-                {
-                    delay += 0.01;
-                }
-
                 // So that I don't get stuck, I need to Enqueue all neighbours of current node before further processing
                 // See Obsidian notes for why this algo was getting stuck sometimes compared to DFS
                 foreach (MazeCell neighbourCell in currentCell.Neighbours)
                 {
                     if ((!neighbourCell.Traversed) && (currentCell.IsConnectedTo(neighbourCell)))
                     {
-                        path.Enqueue(neighbourCell);
+                        ValidPath.Enqueue(neighbourCell);
                     }
                 }
 
                 if (IsMovePossible(currentCell, out MazeCell? nextCell))
                 {
                     currentCell = nextCell;
-                    currentCell.Traversed = true;
-                    path.Enqueue(currentCell);
+                    ValidPath.Enqueue(currentCell);
+                    VisitedCells.Enqueue(currentCell);
                 }
                 else
                 {
-                    path.Dequeue();
-                    currentCell = path.Peek();
+                    ValidPath.Dequeue();
+                    currentCell = ValidPath.Peek();
                 }
             }
 
-            List<MazeCell> result = new List<MazeCell>(path);
-            _maze.UntraverseAllCells();
-            _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
+            List<MazeCell> result = new List<MazeCell>(ValidPath);
+            MapAlgorithmDisplay();
             _maze.PopulateFinalDisplayTimer();
 
             return result;
         }
 
-        public Dictionary<MazeCell, double> GetAlgorithmSearchDisplayMap()
+        private void MapAlgorithmDisplay()
         {
-            if (AlgorithmDisplayMap.Count > 1) // check if dictionary already populated
+            if (AlgorithmDisplayMap.Count == 0)
             {
-                return AlgorithmDisplayMap;
-            }
-            else
-            {
-                FindValidPath();
-                return AlgorithmDisplayMap;
+                double delay = 0.1d;
+
+                // Should be ordered the way I want since its a Queue
+                foreach (MazeCell cell in VisitedCells)
+                {
+                    if (!AlgorithmDisplayMap.ContainsKey(cell))
+                    {
+                        AlgorithmDisplayMap.Add(cell, delay);
+                        delay += 0.02;
+                    }
+                    else
+                    {
+                        delay += 0.01; // adding this extra delay makes branch transitions smoother
+                    }
+                }
+                _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             }
         }
 
@@ -81,7 +82,7 @@
             // Check if we can move to neighbour cells & if they are untraversed
             foreach (MazeCell neighbourCell in currentCell.Neighbours)
             {
-                if ((!neighbourCell.Traversed) && (currentCell.IsConnectedTo(neighbourCell)))
+                if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
                 {
                     nextCell = neighbourCell;
                     return true;
