@@ -42,6 +42,12 @@
             box-shadow: rgba(136, 165, 191, 1) 5px 2px 5px 0px;
         }
 
+        .card-body
+        {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         /* Added .card selector so that this should just affect the h2 and h4 for the pop-up */
         .card h2 
         {
@@ -130,7 +136,7 @@
         .button 
         {
             display: inline-block;
-            padding: 10px 10px;
+            padding: 8px 8px;
             background-color: #4b0082;
             color: #fff;
             text-decoration: none;
@@ -148,7 +154,7 @@
         .green-button 
         {
             display: inline-block;
-            padding: 10px 10px;
+            padding: 7px 7px;
             background-color: #038503;
             color: #fff;
             text-decoration: none;
@@ -166,7 +172,7 @@
         .red-button 
         {
             display: inline-block;
-            padding: 10px 10px;
+            padding: 7px 7px;
             background-color: #bd0f0f;
             color: #fff;
             text-decoration: none;
@@ -277,42 +283,34 @@
               </div>
             </div>
 
-            <div class="generate-and-ClearMaze">
+            <!-- <div class="generate-and-ClearMaze"> -->
                 <!-- Home is the controller, asp-action is the method -->
-                <form asp-controller="Home" asp-action="GenerateMaze" method="post">
-                    <div class="form-group">
-                        <!-- The value="Model.NRow" is to display last entered value -->
-                        <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
-                         <label class="form-label">Rows (3 to 100 cells)</label>
-                    </div>
+            <form asp-controller="Home" asp-action="GenerateMaze" method="post">
+                <div class="form-group">
+                    <!-- The value="Model.NRow" is to display last entered value -->
+                    <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
+                        <label class="form-label">Rows (3 to 100 cells)</label>
+                </div>
 
-                    <div class="form-group">
-                        <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
-                        <label class="form-label">Columns (3 to 100 cells) </label>
-                    </div>
+                <div class="form-group">
+                    <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
+                    <label class="form-label">Columns (3 to 100 cells) </label>
+                </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="green-button">Create Maze</button>
-                    </div>
-                </form>
+                <div class="form-group">
+                    <button type="submit" class="green-button">Create Maze</button>
+                    @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
+                    {
+                        <button class="red-button" type="submit">Clear Maze</button>
+                    }
+                </div>
+            </form>
+            <!-- </div> -->
 
-                @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
-                {
-                    <button class="red-button" type="submit">Clear Maze</button>
-                }
-            </div>
-
-            <!-- If I put these buttons in the form an error happens, something to do with submit I think -->
+            <!-- If I put these buttons in the form an error happens -->
             <div class="form-group">
                 <button id="solveMaze" class="green-button">Display Path</button>
                 <button id="clearPath" class="red-button">Clear Path</button>
-            </div>
-
-            <div class="form-group">
-                @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
-                {
-                    <button class="red-button" type="submit">Clear Maze</button>
-                }
             </div>
 
             <button id="algorithmSearchDisplay" class="button">Show Algorithm</button>
