@@ -29,6 +29,10 @@
 
         h1 
         {
+            font-size: 50px;
+            font-weight: 300;
+            color: #89fcff;
+            text-shadow: 0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3;
             text-align: center;
             margin-top: 15px;
         }
@@ -36,7 +40,7 @@
         /* margin:auto; horizontally centers the card even as the maze width increases */
         .card 
         {
-            background-color: snow;
+            background-color: white;
             width: 420px;
             margin: auto;
             box-shadow: rgba(136, 165, 191, 1) 5px 2px 5px 0px;
@@ -129,7 +133,7 @@
         /* for the css transition used in the algorithm search display */
         .transformed-state-algorithmSearchDisplay 
         {
-            background-color: pink !important;
+            background-color: #8989ff !important;
             transition-property: background-color, transform;
         }
 
@@ -151,40 +155,44 @@
             background-color: #800080;
         }
 
-        .green-button 
+        .purple-button 
         {
             display: inline-block;
             padding: 7px 7px;
-            background-color: #038503;
+            background-color: #8989ff;
             color: #fff;
             text-decoration: none;
             border-radius: 7px;
             margin-right: 20px;
             width: 140px;
-            box-shadow: 3px 3px 4px #bbb
+            box-shadow: 3px 3px 4px #bbb;
+            transition: transform 0.3s;
         }
 
-        .green-button:hover
+        .purple-button:hover
         {
-            background-color: #07e107;
+            transform: scale(1.1);
+            background-color: #aa74d2;
         }
 
-        .red-button 
+        .dark-button 
         {
             display: inline-block;
             padding: 7px 7px;
-            background-color: #bd0f0f;
+            background-color: black;
             color: #fff;
             text-decoration: none;
             border-radius: 7px;
             margin-right: 20px;
             width: 140px;
-            box-shadow: 3px 3px 4px #bbb
+            box-shadow: 3px 3px 4px #bbb;
+            transition: transform 0.3s;
         }
 
-        .red-button:hover
+        .dark-button:hover
         {
-            background-color: #FF0000;
+            transform: scale(1.1);
+            background-color: #333;
         }
 
         .form-control 
@@ -194,7 +202,7 @@
 
         #open-modal-btn 
         {
-           background-color: lightgreen;
+           background-color: #89fcff;
            border-radius: 50%;
            cursor: pointer;
            font-weight: bold;
@@ -298,10 +306,10 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="green-button">Create Maze</button>
+                    <button type="submit" class="purple-button">Create Maze</button>
                     @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
                     {
-                        <button class="red-button" type="submit">Clear Maze</button>
+                        <button class="dark-button" type="submit">Clear Maze</button>
                     }
                 </div>
             </form>
@@ -309,22 +317,22 @@
 
             <!-- If I put these buttons in the form an error happens -->
             <div class="form-group">
-                <button id="solveMaze" class="green-button">Display Path</button>
-                <button id="clearPath" class="red-button">Clear Path</button>
+                <button id="solveMaze" class="purple-button">Display Path</button>
+                <button id="clearPath" class="dark-button">Clear Path</button>
             </div>
-
-            <button id="algorithmSearchDisplay" class="button">Show Algorithm</button>
 
             <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
               <select id="dropdown" name="selectedAlgorithm">
-                <option value="DFS">Depth-First Search</option>
-                <option value="BFS" selected>Breadth-First Search</option>
-                <option value="bidir-BFS">Bi-Directional Breadth-First Search</option>
-                <option value="bidir-DFS">Bi-Directional Depth-First Search</option>
+                <option value="DFS" selected>Depth-First Search</option>
+                <option value="BFS">Breadth-First Search</option>
+                <option value="bidir-DFS">Bi-Directional DFS</option>
+                <option value="bidir-BFS">Bi-Directional BFS</option>
                 <option value="aStar">A*</option>
               </select>
               <button type="submit">Confirm</button>
             </form>
+
+            <button id="algorithmSearchDisplay" class="button">Show Algorithm</button>
 
         </div>
     </div>
