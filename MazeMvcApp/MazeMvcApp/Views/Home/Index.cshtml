@@ -27,8 +27,6 @@
             padding: 20px;
         }
 
-        
-
         h1 
         {
             font-size: 50px;
@@ -40,6 +38,18 @@
             margin-top: 15px;
         }
 
+        .card-header
+        {
+            display: flex;
+        }
+
+        .modal-container
+        {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+              
         /* margin:auto; horizontally centers the card even as the maze width increases */
         .card 
         {
@@ -47,6 +57,27 @@
             width: 420px;
             margin: auto;
             box-shadow: rgba(136, 165, 191, 1) 5px 2px 5px 0px;
+            display: flex;
+        }
+
+        .card-vertical-split
+        {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left-half 
+        {
+            flex-grow: 1;
+            height: 100%;
+            width: 50%;
+        }
+
+        .right-half 
+        {
+            flex-grow: 1;
+            height: 100%;
+            width: 50%;
         }
 
         .card-body
@@ -73,12 +104,6 @@
         .card p 
         {
             margin-left: 17px;
-        }
-
-        .generate-and-ClearMaze
-        {
-            display: flex;
-            justify-content: center;
         }
 
         .form-group 
@@ -158,7 +183,7 @@
             background-color: #800080;
         }
 
-        .purple-button 
+        .light-purple-buttons
         {
             display: inline-block;
             padding: 7px 7px;
@@ -173,17 +198,17 @@
             transition: transform 0.3s;
         }
 
-        .purple-button:hover
+        .light-purple-buttons:hover
         {
             transform: scale(1.1);
             background-color: #aa74d2;
         }
 
-        .dark-button 
+        .dark-purple-buttons
         {
             display: inline-block;
             padding: 7px 7px;
-            background-color: black;
+            background-color: #4b0082;
             color: #fff;
             font-weight: bold;
             text-decoration: none;
@@ -194,10 +219,10 @@
             transition: transform 0.3s;
         }
 
-        .dark-button:hover
+        .dark-purple-buttons:hover
         {
             transform: scale(1.1);
-            background-color: #333;
+            background-color: #800080;
         }
 
         .form-control 
@@ -207,7 +232,8 @@
 
         #open-modal-btn 
         {
-           background-color: #89fcff;
+           color: white;
+           background-color: black;
            border-radius: 50%;
            cursor: pointer;
            font-weight: bold;
@@ -276,68 +302,78 @@
             <h1>
                 Maze Generator
             </h1>
+
+            <div class="modal-container">
+                <!-- Button to open the modal -->
+                <button id="open-modal-btn">?</button>
+                <!-- The modal -->
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                    <span id="close-modal-btn">&times;</span>
+                    <!-- Keep these empty, populate with JS -->
+                    <h2></h2>
+                    <p></p>
+                    <h4></h4>
+                    <ul id="modal-list"></ul>
+                    <button id="prev-btn">Previous</button>
+                    <button id="next-btn">Next</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="card-body">
-            <!-- Button to open the modal -->
-            <button id="open-modal-btn">?</button>
 
-            <!-- The modal -->
-            <div id="modal" class="modal">
-              <div class="modal-content">
-                <span id="close-modal-btn">&times;</span>
-                <!-- Keep these empty, populate with JS -->
-                <h2></h2>
-                <p></p>
-                <h4></h4>
-                <ul id="modal-list"></ul>
-                <button id="prev-btn">Previous</button>
-                <button id="next-btn">Next</button>
-              </div>
-            </div>
+            <div class="card-vertical-split">
+                <div class="left-half">
+                    <!-- Home is the controller, asp-action is the method -->
+                    <form asp-controller="Home" asp-action="GenerateMaze" method="post">
+                        <div class="form-group">
+                            <!-- The value="Model.NRow" is to display last entered value -->
+                            <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
+                        </div>
 
-            <!-- <div class="generate-and-ClearMaze"> -->
-                <!-- Home is the controller, asp-action is the method -->
-            <form asp-controller="Home" asp-action="GenerateMaze" method="post">
-                <div class="form-group">
-                    <!-- The value="Model.NRow" is to display last entered value -->
-                    <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
-                        <label class="form-label">Rows (3 to 100 cells)</label>
+                        <div class="form-group">
+                            <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="light-purple-buttons">Create Maze</button>
+
+                        </div>
+                    </form>
+
+                    <button id="solveMaze" class="light-purple-buttons">Display Path</button>
+
+                    <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
+                      <select id="dropdown" name="selectedAlgorithm">
+                        <option value="DFS" selected>Depth-First Search</option>
+                        <option value="BFS">Breadth-First Search</option>
+                        <option value="bidir-DFS">Bi-Directional DFS</option>
+                        <option value="bidir-BFS">Bi-Directional BFS</option>
+                        <option value="aStar">A*</option>
+                      </select>
+                      <button type="submit">Confirm</button>
+                    </form>
                 </div>
 
-                <div class="form-group">
-                    <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
+                <div class="right-half">
+                    <label class="form-label">Rows (3 to 100 cells)</label>
                     <label class="form-label">Columns (3 to 100 cells) </label>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="purple-button">Create Maze</button>
+                    
                     @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
                     {
-                        <button class="dark-button" type="submit">Clear Maze</button>
+                        <button class="dark-purple-buttons" type="submit">Clear Maze</button>
                     }
+
+                    <div class="form-group">
+                        <button id="clearPath" class="dark-purple-buttons">Clear Path</button>
+                    </div>
+
+                    <button id="algorithmSearchDisplay" class="light-purple-buttons">Show Algorithm</button>
                 </div>
-            </form>
-            <!-- </div> -->
-
-            <!-- If I put these buttons in the form an error happens -->
-            <div class="form-group">
-                <button id="solveMaze" class="purple-button">Display Path</button>
-                <button id="clearPath" class="dark-button">Clear Path</button>
             </div>
-
-            <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
-              <select id="dropdown" name="selectedAlgorithm">
-                <option value="DFS" selected>Depth-First Search</option>
-                <option value="BFS">Breadth-First Search</option>
-                <option value="bidir-DFS">Bi-Directional DFS</option>
-                <option value="bidir-BFS">Bi-Directional BFS</option>
-                <option value="aStar">A*</option>
-              </select>
-              <button type="submit">Confirm</button>
-            </form>
-
-            <button id="algorithmSearchDisplay" class="button">Show Algorithm</button>
 
         </div>
     </div>
