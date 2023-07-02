@@ -43,11 +43,58 @@
             display: flex;
         }
 
+        #open-modal-btn 
+        {
+           color: white;
+           background-color: midnightblue;
+           border-radius: 50%;
+           cursor: pointer;
+           font-weight: bold;
+           margin: auto;
+        }
+
+        #close-modal-btn
+        {
+           float: right;
+           font-size: 28px;
+           font-weight: bold;
+           cursor: pointer;
+        }
+
         .modal-container
         {
             position: absolute;
             top: 10px;
             right: 10px;
+        }
+
+        .modal 
+        {
+           display: none; /* Hidden by default */
+           position: fixed; /* Fixed position */
+           z-index: 1; /* Place the modal popup on top of other elements */
+           left: 0;
+           top: 0;
+           width: 100%;
+           height: 100%;
+           overflow: auto; /* Enable scrolling if needed */
+           background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+        }
+
+        .modal-content 
+        {
+           display: block;
+           background-color: #fefefe;
+           margin: 10% auto; /* Centered vertically and horizontally */
+           padding: 20px;
+           border: 1px solid #888;
+           max-width: 550px;
+           border-radius: 10px;
+        }
+
+        #prev-btn 
+        {
+           margin-left: 17px;
         }
               
         /* margin:auto; horizontally centers the card even as the maze width increases */
@@ -225,56 +272,30 @@
             background-color: #800080;
         }
 
+        #algorithmSearchDisplay
+        {
+            display: inline-block;
+            padding: 7px 7px;
+            background-color: #f3bb24;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 7px;
+            margin-right: 20px;
+            width: 140px;
+            box-shadow: 3px 3px 4px #bbb;
+            transition: transform 0.3s;
+        }
+
+        #algorithmSearchDisplay:hover
+        {
+            transform: scale(1.1);
+            background-color: #c6870a;
+        }
+
         .form-control 
         {
             width: 70px;
-        }
-
-        #open-modal-btn 
-        {
-           color: white;
-           background-color: black;
-           border-radius: 50%;
-           cursor: pointer;
-           font-weight: bold;
-           margin: auto;
-        }
-
-        #close-modal-btn
-        {
-           float: right;
-           font-size: 28px;
-           font-weight: bold;
-           cursor: pointer;
-        }
-
-        .modal 
-        {
-           display: none; /* Hidden by default */
-           position: fixed; /* Fixed position */
-           z-index: 1; /* Place the modal popup on top of other elements */
-           left: 0;
-           top: 0;
-           width: 100%; /* Full width */
-           height: 100%; /* Full height */
-           overflow: auto; /* Enable scrolling if needed */
-           background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
-        }
-
-        .modal-content 
-        {
-           display: block;
-           background-color: #fefefe;
-           margin: 10% auto; /* Centered vertically and horizontally */
-           padding: 20px;
-           border: 1px solid #888;
-           max-width: 550px;
-           border-radius: 10px;
-        }
-
-        #prev-btn 
-        {
-           margin-left: 17px;
         }
 
         .maze-cell:hover 
@@ -371,7 +392,7 @@
                         <button id="clearPath" class="dark-purple-buttons">Clear Path</button>
                     </div>
 
-                    <button id="algorithmSearchDisplay" class="light-purple-buttons">Show Algorithm</button>
+                    <button id="algorithmSearchDisplay">Show Algorithm</button>
                 </div>
             </div>
 
