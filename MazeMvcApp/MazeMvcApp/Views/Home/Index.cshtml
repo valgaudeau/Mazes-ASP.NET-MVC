@@ -118,6 +118,7 @@
             flex-grow: 1;
             height: 100%;
             width: 50%;
+            text-align: right;
         }
 
         .right-half 
@@ -125,6 +126,7 @@
             flex-grow: 1;
             height: 100%;
             width: 50%;
+            text-align: left;
         }
 
         .card-body
@@ -155,7 +157,6 @@
 
         .form-group 
         {
-            display: flex;
             align-items: center;
             margin-top: 12px;
             margin-bottom: 15px;
@@ -164,8 +165,29 @@
         .form-label 
         {
             font-weight: bold;
-            margin-left: 12px;
             margin-bottom: 0px;
+            padding: .375rem .75rem;
+        }
+
+        .form-control 
+        {
+            display: inline-flex;
+            width: 70px;
+        }
+
+        /* only way I found of adding margin to NRow and NCol input boxes is by adding these invisible elements
+           which is displayed inline-flex to the right of the input boxes.
+        */
+        .invisible-element
+        {
+            display: inline-flex;
+            width: 19px;
+        }
+
+        #dropdown
+        {
+            margin-top: 12px;
+            margin-right: 20px;
         }
 
         .maze-container 
@@ -221,7 +243,7 @@
             text-decoration: none;
             border-radius: 7px;
             margin-right: 20px;
-            width: 140px;
+            width: 145px;
             box-shadow: 3px 3px 4px #bbb
         }
 
@@ -240,7 +262,7 @@
             text-decoration: none;
             border-radius: 7px;
             margin-right: 20px;
-            width: 140px;
+            width: 145px;
             box-shadow: 3px 3px 4px #bbb;
             transition: transform 0.3s;
         }
@@ -261,7 +283,7 @@
             text-decoration: none;
             border-radius: 7px;
             margin-right: 20px;
-            width: 140px;
+            width: 145px;
             box-shadow: 3px 3px 4px #bbb;
             transition: transform 0.3s;
         }
@@ -270,6 +292,17 @@
         {
             transform: scale(1.1);
             background-color: #800080;
+        }
+
+        .clear-maze
+        {
+            margin-top: 3px;
+        }
+
+        #confirm-btn
+        {
+            margin-top: 3px;
+            margin-right: 20px;
         }
 
         #algorithmSearchDisplay
@@ -282,7 +315,7 @@
             text-decoration: none;
             border-radius: 7px;
             margin-right: 20px;
-            width: 140px;
+            width: 145px;
             box-shadow: 3px 3px 4px #bbb;
             transition: transform 0.3s;
         }
@@ -291,11 +324,6 @@
         {
             transform: scale(1.1);
             background-color: #c6870a;
-        }
-
-        .form-control 
-        {
-            width: 70px;
         }
 
         .maze-cell:hover 
@@ -347,16 +375,21 @@
         <div class="card-body">
 
             <div class="card-vertical-split">
+
                 <div class="left-half">
                     <!-- Home is the controller, asp-action is the method -->
                     <form asp-controller="Home" asp-action="GenerateMaze" method="post">
                         <div class="form-group">
                             <!-- The value="Model.NRow" is to display last entered value -->
                             <input name="nRow" type="number" class="form-control" value="@Model.NRow"/>
+                            <div class="invisible-element">
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <input name="nCol" type="number" class="form-control" value="@Model.NCol"/>
+                            <div class="invisible-element">
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -375,18 +408,26 @@
                         <option value="bidir-BFS">Bi-Directional BFS</option>
                         <option value="aStar">A*</option>
                       </select>
-                      <button type="submit">Confirm</button>
+                      <button type="submit" id="confirm-btn">Confirm</button>
                     </form>
                 </div>
-
+                
                 <div class="right-half">
-                    <label class="form-label">Rows (3 to 100 cells)</label>
-                    <label class="form-label">Columns (3 to 100 cells) </label>
+                    <div class="form">
+                        <div class="form-group">
+                            <label class="form-label">Rows (3 - 100)</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Columns (3 - 100) </label>
+                        </div>
                     
-                    @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
-                    {
-                        <button class="dark-purple-buttons" type="submit">Clear Maze</button>
-                    }
+                        <div class="form-group">
+                            @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
+                            {
+                                <button class="dark-purple-buttons clear-maze" type="submit">Clear Maze</button>
+                            }
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <button id="clearPath" class="dark-purple-buttons">Clear Path</button>
