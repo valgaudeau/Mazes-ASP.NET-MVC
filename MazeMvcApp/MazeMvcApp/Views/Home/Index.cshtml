@@ -453,35 +453,24 @@
                             <!-- Added space between maze-cell and coords-y etc because I needed to select the cells in js -->
                             <div class="maze-cell coords-y@(i)x@(j)">
 
-                                @if(@Model.Cells[i][j] == @Model.StartCell) 
+                                @if(@Model.Cells[i][j].TopEdge == true)
                                 {
-                                    <style> .coords-y@(i)x@(j) { background-color: green; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-top: 1.5px solid black; } </style>
                                 }
 
-                                @if(@Model.Cells[i][j] == @Model.EndCell) 
+                                @if(@Model.Cells[i][j].LeftEdge == true)
                                 {
-                                    <style> .coords-y@(i)x@(j) { background-color: red; } </style>
-                                }
-
-                                @if(@Model.Cells[i][j].DisplayTopEdge == true)
-                                {
-                                    <style> .coords-y@(i)x@(j) { border-top: 3px solid black; } </style>
-                                }
-
-                                <!-- Note that we only still need this for when x == 0 as for every other case its false -->
-                                @if(@Model.Cells[i][j].DisplayLeftEdge == true)
-                                {
-                                    <style> .coords-y@(i)x@(j) { border-left: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-left: 1.5px solid black; } </style>
                                 }
 
                                 @if (@Model.Cells[i][j].BottomEdge == true)
                                 {
-                                    <style> .coords-y@(i)x@(j) { border-bottom: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-bottom: 1.5px solid black; } </style>
                                 }
 
                                 @if (@Model.Cells[i][j].RightEdge == true)
                                 {
-                                    <style> .coords-y@(i)x@(j) { border-right: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-right: 1.5px solid black; } </style>
                                 }
 
                                 <!-- All edges open -->
@@ -491,6 +480,46 @@
                                  && (@Model.Cells[i][j].RightEdge == false))
                                 {
                                     <style> .coords-y@(i)x@(j) { } </style>
+                                }
+
+                                @if(i == 0)
+                                {
+                                    <style> .coords-y@(i)x@(j) { border-top: 3px solid black; } </style>
+                                }
+
+                                @if(i == @Model.NRow - 1)
+                                {
+                                    <style> .coords-y@(i)x@(j) { border-bottom: 3px solid black; } </style>
+                                }
+
+                                @if(j == 0)
+                                {
+                                    <style> .coords-y@(i)x@(j) { border-left: 3px solid black; } </style>
+                                }
+
+                                @if(j == @Model.NCol - 1)
+                                {
+                                    <style> .coords-y@(i)x@(j) { border-right: 3px solid black; } </style>
+                                }
+
+                                @if(@Model.Cells[i][j] == @Model.StartCell) 
+                                {
+                                    <style> .coords-y@(i)x@(j) 
+                                    { 
+                                        border-top: none;
+                                        background-color: #96f796; 
+                                    } 
+                                    </style>
+                                }
+
+                                @if(@Model.Cells[i][j] == @Model.EndCell) 
+                                {
+                                    <style> .coords-y@(i)x@(j) 
+                                    { 
+                                        background-color: #ee8a8a; 
+                                        border-bottom: none;
+                                    } 
+                                    </style>
                                 }
 
                                 <!-- Display algorithm working -->
