@@ -36,7 +36,7 @@ namespace MazeMvcApp.Controllers
             // Create perfect maze
             IMazeGenerator mazeGenerator = new HuntAndKill(_maze);
             mazeGenerator.GenerateMaze();
-            _maze.MapEdgeDisplays();
+            // _maze.MapEdgeDisplays();
 
             IMazeSolver mazeSolver = new DepthFirstSearch(_maze);
             List<MazeCell> validPath = mazeSolver.FindValidPath();

@@ -232,7 +232,8 @@
         /* for the css transition used in valid path display */
         .transformed-state-validPath 
         {
-            background-color: #00ffa1 !important;
+            /* background-color: #00ffa1 !important; */
+            background-color: #f4e345 !important;
             transition-property: background-color, transform;
             transition-timing-function: linear;
             transition-duration: 3s;
@@ -482,26 +483,28 @@
                                     <style> .coords-y@(i)x@(j) { } </style>
                                 }
 
+                                <!-- Apply special styling for maze borders -->
                                 @if(i == 0)
                                 {
-                                    <style> .coords-y@(i)x@(j) { border-top: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-top: 2.5px solid black; } </style>
                                 }
 
                                 @if(i == @Model.NRow - 1)
                                 {
-                                    <style> .coords-y@(i)x@(j) { border-bottom: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-bottom: 2.5px solid black; } </style>
                                 }
 
                                 @if(j == 0)
                                 {
-                                    <style> .coords-y@(i)x@(j) { border-left: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-left: 2.5px solid black; } </style>
                                 }
 
                                 @if(j == @Model.NCol - 1)
                                 {
-                                    <style> .coords-y@(i)x@(j) { border-right: 3px solid black; } </style>
+                                    <style> .coords-y@(i)x@(j) { border-right: 2.5px solid black; } </style>
                                 }
 
+                                <!-- Have to put this at the end so it overwrites previous styling -->
                                 @if(@Model.Cells[i][j] == @Model.StartCell) 
                                 {
                                     <style> .coords-y@(i)x@(j) 
