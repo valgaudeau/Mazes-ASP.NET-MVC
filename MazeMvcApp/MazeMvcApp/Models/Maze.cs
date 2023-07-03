@@ -78,17 +78,43 @@
                     currentCell.DisplayTopEdge = currentCell.TopEdge;
                     currentCell.DisplayLeftEdge = currentCell.LeftEdge;
 
+                    // The cell above displays its bottom edge, so don't display top edge for currentCell
+                    // Remember that currentCell.TopEdge will match cellAbove.BottomEdge value
                     if (currentCell.Y > 0 && currentCell.TopEdge == true)
                     {
                         currentCell.DisplayTopEdge = false;
                     }
 
+                    // The cell to the left displays its right edge, so don't display top edge for currentCell
                     if (currentCell.X > 0 && currentCell.LeftEdge == true)
                     {
                         currentCell.DisplayLeftEdge = false;
                     }
                 }
             }
+
+            /*
+            // Code here is to correct the "breaks"
+            // For the rule we're using, check Obsidian notes
+            // Refactor later, this is a quickfix
+            for (int i = 1; i < NRow; i++)
+            {
+                for (int j = 1; j < NCol; j++)
+                {
+                    MazeCell currentCell = Cells[i][j];
+                    MazeCell topNeighbour = currentCell.Neighbours.FirstOrDefault(cell => cell.Y == currentCell.Y - 1);
+                    MazeCell leftNeighbour = currentCell.Neighbours.FirstOrDefault(cell => cell.X == currentCell.X - 1);
+
+                    if ( ((currentCell.DisplayLeftEdge == true) || (leftNeighbour.RightEdge == true)) 
+                        && (topNeighbour.BottomEdge == true) )
+                    {
+                        topNeighbour.DisplayBottomEdge = false;
+                        currentCell.DisplayTopEdge = true;
+                    }
+
+                }
+            }*/
+
         }
 
         public void MapDisplayDelay()

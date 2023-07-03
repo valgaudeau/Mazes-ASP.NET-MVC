@@ -473,14 +473,6 @@
                                     <style> .coords-y@(i)x@(j) { border-left: 3px solid black; } </style>
                                 }
 
-                                @if((@Model.Cells[i][j].DisplayTopEdge == false)
-                                 && (@Model.Cells[i][j].DisplayLeftEdge == false) 
-                                 && (@Model.Cells[i][j].BottomEdge == false)
-                                 && (@Model.Cells[i][j].RightEdge == false))
-                                {
-                                    <style> .coords-y@(i)x@(j) { } </style>
-                                }
-
                                 @if (@Model.Cells[i][j].BottomEdge == true)
                                 {
                                     <style> .coords-y@(i)x@(j) { border-bottom: 3px solid black; } </style>
