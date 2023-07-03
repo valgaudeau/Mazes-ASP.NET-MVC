@@ -166,7 +166,9 @@
         {
             font-weight: bold;
             margin-bottom: 0px;
-            padding: .375rem .75rem;
+            padding-top: 0.6rem;
+            padding-left: 0.3rem;
+            padding-bottom: 0.14rem;
         }
 
         .form-control 
@@ -186,8 +188,15 @@
 
         #dropdown
         {
-            margin-top: 12px;
+            width: 150px;
+            margin-top: 18px;
             margin-right: 20px;
+            margin-bottom: 5px;
+            padding: 10px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 3px 3px 4px #bbb;
         }
 
         .maze-container 
@@ -237,29 +246,10 @@
         .button 
         {
             display: inline-block;
-            padding: 8px 8px;
-            background-color: #4b0082;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 7px;
-            margin-right: 20px;
-            width: 145px;
-            box-shadow: 3px 3px 4px #bbb
-        }
-
-        .button:hover
-        {
-            background-color: #800080;
-        }
-
-        .light-purple-buttons
-        {
-            display: inline-block;
             padding: 7px 7px;
-            background-color: #8989ff;
-            color: #fff;
             font-weight: bold;
             text-decoration: none;
+            border: 2px solid #000;
             border-radius: 7px;
             margin-right: 20px;
             width: 145px;
@@ -267,28 +257,25 @@
             transition: transform 0.3s;
         }
 
-        .light-purple-buttons:hover
+        .light-purple-btns
+        {
+            background-color: #8989ff;
+            color: #fff;
+        }
+
+        .light-purple-btns:hover
         {
             transform: scale(1.1);
             background-color: #aa74d2;
         }
 
-        .dark-purple-buttons
+        .dark-purple-btns
         {
-            display: inline-block;
-            padding: 7px 7px;
             background-color: #4b0082;
             color: #fff;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 7px;
-            margin-right: 20px;
-            width: 145px;
-            box-shadow: 3px 3px 4px #bbb;
-            transition: transform 0.3s;
         }
 
-        .dark-purple-buttons:hover
+        .dark-purple-btns:hover
         {
             transform: scale(1.1);
             background-color: #800080;
@@ -303,6 +290,8 @@
         {
             margin-top: 3px;
             margin-right: 20px;
+            border-radius: 6px;
+            box-shadow: 3px 3px 4px #bbb;
         }
 
         #algorithmSearchDisplay
@@ -393,12 +382,12 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="light-purple-buttons">Create Maze</button>
+                            <button type="submit" class="button light-purple-btns">Create Maze</button>
 
                         </div>
                     </form>
 
-                    <button id="solveMaze" class="light-purple-buttons">Display Path</button>
+                    <button id="solveMaze" class="button light-purple-btns">Display Path</button>
 
                     <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
                       <select id="dropdown" name="selectedAlgorithm">
@@ -413,24 +402,23 @@
                 </div>
                 
                 <div class="right-half">
-                    <div class="form">
-                        <div class="form-group">
-                            <label class="form-label">Rows (3 - 100)</label>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Columns (3 - 100) </label>
-                        </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Rows (3 - 100)</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Columns (3 - 100) </label>
+                    </div>
                     
-                        <div class="form-group">
-                            @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
-                            {
-                                <button class="dark-purple-buttons clear-maze" type="submit">Clear Maze</button>
-                            }
-                        </div>
+                    <div class="form-group">
+                        @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
+                        {
+                            <button class="button dark-purple-btns clear-maze" type="submit">Clear Maze</button>
+                        }
                     </div>
 
                     <div class="form-group">
-                        <button id="clearPath" class="dark-purple-buttons">Clear Path</button>
+                        <button id="clearPath" class="button dark-purple-btns">Clear Path</button>
                     </div>
 
                     <button id="algorithmSearchDisplay">Show Algorithm</button>
