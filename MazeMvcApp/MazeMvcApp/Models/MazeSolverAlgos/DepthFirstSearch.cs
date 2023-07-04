@@ -4,7 +4,7 @@
     {
         private readonly Maze _maze;
         public Stack<MazeCell> ValidPath { get; set; } = new Stack<MazeCell>();
-        // Make VisitedCells a Queue so I can populate AlgorithmDisplayMap AFTER FindValidPath
+        // Make VisitedCells a Queue so I can easily populate AlgorithmDisplayMap AFTER FindValidPath
         public Queue<MazeCell> VisitedCells { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
 

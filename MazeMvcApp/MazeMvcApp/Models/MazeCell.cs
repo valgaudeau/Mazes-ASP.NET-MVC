@@ -7,8 +7,6 @@
         public bool LeftEdge { get; set; } = true;
         public bool RightEdge { get; set; } = true;
         public bool BottomEdge { get; set; } = true;
-        public bool DisplayTopEdge { get; set; } = true;
-        public bool DisplayLeftEdge { get; set; } = true;
         public int X { get; set; }
         public int Y { get; set; }
         // Use Neighbours in Pathfinding Algorithms to have always the same search behaviour

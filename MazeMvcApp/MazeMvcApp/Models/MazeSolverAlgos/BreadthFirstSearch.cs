@@ -27,9 +27,12 @@
                 // See Obsidian notes for why this algo was getting stuck sometimes compared to DFS
                 foreach (MazeCell neighbourCell in currentCell.Neighbours)
                 {
-                    if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
+                    if ( (!VisitedCells.Contains(neighbourCell)) 
+                        && (currentCell.IsConnectedTo(neighbourCell)) 
+                        && (!ValidPath.Contains(neighbourCell)) )
                     {
                         ValidPath.Enqueue(neighbourCell);
+                        VisitedCells.Enqueue((neighbourCell));
                     }
                 }
 
@@ -79,7 +82,7 @@
                     if (!AlgorithmDisplayMap.ContainsKey(cell))
                     {
                         AlgorithmDisplayMap.Add(cell, delay);
-                        delay += 0.02;
+                        delay += 0.1;
                     }
                     else
                     {

@@ -404,7 +404,7 @@
                         <option value="BFS">Breadth-First Search</option>
                         <option value="bidir-DFS">Bi-Directional DFS</option>
                         <option value="bidir-BFS">Bi-Directional BFS</option>
-                        <option value="aStar">A*</option>
+                        <option value="dijkstra">Dijkstra's</option>
                       </select>
                       <button type="submit" id="confirm-btn">Confirm</button>
                     </form>
@@ -446,10 +446,6 @@
                     <div class="maze-row">
                         @for (int j = 0; j < @Model.NCol; j++)
                         {
-                            <!-- This is to make cell height & width a percentage of table row / col -->
-                            double a = 100 / @Model.NCol;
-                            string a2 = a.ToString() + '%';
-
                             <!-- creating new class for each cell -->
                             <!-- Added space between maze-cell and coords-y etc because I needed to select the cells in js -->
                             <div class="maze-cell coords-y@(i)x@(j)">
