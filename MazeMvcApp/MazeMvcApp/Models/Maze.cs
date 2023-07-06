@@ -98,6 +98,7 @@
             // MazeCell leftNeighbour = currentCell.Neighbours.FirstOrDefault(cell => cell.X == currentCell.X - 1);
         }*/
 
+        // MapDisplayDelay is for the css transition delay mapping of the valid path display
         public void MapDisplayDelay()
         {
             double delay = 0.1d;

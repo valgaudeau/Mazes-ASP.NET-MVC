@@ -66,7 +66,8 @@ namespace MazeMvcApp.Controllers
                        : new DepthFirstSearch(_maze); // default
 
             _maze.ValidPath = mazeSolver.FindValidPath();
-            _maze.MapDisplayDelay();
+            // MapDisplayDelay() if you want to test the valid path of your IMazeSolver
+            // _maze.MapDisplayDelay();
             return RedirectToAction(nameof(Index));
         }
 

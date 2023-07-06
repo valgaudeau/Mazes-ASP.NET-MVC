@@ -33,14 +33,14 @@
                 foreach (MazeCell neighbourCell in currentCell.Neighbours)
                 {
                     if ( (!_cellCameFrom.ContainsKey(neighbourCell))
-                        && (currentCell.IsConnectedTo(neighbourCell)) )
+                      && (currentCell.IsConnectedTo(neighbourCell)) )
                     {
                         _cellCameFrom[neighbourCell] = currentCell;
                         queue.Enqueue(neighbourCell);
 
                         if(!VisitedCells.Contains(neighbourCell))
                         {
-                            VisitedCells.Enqueue((neighbourCell));
+                            VisitedCells.Enqueue(neighbourCell);
                         }
                     }
                 }
@@ -52,7 +52,7 @@
 
                     if (!VisitedCells.Contains(currentCell))
                     {
-                        VisitedCells.Enqueue((currentCell));
+                        VisitedCells.Enqueue(currentCell);
                     }
                 }
                 else

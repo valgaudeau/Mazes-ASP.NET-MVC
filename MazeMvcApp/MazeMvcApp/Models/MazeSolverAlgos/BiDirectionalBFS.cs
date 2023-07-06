@@ -4,11 +4,12 @@
     {
         private readonly Maze _maze;
         public List<MazeCell> ValidPath { get; set; } = new List<MazeCell>();
-        public Queue<MazeCell> PathTopStart { get; set; } = new Queue<MazeCell>();
-        public Queue<MazeCell> PathBottomStart { get; set; } = new Queue<MazeCell>();
         public Queue<MazeCell> VisitedCellsTopPath { get; set; } = new Queue<MazeCell>();
         public Queue<MazeCell> VisitedCellsBottomPath { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
+        private Dictionary<MazeCell, MazeCell> _cellCameFromTop = new Dictionary<MazeCell, MazeCell>();
+        private Dictionary<MazeCell, MazeCell> _cellCameFromBottom = new Dictionary<MazeCell, MazeCell>();
+        private MazeCell _intersectionCell;
 
         public BiDirectionalBFS(Maze maze)
         {
@@ -17,91 +18,108 @@
 
         public List<MazeCell> FindValidPath()
         {
-            MazeCell startCellTopPath = _maze.StartCell;
-            MazeCell startCellBottomPath = _maze.EndCell;
+            var startCellTopPath = _maze.StartCell;
+            var startCellBottomPath = _maze.EndCell;
 
-            PathTopStart.Enqueue(startCellTopPath);
-            PathBottomStart.Enqueue(startCellBottomPath);
+            _cellCameFromTop[startCellTopPath] = null;
+            Queue<MazeCell> topQueue = new Queue<MazeCell>();
+            Queue<MazeCell> bottomQueue = new Queue<MazeCell>();
+
+            topQueue.Enqueue(startCellTopPath);
+            bottomQueue.Enqueue(startCellBottomPath);
             VisitedCellsTopPath.Enqueue(startCellTopPath);
             VisitedCellsBottomPath.Enqueue(startCellBottomPath);
 
             MazeCell topPathCurrentCell = startCellTopPath;
-            MazeCell bottomPathPathCurrentCell = startCellBottomPath;
-            bool turn = true; // true for topStart's turn, false for bottomStart
+            MazeCell bottomPathCurrentCell = startCellBottomPath;
 
             double delay = 0.1d;
             AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
-            AlgorithmDisplayMap.Add(bottomPathPathCurrentCell, delay);
+            AlgorithmDisplayMap.Add(bottomPathCurrentCell, delay);
             delay += 0.02;
 
-            while (!IsIntersecting(out MazeCell? intCell))
+            bool turn = true; // true for topStart's turn, false for bottomStart
+
+            while (true)
             {
-                // So that I don't get stuck, I need to Enqueue all neighbours of current node before further processing
-                foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
+                if(!IsIntersecting(out MazeCell? intersectionCell))
                 {
-                    if ((!VisitedCellsTopPath.Contains(neighbourCell)) && (topPathCurrentCell.IsConnectedTo(neighbourCell)))
+                    foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
                     {
-                        PathTopStart.Enqueue(neighbourCell);
-                    }
-                }
+                        if ((!_cellCameFromTop.ContainsKey(neighbourCell))
+                         && (topPathCurrentCell.IsConnectedTo(neighbourCell)) )
+                        {
+                            _cellCameFromTop[neighbourCell] = topPathCurrentCell;
+                            topQueue.Enqueue(neighbourCell);
 
-                foreach (MazeCell neighbourCell in bottomPathPathCurrentCell.Neighbours)
-                {
-                    if ((!VisitedCellsBottomPath.Contains(neighbourCell)) && (bottomPathPathCurrentCell.IsConnectedTo(neighbourCell)))
-                    {
-                        PathBottomStart.Enqueue(neighbourCell);
+                            if (!VisitedCellsTopPath.Contains(neighbourCell))
+                            {
+                                VisitedCellsTopPath.Enqueue(neighbourCell);
+                            }
+                        }
                     }
-                }
 
-                if (turn == true)
-                {
-                    if (IsMovePossible(topPathCurrentCell, turn, out MazeCell? nextCell))
+                    foreach (MazeCell neighbourCell in bottomPathCurrentCell.Neighbours)
                     {
-                        topPathCurrentCell = nextCell;
-                        PathTopStart.Enqueue(topPathCurrentCell);
-                        VisitedCellsTopPath.Enqueue(topPathCurrentCell);
+                        if ((!_cellCameFromBottom.ContainsKey(neighbourCell))
+                         && (bottomPathCurrentCell.IsConnectedTo(neighbourCell)) )
+                        {
+                            _cellCameFromBottom[neighbourCell] = bottomPathCurrentCell;
+                            bottomQueue.Enqueue(neighbourCell);
+
+                            if (!VisitedCellsBottomPath.Contains(neighbourCell))
+                            {
+                                VisitedCellsBottomPath.Enqueue(neighbourCell);
+                            }
+                        }
+                    }
+
+                    if (turn == true)
+                    {
+                        topQueue.Dequeue();
+                        topPathCurrentCell = topQueue.Peek();
                         turn = false;
                     }
-                    else
-                    {
-                        PathTopStart.Dequeue();
-                        topPathCurrentCell = PathTopStart.Peek();
-                    }
-                }
 
-                if (turn == false)
-                {
-                    if (IsMovePossible(bottomPathPathCurrentCell, turn, out MazeCell? nextCell))
+                    if (turn == false)
                     {
-                        bottomPathPathCurrentCell = nextCell;
-                        PathBottomStart.Enqueue(bottomPathPathCurrentCell);
-                        VisitedCellsBottomPath.Enqueue(bottomPathPathCurrentCell);
+                        bottomQueue.Dequeue();
+                        bottomPathCurrentCell = bottomQueue.Peek();
                         turn = true;
                     }
-                    else
+
+                    // Not adding extra delays between branch swaps for BiDir
+                    if (!AlgorithmDisplayMap.ContainsKey(topPathCurrentCell))
                     {
-                        PathBottomStart.Dequeue();
-                        bottomPathPathCurrentCell = PathBottomStart.Peek();
+                        AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
                     }
-                }
 
-                // This needs to be here for Bi-dir, not at the top, otherwise the last
-                // added cell does not get included in the display mapping
-                // Also not adding extra delays between branch swaps for BiDir
-                if (!AlgorithmDisplayMap.ContainsKey(topPathCurrentCell))
+                    if (!AlgorithmDisplayMap.ContainsKey(bottomPathCurrentCell))
+                    {
+                        AlgorithmDisplayMap.Add(bottomPathCurrentCell, delay);
+                    }
+
+                    delay += 0.02;
+                }
+                else
                 {
-                    AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
+                    _intersectionCell = intersectionCell;
+
+                    // Now Connect intersection cell to bottom path
+                    foreach(MazeCell neighbour in intersectionCell.Neighbours)
+                    {
+                        if(intersectionCell.IsConnectedTo(neighbour) && (_cellCameFromBottom.ContainsKey(neighbour)) )
+                        {
+                            _cellCameFromBottom[intersectionCell] = neighbour;
+                        }
+                    }
+
+                    break;
                 }
 
-                if (!AlgorithmDisplayMap.ContainsKey(bottomPathPathCurrentCell))
-                {
-                    AlgorithmDisplayMap.Add(bottomPathPathCurrentCell, delay);
-                }
-
-                delay += 0.02;
             }
 
-            ValidPath = new List<MazeCell>(PathTopStart.Union(PathBottomStart));
+            // ReconstructPath();
             _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             _maze.PopulateFinalDisplayTimer();
 
@@ -112,8 +130,8 @@
         {
             // Careful here that if I manipulate the stacks, it will affect the actual references used 
             // Using Paths not VisitedCells because we know there is only 1 valid path through the maze
-            MazeCell[] pathTopStartArr = PathTopStart.ToArray();
-            MazeCell[] pathBottomStartArr = PathBottomStart.ToArray();
+            MazeCell[] pathTopStartArr = VisitedCellsTopPath.ToArray();
+            MazeCell[] pathBottomStartArr = VisitedCellsBottomPath.ToArray();
 
             foreach (MazeCell topPathCell in pathTopStartArr)
             {
@@ -152,6 +170,26 @@
             nextCell = null;
             return false;
         }
+
+        /*
+        private void ReconstructPath()
+        {
+            // To find Valid Path for my bidir-BFS setup, What I need is to travel from the intersection cell
+            // to a cell which connects with end cell. Then I can add end cell to the dictionary linking to that
+            // connecting cell, and I can find the way to the start by checking to which cell intersection cell
+            // connects with from the top path and linking it to that in the dictionary. This is ridiculous though
+            // Actually I do need 2 dictionaries to check if the neighbour cell of intersection cell comes from
+            // top or bottom path...
+            // Here I first need to travel from intersection cell to a cell which is connected to endCell
+            MazeCell current = _intersectionCell;
+
+            while (current.Neighbours _maze.StartCell)
+            {
+
+            }
+
+            ValidPath.Insert(0, _maze.StartCell);
+        }*/
 
     }
 }
