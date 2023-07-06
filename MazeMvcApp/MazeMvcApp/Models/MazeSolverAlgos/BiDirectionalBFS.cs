@@ -104,6 +104,10 @@
                 else
                 {
                     _intersectionCell = intersectionCell;
+                    if (!AlgorithmDisplayMap.ContainsKey(_intersectionCell))
+                    {
+                        AlgorithmDisplayMap.Add(_intersectionCell, delay);
+                    }
 
                     // Now Connect intersection cell to bottom path
                     foreach(MazeCell neighbour in intersectionCell.Neighbours)
