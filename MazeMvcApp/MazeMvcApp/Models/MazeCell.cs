@@ -15,6 +15,8 @@
         public List<MazeCell> RandomizedNeighbours { get; set; } = new();
         // flag when using IMazeGenerator implementation
         public bool Visited { get; private set; } = false;
+        // Distance from the source cell - Used in Dijkstra's Algorithm
+        public int Distance { get; set; } 
 
         public MazeCell(int rowNumber, int columnNumber)
         {
