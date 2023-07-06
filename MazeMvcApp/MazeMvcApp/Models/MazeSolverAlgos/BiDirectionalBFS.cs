@@ -42,7 +42,7 @@
 
             while (true)
             {
-                if(!IsIntersecting(out MazeCell? intersectionCell))
+                if(!IsIntersecting(topQueue, bottomQueue, out MazeCell ? intersectionCell))
                 {
                     foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
                     {
@@ -115,6 +115,7 @@
                         if(intersectionCell.IsConnectedTo(neighbour) && (_cellCameFromBottom.ContainsKey(neighbour)) )
                         {
                             _cellCameFromBottom[intersectionCell] = neighbour;
+                            break;
                         }
                     }
 
@@ -130,12 +131,12 @@
             return ValidPath;
         }
 
-        private bool IsIntersecting(out MazeCell? intersectionCell)
+        private bool IsIntersecting(Queue<MazeCell> topQueue, Queue<MazeCell> bottomQueue, out MazeCell? intersectionCell)
         {
             // Careful here that if I manipulate the stacks, it will affect the actual references used 
             // Using Paths not VisitedCells because we know there is only 1 valid path through the maze
-            MazeCell[] pathTopStartArr = VisitedCellsTopPath.ToArray();
-            MazeCell[] pathBottomStartArr = VisitedCellsBottomPath.ToArray();
+            MazeCell[] pathTopStartArr = topQueue.ToArray();
+            MazeCell[] pathBottomStartArr = bottomQueue.ToArray();
 
             foreach (MazeCell topPathCell in pathTopStartArr)
             {
@@ -157,6 +158,7 @@
             return false;
         }
 
+        /*
         private bool IsMovePossible(MazeCell currentCell, bool turn, out MazeCell? nextCell)
         {
             // For Bi-Directional algo, I also need to tell the function which path is making the call
@@ -173,27 +175,67 @@
             }
             nextCell = null;
             return false;
-        }
+        }*/
 
-        /*
+
         private void ReconstructPath()
         {
             // To find Valid Path for my bidir-BFS setup, What I need is to travel from the intersection cell
             // to a cell which connects with end cell. Then I can add end cell to the dictionary linking to that
             // connecting cell, and I can find the way to the start by checking to which cell intersection cell
-            // connects with from the top path and linking it to that in the dictionary. This is ridiculous though
-            // Actually I do need 2 dictionaries to check if the neighbour cell of intersection cell comes from
-            // top or bottom path...
-            // Here I first need to travel from intersection cell to a cell which is connected to endCell
+            // connects with from the top path and linking it to that in the dictionary
             MazeCell current = _intersectionCell;
 
-            while (current.Neighbours _maze.StartCell)
-            {
+            // First, travel from intersection cell to cell which connects with end cell to complete bottom dictionary
+            // Remember there is only one valid path through the maze, so that connection has to be the one we need
+            bool travellingFromIntersectionCell = true;
 
+            while (travellingFromIntersectionCell)
+            {
+                foreach (MazeCell neighbour in current.Neighbours)
+                {
+                    if ( (neighbour == _maze.EndCell) && (current.IsConnectedTo(neighbour)) )
+                    {
+                        _cellCameFromBottom[_maze.EndCell] = current;
+                        travellingFromIntersectionCell = false;
+                        break;
+                    }
+                }
+                current = _cellCameFromBottom[current];
+            }
+
+            // Second, we need to to now link the intersection cell with the top path
+            foreach (MazeCell neighbour in _intersectionCell.Neighbours)
+            {
+                if (_intersectionCell.IsConnectedTo(neighbour) && (_cellCameFromTop.ContainsKey(neighbour)))
+                {
+                    _cellCameFromTop[_intersectionCell] = neighbour;
+                    break;
+                }
+            }
+
+            // Now that the we've linked the end cell to its previous cell by working from the intersection cell
+            // and linked the intersection cell back to the top path, we can get the valid path
+            // ANOTHER ISSUE HERE: I need to REVERSE the bottom dictionary except the EndCell
+            // At the moment, since I start from EndCell, the cell I move to will just link back towards the
+            // EndCell, because we did DFS from the EndCell. So I have to reverse the bottom dictionary.
+
+            current = _maze.EndCell;
+            while (current != _maze.StartCell)
+            {
+                ValidPath.Add(current);
+                if(_cellCameFromBottom.ContainsKey(current))
+                {
+                    current = _cellCameFromBottom[current];
+                }
+                else if(_cellCameFromTop.ContainsKey(current))
+                {
+                    current = _cellCameFromTop[current];
+                }
             }
 
             ValidPath.Insert(0, _maze.StartCell);
-        }*/
+        }
 
     }
 }

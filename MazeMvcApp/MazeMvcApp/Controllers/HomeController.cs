@@ -67,6 +67,8 @@ namespace MazeMvcApp.Controllers
 
             _maze.ValidPath = mazeSolver.FindValidPath();
             // MapDisplayDelay() if you want to test the valid path of your IMazeSolver
+            // Without calling that method, the valid path found by the IMazeSolver isn't
+            // mapped to the visual display
             // _maze.MapDisplayDelay();
             return RedirectToAction(nameof(Index));
         }
