@@ -40,7 +40,8 @@
             }
 
             List<MazeCell> result = new List<MazeCell>(ValidPath);
-            result.Reverse(); // reverse because path is a stack
+            // Not gonna reverse even if its a stack because I want valid path to display end -> start, not start -> end
+            // result.Reverse(); 
             MapAlgorithmDisplay();
             _maze.PopulateFinalDisplayTimer();
 

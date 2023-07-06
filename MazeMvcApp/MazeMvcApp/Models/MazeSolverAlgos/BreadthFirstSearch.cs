@@ -3,9 +3,12 @@
     public class BreadthFirstSearch : IMazeSolver
     {
         private readonly Maze _maze;
-        public Queue<MazeCell> ValidPath { get; set; } = new Queue<MazeCell>();
+        public List<MazeCell> ValidPath { get; set; } = new List<MazeCell>();
         public Queue<MazeCell> VisitedCells { get; set; } = new Queue<MazeCell>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
+        // This dictionary keeps track of how we arrived at each cell when travelling through the maze
+        // We use it to reconstitute the valid path at the end
+        private Dictionary<MazeCell, MazeCell> _cellCameFrom = new Dictionary<MazeCell, MazeCell>();
 
         public BreadthFirstSearch(Maze maze)
         {
@@ -16,9 +19,11 @@
         {
             var startingCell = _maze.StartCell;
 
-            ValidPath.Enqueue(startingCell);
+            _cellCameFrom[startingCell] = null;
+            Queue<MazeCell> queue = new Queue<MazeCell>();
+            // Note that VisitedCells is only for the purpose of the Algorithm Display Mapping
+            queue.Enqueue(startingCell);
             VisitedCells.Enqueue(startingCell);
-
             var currentCell = startingCell;
 
             while (currentCell != _maze.EndCell)
@@ -27,40 +32,48 @@
                 // See Obsidian notes for why this algo was getting stuck sometimes compared to DFS
                 foreach (MazeCell neighbourCell in currentCell.Neighbours)
                 {
-                    if ( (!VisitedCells.Contains(neighbourCell)) 
-                        && (currentCell.IsConnectedTo(neighbourCell)) 
-                        && (!ValidPath.Contains(neighbourCell)) )
+                    if ( (!_cellCameFrom.ContainsKey(neighbourCell))
+                        && (currentCell.IsConnectedTo(neighbourCell)) )
                     {
-                        ValidPath.Enqueue(neighbourCell);
-                        VisitedCells.Enqueue((neighbourCell));
+                        _cellCameFrom[neighbourCell] = currentCell;
+                        queue.Enqueue(neighbourCell);
+
+                        if(!VisitedCells.Contains(neighbourCell))
+                        {
+                            VisitedCells.Enqueue((neighbourCell));
+                        }
                     }
                 }
 
-                if (IsMovePossible(currentCell, out MazeCell? nextCell))
+                if (IsMovePossible(currentCell, out MazeCell? nextCell) && (!queue.Contains(nextCell)) )
                 {
                     currentCell = nextCell;
-                    ValidPath.Enqueue(currentCell);
-                    VisitedCells.Enqueue(currentCell);
+                    queue.Enqueue(currentCell);
+
+                    if (!VisitedCells.Contains(currentCell))
+                    {
+                        VisitedCells.Enqueue((currentCell));
+                    }
                 }
                 else
                 {
-                    ValidPath.Dequeue();
-                    currentCell = ValidPath.Peek();
+                    queue.Dequeue();
+                    currentCell = queue.Peek();
                 }
             }
 
-            List<MazeCell> result = new List<MazeCell>(ValidPath);
+            ReconstructPath();
             MapAlgorithmDisplay();
             _maze.PopulateFinalDisplayTimer();
 
-            return result;
+            return ValidPath;
         }
 
         private bool IsMovePossible(MazeCell currentCell, out MazeCell? nextCell)
         {
             foreach (MazeCell neighbourCell in currentCell.Neighbours)
             {
-                if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
+                if (currentCell.IsConnectedTo(neighbourCell))
                 {
                     nextCell = neighbourCell;
                     return true;
@@ -68,6 +81,21 @@
             }
             nextCell = null;
             return false;
+        }
+
+        private void ReconstructPath()
+        {
+            // Start from the final cell and work our way back up
+            MazeCell current = _maze.EndCell;
+
+            while (current != _maze.StartCell)
+            {
+                ValidPath.Add(current);
+                current = _cellCameFrom[current];
+            }
+
+            // At the end, we add the sourceCell on index 0
+            ValidPath.Insert(0, _maze.StartCell);
         }
 
         private void MapAlgorithmDisplay()

@@ -65,16 +65,6 @@ namespace MazeMvcApp.Controllers
                        : selectedAlgorithm == "bidir-BFS" ? new BiDirectionalBFS(_maze)
                        : new DepthFirstSearch(_maze); // default
 
-            // I wasn't using MapDisplayDelay(), which is why ValidPath display was still fine even though
-            // BFS not implemented properly - The algorithm display is fine, but not the valid path
-            // Issue: One is that I'm adding the same cell multiple time into the queue just to start with
-            // That's why algorithm display was slow, trying to add same cell multiple times in display
-            // Its somewhat fixed, problem now is that my ValidPath includes all the nodes we've traversed!
-            // Need to change the logic so that all the "wrong" nodes are dequeue'd or something - That's the next step
-            // Check https://www.youtube.com/watch?v=TIbUeeksXcI&t=650s - NEED TO REVIEW WHOLE BFS LOGIC ITS JUST WEIRD ATMO
-            // Also add timer for algorithm display speed, should be very easy just need a variable in controller which
-            // we pass to IMazeSolver somewhere. Could also change from double to decimal for more precise but meh
-            // COME BACK TO THIS LATER, BRAIN IS TOO FRIED - WORK ON OTHER ISSUES
             _maze.ValidPath = mazeSolver.FindValidPath();
             _maze.MapDisplayDelay();
             return RedirectToAction(nameof(Index));
