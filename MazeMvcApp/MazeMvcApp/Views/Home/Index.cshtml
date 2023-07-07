@@ -420,14 +420,14 @@
                     </div>
                     
                     <div class="form-group">
-                        @using (Html.BeginForm("ClearMaze", "Home", FormMethod.Post))
+                        @using (Html.BeginForm("EraseMaze", "Home", FormMethod.Post))
                         {
                             <button class="button dark-purple-btns clear-maze" type="submit">Erase Maze</button>
                         }
                     </div>
 
                     <div class="form-group">
-                        <button id="clearPath" class="button dark-purple-btns">Clear Path</button>
+                        <button id="clearMaze" class="button dark-purple-btns">Clear Maze</button>
                     </div>
 
                     <button id="algorithmSearchDisplay">Show Algorithm</button>
@@ -603,7 +603,7 @@
         solveMazeButton.addEventListener("click", solveMazeFunc);
 
         // CLEAR VALID PATH
-        function clearValidPath()
+        function clearMaze()
         {
             var scrollX = window.scrollX || window.pageXOffset;
             var scrollY = window.scrollY || window.pageYOffset;
@@ -611,8 +611,8 @@
             window.scrollTo(scrollX, scrollY);
         }
 
-        const clearPathButton = document.querySelector("#clearPath");
-        clearPathButton.addEventListener("click", clearValidPath);
+        const clearPathButton = document.querySelector("#clearMaze");
+        clearPathButton.addEventListener("click", clearMaze);
 
         // ALGORITHM SEARCH DISPLAY
         function showSearchAlgorithmWorking() 

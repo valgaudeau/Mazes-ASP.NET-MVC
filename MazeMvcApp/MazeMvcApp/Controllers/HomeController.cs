@@ -47,7 +47,7 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult ClearMaze()
+        public IActionResult EraseMaze()
         {
             _maze = new Maze();
             return RedirectToAction(nameof(Index));
