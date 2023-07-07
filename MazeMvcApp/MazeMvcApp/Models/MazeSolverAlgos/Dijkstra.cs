@@ -14,6 +14,8 @@
 
         public List<MazeCell> FindValidPath()
         {
+            // CURRENT ISSUE:
+            // Something is going wrong with the Valid Path, adding end node multiple times or something
             InitializeGraph();
 
             PriorityQueue<MazeCell> priorityQueue = new PriorityQueue<MazeCell>();
@@ -32,7 +34,7 @@
 
                 foreach (MazeCell neighbour in currentCell.Neighbours)
                 {
-                    if(!VisitedCells.Contains(neighbour))
+                    if( (!VisitedCells.Contains(neighbour)) && (currentCell.IsConnectedTo(neighbour)) )
                     {
                         int newDistance = currentCell.Distance + 1; // Assume unweighted graph
 
@@ -50,21 +52,6 @@
             _maze.PopulateFinalDisplayTimer();
 
             return ValidPath;
-        }
-
-        private bool IsMovePossible(MazeCell currentCell, out MazeCell? nextCell)
-        {
-            // Check if we can move to neighbour cells & if they are untraversed
-            foreach (MazeCell neighbourCell in currentCell.Neighbours)
-            {
-                if ((!VisitedCells.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
-                {
-                    nextCell = neighbourCell;
-                    return true;
-                }
-            }
-            nextCell = null;
-            return false;
         }
 
         private void InitializeGraph()
@@ -91,7 +78,8 @@
                 current = GetPreviousCell(current);
             }
 
-            ValidPath.Insert(0, _maze.EndCell);
+            ValidPath.Reverse();
+            // ValidPath.Insert(0, _maze.EndCell);
         }
 
         private MazeCell GetPreviousCell(MazeCell cell)
@@ -99,7 +87,7 @@
             // Find and return the previous cell based on the shortest distance
             foreach (MazeCell neighbour in cell.Neighbours)
             {
-                if (neighbour.Distance == cell.Distance - 1)
+                if ( (neighbour.Distance == cell.Distance - 1) && (cell.IsConnectedTo(neighbour)) )
                 {
                     return neighbour;
                 }
@@ -120,11 +108,11 @@
                     if (!AlgorithmDisplayMap.ContainsKey(cell))
                     {
                         AlgorithmDisplayMap.Add(cell, delay);
-                        delay += 0.02;
+                        delay += 0.05;
                     }
                     else
                     {
-                        delay += 0.01; // adding this extra delay makes branch transitions smoother
+                        delay += 0.02; // adding this extra delay makes branch transitions smoother
                     }
                 }
                 _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
