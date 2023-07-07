@@ -2,6 +2,6 @@
 {
     public interface IMazeSolver
     {
-        List<MazeCell> FindValidPath();
+        public List<MazeCell> FindValidPath();
     }
 }

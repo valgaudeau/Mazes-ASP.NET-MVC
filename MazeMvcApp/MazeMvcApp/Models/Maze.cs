@@ -14,7 +14,8 @@ namespace MazeMvcApp.Models
         public MazeCell StartCell { get; set; }
         public MazeCell EndCell { get; set; }
         public bool IsSolved { get; set; } = false;
-        public IMazeSolver MazeSolver { get; set; }
+        // SelectedAlgorithm is used for the algorithm dropdown to display the algorithm chosen by the user after request goes to the controller
+        public string SelectedAlgorithm { get; set; }
         public List<MazeCell> ValidPath { get; set; }
         public Dictionary<MazeCell, double> ValidPathDelayMap { get; set; } = new Dictionary<MazeCell, double>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
@@ -133,18 +134,16 @@ namespace MazeMvcApp.Models
             }
         }
 
-        public string GetSolverType()
+        public void SetMazeSolver(IMazeSolver mazeSolver)
         {
-            if (MazeSolver == null) return "";
-
-            string result = MazeSolver.GetType() == typeof(DepthFirstSearch) ? "DFS"
-                          : MazeSolver.GetType() == typeof(BreadthFirstSearch) ? "BFS"
-                          : MazeSolver.GetType() == typeof(BiDirectionalDFS) ? "bidir-DFS"
-                          : MazeSolver.GetType() == typeof(BiDirectionalBFS) ? "bidir-BFS"
-                          : MazeSolver.GetType() == typeof(Dijkstra) ? "dijkstras"
+            string result = mazeSolver.GetType() == typeof(DepthFirstSearch) ? "DFS"
+                          : mazeSolver.GetType() == typeof(BreadthFirstSearch) ? "BFS"
+                          : mazeSolver.GetType() == typeof(BiDirectionalDFS) ? "bidir-DFS"
+                          : mazeSolver.GetType() == typeof(BiDirectionalBFS) ? "bidir-BFS"
+                          : mazeSolver.GetType() == typeof(Dijkstra) ? "dijkstras"
                           : "";
 
-            return result;
+            SelectedAlgorithm = result;
         }
 
         private void MapCellNeighbours(MazeCell mazeCell)

@@ -43,7 +43,7 @@ namespace MazeMvcApp.Controllers
             List<MazeCell> validPath = mazeSolver.FindValidPath();
             _maze.ValidPath = validPath;
             _maze.IsSolved = true;
-            _maze.MazeSolver = mazeSolver;
+            _maze.SetMazeSolver(mazeSolver);
             _maze.MapDisplayDelay();
 
             return RedirectToAction(nameof(Index));
@@ -68,8 +68,8 @@ namespace MazeMvcApp.Controllers
                        : selectedAlgorithm == "dijkstras" ? new Dijkstra(_maze)
                        : new DepthFirstSearch(_maze); // default
 
-            _maze.MazeSolver = mazeSolver;
             _maze.ValidPath = mazeSolver.FindValidPath();
+            _maze.SetMazeSolver(mazeSolver);
             // MapDisplayDelay method if you want to test the valid path of your IMazeSolver
             // Without calling that method, the valid path found by the IMazeSolver isn't
             // mapped to the visual display

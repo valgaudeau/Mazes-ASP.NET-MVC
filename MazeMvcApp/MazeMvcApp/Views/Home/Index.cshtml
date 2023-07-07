@@ -399,72 +399,16 @@
                     <button id="solveMaze" class="button light-purple-btns">Display Path</button>
 
                     <form id="algorithmChoiceForm" action="/Home/ChooseAlgorithm" method="post">
-                        <!-- The following is to show the last user selected option in the algorithm dropdown
-                             Don't like how its done, refactor later with better solution
-                        -->
-                        @if (Model.GetSolverType() != string.Empty)
-                        {
-                            if(Model.GetSolverType() == "DFS")
+                        @Html.DropDownListFor(m => m.SelectedAlgorithm, new SelectList(
+                            new[]
                             {
-                                <select id="dropdown" name="selectedAlgorithm">
-                                    <option value="DFS" selected>Depth-First Search</option>
-                                    <option value="BFS">Breadth-First Search</option>
-                                    <option value="bidir-DFS">Bi-Directional DFS</option>
-                                    <option value="bidir-BFS">Bi-Directional BFS</option>
-                                    <option value="dijkstras">Dijkstra's</option>
-                                </select>
-                            }
-                            else if(Model.GetSolverType() == "BFS")
-                            {
-                                <select id="dropdown" name="selectedAlgorithm">
-                                    <option value="DFS">Depth-First Search</option>
-                                    <option value="BFS" selected>Breadth-First Search</option>
-                                    <option value="bidir-DFS">Bi-Directional DFS</option>
-                                    <option value="bidir-BFS">Bi-Directional BFS</option>
-                                    <option value="dijkstras">Dijkstra's</option>
-                                </select>
-                            }
-                            else if(Model.GetSolverType() == "bidir-DFS")
-                            {
-                                <select id="dropdown" name="selectedAlgorithm">
-                                    <option value="DFS">Depth-First Search</option>
-                                    <option value="BFS">Breadth-First Search</option>
-                                    <option value="bidir-DFS" selected>Bi-Directional DFS</option>
-                                    <option value="bidir-BFS">Bi-Directional BFS</option>
-                                    <option value="dijkstras">Dijkstra's</option>
-                                </select>
-                            }
-                            else if(Model.GetSolverType() == "bidir-BFS")
-                            {
-                                <select id="dropdown" name="selectedAlgorithm">
-                                    <option value="DFS">Depth-First Search</option>
-                                    <option value="BFS">Breadth-First Search</option>
-                                    <option value="bidir-DFS">Bi-Directional DFS</option>
-                                    <option value="bidir-BFS" selected>Bi-Directional BFS</option>
-                                    <option value="dijkstras">Dijkstra's</option>
-                                </select>
-                            }
-                            else if(Model.GetSolverType() == "dijkstras")
-                            {
-                                <select id="dropdown" name="selectedAlgorithm">
-                                    <option value="DFS">Depth-First Search</option>
-                                    <option value="BFS">Breadth-First Search</option>
-                                    <option value="bidir-DFS">Bi-Directional DFS</option>
-                                    <option value="bidir-BFS">Bi-Directional BFS</option>
-                                    <option value="dijkstras" selected>Dijkstra's</option>
-                                </select>
-                            }
-                        }
-                        else
-                        {
-                            <select id="dropdown" name="selectedAlgorithm">
-                                <option value="DFS" selected>Depth-First Search</option>
-                                <option value="BFS">Breadth-First Search</option>
-                                <option value="bidir-DFS">Bi-Directional DFS</option>
-                                <option value="bidir-BFS">Bi-Directional BFS</option>
-                                <option value="dijkstras">Dijkstra's</option>
-                            </select>
-                        }
+                                new SelectListItem { Value = "DFS", Text = "Depth-First Search" },
+                                new SelectListItem { Value = "BFS", Text = "Breadth-First Search" },
+                                new SelectListItem { Value = "bidir-DFS", Text = "Bi-Directional DFS" },
+                                new SelectListItem { Value = "bidir-BFS", Text = "Bi-Directional BFS" },
+                                new SelectListItem { Value = "dijkstras", Text = "Dijkstra's" }
+                            }, "Value", "Text", Model.SelectedAlgorithm),
+                            new { id = "dropdown", name = "selectedAlgorithm" })
 
                         <button type="submit" id="confirm-btn">Confirm</button>
                     </form>
