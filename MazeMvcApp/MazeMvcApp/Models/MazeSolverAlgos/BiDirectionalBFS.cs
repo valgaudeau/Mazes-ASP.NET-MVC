@@ -34,16 +34,26 @@
             MazeCell bottomPathCurrentCell = startCellBottomPath;
 
             double delay = 0.1d;
-            AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
-            AlgorithmDisplayMap.Add(bottomPathCurrentCell, delay);
-            delay += 0.02;
 
             bool turn = true; // true for topStart's turn, false for bottomStart
 
             while (true)
             {
-                if(!IsIntersecting(topQueue, bottomQueue, out MazeCell ? intersectionCell))
+
+                if (!AlgorithmDisplayMap.ContainsKey(topPathCurrentCell))
                 {
+                    AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
+                }
+
+                if (!AlgorithmDisplayMap.ContainsKey(bottomPathCurrentCell))
+                {
+                    AlgorithmDisplayMap.Add(bottomPathCurrentCell, delay);
+                }
+
+                if (!IsIntersecting(topQueue, bottomQueue, out MazeCell ? intersectionCell))
+                {
+                    delay += 0.05;
+
                     foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
                     {
                         if ((!_cellCameFromTop.ContainsKey(neighbourCell))
@@ -87,19 +97,6 @@
                         bottomPathCurrentCell = bottomQueue.Peek();
                         turn = true;
                     }
-
-                    // Not adding extra delays between branch swaps for BiDir
-                    if (!AlgorithmDisplayMap.ContainsKey(topPathCurrentCell))
-                    {
-                        AlgorithmDisplayMap.Add(topPathCurrentCell, delay);
-                    }
-
-                    if (!AlgorithmDisplayMap.ContainsKey(bottomPathCurrentCell))
-                    {
-                        AlgorithmDisplayMap.Add(bottomPathCurrentCell, delay);
-                    }
-
-                    delay += 0.02;
                 }
                 else
                 {
@@ -109,7 +106,16 @@
                         AlgorithmDisplayMap.Add(_intersectionCell, delay);
                     }
 
-                    // Now Connect intersection cell to bottom path
+                    // The below is to fix the issue that sometimes cell around intersection isn't added to DisplayMap
+                    foreach(var neighbour in _intersectionCell.Neighbours)
+                    {
+                        if( (neighbour.IsConnectedTo(_intersectionCell)) && (!AlgorithmDisplayMap.ContainsKey(neighbour)) )
+                        {
+                            AlgorithmDisplayMap.Add(neighbour, delay + 0.05);
+                        }
+                    }
+
+                    // Now connect intersection cell to bottom path
                     foreach(MazeCell neighbour in intersectionCell.Neighbours)
                     {
                         if(intersectionCell.IsConnectedTo(neighbour) && (_cellCameFromBottom.ContainsKey(neighbour)) )

@@ -34,9 +34,9 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             double delay = 0.1d;
             AlgorithmDisplayMap.Add(currentCellTopPath, delay);
             AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
-            delay += 0.02;
+            delay += 0.05;
 
-            while (!IsIntersecting(out MazeCell? intCell))
+            while ( (!IsIntersecting(out MazeCell? intCell)) && (currentCellTopPath != _maze.EndCell) && (currentCellBottomPath != _maze.StartCell) )
             {
                 if (turn == true)
                 {
@@ -83,7 +83,7 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
                     AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
                 }
 
-                delay += 0.02;
+                delay += 0.05;
             }
 
             ValidPath = new List<MazeCell>(PathTopStart.Union(PathBottomStart));

@@ -110,11 +110,11 @@
                     if (!AlgorithmDisplayMap.ContainsKey(cell))
                     {
                         AlgorithmDisplayMap.Add(cell, delay);
-                        delay += 0.02;
+                        delay += 0.05;
                     }
                     else
                     {
-                        delay += 0.01; // adding this extra delay makes branch transitions smoother
+                        delay += 0.02; // adding this extra delay makes branch transitions smoother
                     }
                 }
                 _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
