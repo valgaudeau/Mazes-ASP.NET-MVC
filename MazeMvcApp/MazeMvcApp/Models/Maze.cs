@@ -1,4 +1,7 @@
-﻿namespace MazeMvcApp.Models
+﻿using MazeMvcApp.Models.MazeSolverAlgos;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace MazeMvcApp.Models
 {
     public class Maze
     {
@@ -11,6 +14,7 @@
         public MazeCell StartCell { get; set; }
         public MazeCell EndCell { get; set; }
         public bool IsSolved { get; set; } = false;
+        public IMazeSolver MazeSolver { get; set; }
         public List<MazeCell> ValidPath { get; set; }
         public Dictionary<MazeCell, double> ValidPathDelayMap { get; set; } = new Dictionary<MazeCell, double>();
         public Dictionary<MazeCell, double> AlgorithmDisplayMap { get; set; } = new Dictionary<MazeCell, double>();
@@ -127,6 +131,20 @@
                 }
                 FinalDisplayTimer = max;
             }
+        }
+
+        public string GetSolverType()
+        {
+            if (MazeSolver == null) return "";
+
+            string result = MazeSolver.GetType() == typeof(DepthFirstSearch) ? "DFS"
+                          : MazeSolver.GetType() == typeof(BreadthFirstSearch) ? "BFS"
+                          : MazeSolver.GetType() == typeof(BiDirectionalDFS) ? "bidir-DFS"
+                          : MazeSolver.GetType() == typeof(BiDirectionalBFS) ? "bidir-BFS"
+                          : MazeSolver.GetType() == typeof(Dijkstra) ? "dijkstras"
+                          : "";
+
+            return result;
         }
 
         private void MapCellNeighbours(MazeCell mazeCell)
