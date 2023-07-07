@@ -14,6 +14,8 @@
 
         public List<MazeCell> FindValidPath()
         {
+            InitializeGraph();
+
             PriorityQueue<MazeCell> priorityQueue = new PriorityQueue<MazeCell>();
             priorityQueue.Enqueue(_maze.StartCell, 0);
 
@@ -65,6 +67,20 @@
             return false;
         }
 
+        private void InitializeGraph()
+        {
+            for(int i = 0; i < _maze.Cells.Length; i++) 
+            { 
+                for(int j = 0; j < _maze.Cells[i].Length; j++)
+                {
+                    MazeCell currCell = _maze.Cells[i][j];
+                    currCell.Distance = int.MaxValue;
+                }
+            }
+
+            _maze.StartCell.Distance = 0;
+        }
+
         private void ReconstructPath()
         {
             MazeCell current = _maze.EndCell;
@@ -104,7 +120,7 @@
                     if (!AlgorithmDisplayMap.ContainsKey(cell))
                     {
                         AlgorithmDisplayMap.Add(cell, delay);
-                        delay += 0.1;
+                        delay += 0.02;
                     }
                     else
                     {
@@ -143,8 +159,10 @@
         public T Dequeue()
         {
             if (Count == 0)
+            {
                 throw new InvalidOperationException("Queue is empty");
-
+            }
+                
             var queue = dictionary.First().Value;
             T item = queue.Dequeue();
             if (queue.Count == 0)
