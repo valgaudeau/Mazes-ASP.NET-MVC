@@ -2,6 +2,7 @@
 using MazeMvcApp.Models.MazeGenerationAlgos;
 using MazeMvcApp.Models.MazeSolverAlgos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
@@ -42,6 +43,7 @@ namespace MazeMvcApp.Controllers
             List<MazeCell> validPath = mazeSolver.FindValidPath();
             _maze.ValidPath = validPath;
             _maze.IsSolved = true;
+            _maze.MazeSolver = mazeSolver;
             _maze.MapDisplayDelay();
 
             return RedirectToAction(nameof(Index));
@@ -66,6 +68,7 @@ namespace MazeMvcApp.Controllers
                        : selectedAlgorithm == "dijkstras" ? new Dijkstra(_maze)
                        : new DepthFirstSearch(_maze); // default
 
+            _maze.MazeSolver = mazeSolver;
             _maze.ValidPath = mazeSolver.FindValidPath();
             // MapDisplayDelay method if you want to test the valid path of your IMazeSolver
             // Without calling that method, the valid path found by the IMazeSolver isn't
