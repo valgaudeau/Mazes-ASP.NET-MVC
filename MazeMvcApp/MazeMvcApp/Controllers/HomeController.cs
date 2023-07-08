@@ -66,7 +66,7 @@ namespace MazeMvcApp.Controllers
                        : selectedAlgorithm == "bidir-DFS" ? new BiDirectionalDFS(_maze)
                        : selectedAlgorithm == "bidir-BFS" ? new BiDirectionalBFS(_maze)
                        : selectedAlgorithm == "dijkstras" ? new Dijkstra(_maze)
-                       : new DepthFirstSearch(_maze); // default
+                       : new DepthFirstSearch(_maze);
 
             _maze.ValidPath = mazeSolver.FindValidPath();
             _maze.SetMazeSolver(mazeSolver);

@@ -52,7 +52,9 @@
 
                 delay += 0.05;
 
-                if (!IsIntersecting(topQueue, bottomQueue, out MazeCell ? intersectionCell))
+                if ( (!IsIntersecting(topQueue, bottomQueue, out MazeCell ? intersectionCell)) 
+                  && (topPathCurrentCell != _maze.EndCell) 
+                  && (bottomPathCurrentCell != _maze.StartCell) )
                 {
 
                     foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
@@ -102,36 +104,19 @@
                 else
                 {
                     _intersectionCell = intersectionCell;
-                    if (!AlgorithmDisplayMap.ContainsKey(_intersectionCell))
-                    {
-                        AlgorithmDisplayMap.Add(_intersectionCell, delay);
-                    }
-
-                    // The below is to fix the issue that sometimes cell around intersection isn't added to DisplayMap
                     foreach(var neighbour in _intersectionCell.Neighbours)
                     {
-                        if( (neighbour.IsConnectedTo(_intersectionCell)) && (!AlgorithmDisplayMap.ContainsKey(neighbour)) )
+                        if ((neighbour.IsConnectedTo(_intersectionCell)) && (!AlgorithmDisplayMap.ContainsKey(neighbour)))
                         {
                             AlgorithmDisplayMap.Add(neighbour, delay + 0.05);
                         }
                     }
-
-                    // Now connect intersection cell to bottom path
-                    foreach(MazeCell neighbour in intersectionCell.Neighbours)
-                    {
-                        if(intersectionCell.IsConnectedTo(neighbour) && (_cellCameFromBottom.ContainsKey(neighbour)) )
-                        {
-                            _cellCameFromBottom[intersectionCell] = neighbour;
-                            break;
-                        }
-                    }
-
                     break;
                 }
 
             }
 
-            // ReconstructPath();
+            ReconstructPath(topQueue, bottomQueue);
             _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             _maze.PopulateFinalDisplayTimer();
 
@@ -149,12 +134,13 @@
             {
                 foreach (MazeCell bottomPathCell in pathBottomStartArr)
                 {
-                    // Logic: The paths cannot hold the same cell with the current logic since if a cell has been marked
-                    // as traversed, it can't be added to the path. So we check if topPathCell has bottomPathCell as a
-                    // neighbour, and if path is open between them
-                    // May rework this logic later and not have Traversed property in MazeCell
-                    if ((topPathCell.Neighbours.Contains(bottomPathCell))
-                    && (topPathCell.IsConnectedTo(bottomPathCell)))
+                    // If one of the paths contains cell of the other path, that's the intersection cell
+                    if (topQueue.Contains(bottomPathCell))
+                    {
+                        intersectionCell = bottomPathCell;
+                        return true;
+                    }
+                    else if (bottomQueue.Contains(topPathCell))
                     {
                         intersectionCell = topPathCell;
                         return true;
@@ -165,63 +151,42 @@
             return false;
         }
 
-        private void ReconstructPath()
+        private void ReconstructPath(Queue<MazeCell> pathTopStart, Queue<MazeCell> pathBottomStart)
         {
-            // To find Valid Path for my bidir-BFS setup, What I need is to travel from the intersection cell
-            // to a cell which connects with end cell. Then I can add end cell to the dictionary linking to that
-            // connecting cell, and I can find the way to the start by checking to which cell intersection cell
-            // connects with from the top path and linking it to that in the dictionary
-            MazeCell current = _intersectionCell;
-
-            // First, travel from intersection cell to cell which connects with end cell to complete bottom dictionary
-            // Remember there is only one valid path through the maze, so that connection has to be the one we need
-            bool travellingFromIntersectionCell = true;
-
-            while (travellingFromIntersectionCell)
+            if (_intersectionCell == null)
             {
-                foreach (MazeCell neighbour in current.Neighbours)
+                if (pathTopStart.Contains(_maze.EndCell))
                 {
-                    if ( (neighbour == _maze.EndCell) && (current.IsConnectedTo(neighbour)) )
-                    {
-                        _cellCameFromBottom[_maze.EndCell] = current;
-                        travellingFromIntersectionCell = false;
-                        break;
-                    }
+                    ValidPath = pathTopStart.ToList();
                 }
-                current = _cellCameFromBottom[current];
-            }
-
-            // Second, we need to to now link the intersection cell with the top path
-            foreach (MazeCell neighbour in _intersectionCell.Neighbours)
-            {
-                if (_intersectionCell.IsConnectedTo(neighbour) && (_cellCameFromTop.ContainsKey(neighbour)))
+                else
                 {
-                    _cellCameFromTop[_intersectionCell] = neighbour;
-                    break;
+                    ValidPath = pathBottomStart.ToList();
                 }
             }
-
-            // Now that the we've linked the end cell to its previous cell by working from the intersection cell
-            // and linked the intersection cell back to the top path, we can get the valid path
-            // ANOTHER ISSUE HERE: I need to REVERSE the bottom dictionary except the EndCell
-            // At the moment, since I start from EndCell, the cell I move to will just link back towards the
-            // EndCell, because we did DFS from the EndCell. So I have to reverse the bottom dictionary.
-
-            current = _maze.EndCell;
-            while (current != _maze.StartCell)
+            else
             {
-                ValidPath.Add(current);
-                if(_cellCameFromBottom.ContainsKey(current))
-                {
-                    current = _cellCameFromBottom[current];
-                }
-                else if(_cellCameFromTop.ContainsKey(current))
-                {
-                    current = _cellCameFromTop[current];
-                }
-            }
+                var currentCellBottom = _intersectionCell;
 
-            ValidPath.Insert(0, _maze.StartCell);
+                while (currentCellBottom != _maze.EndCell)
+                {
+                    ValidPath.Add(currentCellBottom);
+                    currentCellBottom = _cellCameFromBottom[currentCellBottom];
+                }
+                ValidPath.Add(_maze.EndCell);
+                ValidPath.Reverse();
+
+                var currentCellTop = _intersectionCell;
+                // Move to cell after intersection cell not to add it twice to valid path
+                currentCellTop = _cellCameFromTop[currentCellTop];
+
+                while (currentCellTop != _maze.StartCell)
+                {
+                    ValidPath.Add(currentCellTop);
+                    currentCellTop = _cellCameFromTop[currentCellTop];
+                }
+                ValidPath.Add(_maze.StartCell);
+            }
         }
 
     }

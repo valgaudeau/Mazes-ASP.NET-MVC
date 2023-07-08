@@ -48,7 +48,9 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
                     delay += 0.05;
                 }
 
-                if ((!IsIntersecting(out MazeCell? intersectionCell)) && (currentCellTopPath != _maze.EndCell) && (currentCellBottomPath != _maze.StartCell) )
+                if ( (!IsIntersecting(out MazeCell? intersectionCell)) 
+                  && (currentCellTopPath != _maze.EndCell) 
+                  && (currentCellBottomPath != _maze.StartCell) )
                 {
                     if (turn == true)
                     {
@@ -99,8 +101,6 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
 
         private bool IsIntersecting(out MazeCell? intersectionCell)
         {
-            // Careful here that if I manipulate the stacks, it will affect the actual references used 
-            // Using Paths not VisitedCells because we know there is only 1 valid path through the maze
             MazeCell[] pathTopStartArr = _pathTopStart.ToArray();
             MazeCell[] pathBottomStartArr = _pathBottomStart.ToArray();
             
