@@ -50,9 +50,10 @@
                     AlgorithmDisplayMap.Add(bottomPathCurrentCell, delay);
                 }
 
+                delay += 0.05;
+
                 if (!IsIntersecting(topQueue, bottomQueue, out MazeCell ? intersectionCell))
                 {
-                    delay += 0.05;
 
                     foreach (MazeCell neighbourCell in topPathCurrentCell.Neighbours)
                     {
@@ -163,26 +164,6 @@
             intersectionCell = null;
             return false;
         }
-
-        /*
-        private bool IsMovePossible(MazeCell currentCell, bool turn, out MazeCell? nextCell)
-        {
-            // For Bi-Directional algo, I also need to tell the function which path is making the call
-            // so that I can use the correct VisitedCells(Top/Bottom)Path check
-            var VisitedCellsToCheck = turn == true ? VisitedCellsTopPath : VisitedCellsBottomPath;
-
-            foreach (MazeCell neighbourCell in currentCell.Neighbours)
-            {
-                if ((!VisitedCellsToCheck.Contains(neighbourCell)) && (currentCell.IsConnectedTo(neighbourCell)))
-                {
-                    nextCell = neighbourCell;
-                    return true;
-                }
-            }
-            nextCell = null;
-            return false;
-        }*/
-
 
         private void ReconstructPath()
         {

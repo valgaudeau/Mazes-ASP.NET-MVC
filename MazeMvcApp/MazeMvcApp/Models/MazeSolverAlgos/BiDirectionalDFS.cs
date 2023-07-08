@@ -33,47 +33,9 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             bool turn = true; // true for topStart's turn, false for bottomStart
 
             double delay = 0.1d;
-            AlgorithmDisplayMap.Add(currentCellTopPath, delay);
-            AlgorithmDisplayMap.Add(currentCellBottomPath, delay);
-            delay += 0.05;
 
-            while ( (!IsIntersecting(out MazeCell? intersectionCell)) && (currentCellTopPath != _maze.EndCell) && (currentCellBottomPath != _maze.StartCell) )
+            while (true) 
             {
-                if (turn == true)
-                {
-                    if (IsMovePossible(currentCellTopPath, turn, out MazeCell? nextCell))
-                    {
-                        currentCellTopPath = nextCell;
-                        _pathTopStart.Push(currentCellTopPath);
-                        VisitedCellsTopPath.Enqueue(currentCellTopPath);
-                        turn = false;
-                    }
-                    else
-                    {
-                        _pathTopStart.Pop();
-                        currentCellTopPath = _pathTopStart.Peek();
-                    }
-                }
-                
-                if(turn == false)
-                {
-                    if (IsMovePossible(currentCellBottomPath, turn, out MazeCell? nextCell))
-                    {
-                        currentCellBottomPath = nextCell;
-                        _pathBottomStart.Push(currentCellBottomPath);
-                        VisitedCellsBottomPath.Enqueue(currentCellBottomPath);
-                        turn = true;
-                    }
-                    else
-                    {
-                        _pathBottomStart.Pop();
-                        currentCellBottomPath = _pathBottomStart.Peek();
-                    }
-                }
-
-                // This needs to be here for Bi-dir, not at the top, otherwise the last
-                // added cell does not get included in the display mapping
-                // Also not adding extra delays between branch swaps for BiDir
                 if (!AlgorithmDisplayMap.ContainsKey(currentCellTopPath))
                 {
                     AlgorithmDisplayMap.Add(currentCellTopPath, delay);
@@ -86,10 +48,49 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
                     delay += 0.05;
                 }
 
+                if ((!IsIntersecting(out MazeCell? intersectionCell)) && (currentCellTopPath != _maze.EndCell) && (currentCellBottomPath != _maze.StartCell) )
+                {
+                    if (turn == true)
+                    {
+                        if (IsMovePossible(currentCellTopPath, turn, out MazeCell? nextCell))
+                        {
+                            currentCellTopPath = nextCell;
+                            _pathTopStart.Push(currentCellTopPath);
+                            VisitedCellsTopPath.Enqueue(currentCellTopPath);
+                            turn = false;
+                        }
+                        else
+                        {
+                            _pathTopStart.Pop();
+                            currentCellTopPath = _pathTopStart.Peek();
+                        }
+                    }
+
+                    if (turn == false)
+                    {
+                        if (IsMovePossible(currentCellBottomPath, turn, out MazeCell? nextCell))
+                        {
+                            currentCellBottomPath = nextCell;
+                            _pathBottomStart.Push(currentCellBottomPath);
+                            VisitedCellsBottomPath.Enqueue(currentCellBottomPath);
+                            turn = true;
+                        }
+                        else
+                        {
+                            _pathBottomStart.Pop();
+                            currentCellBottomPath = _pathBottomStart.Peek();
+                        }
+                    }
+                }
+                else
+                {
+                    _intersectionCell = intersectionCell;
+                    break;
+                }
+
             }
 
-            ValidPath = new List<MazeCell>(_pathTopStart.Union(_pathBottomStart));
-            ValidPath.Reverse();
+            ReconstructPath();
             _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             _maze.PopulateFinalDisplayTimer();
 
@@ -107,12 +108,13 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             {
                 foreach(MazeCell bottomPathCell in pathBottomStartArr)
                 {
-                    // Logic: The paths cannot hold the same cell with the current logic since if a cell has been marked
-                    // as traversed, it can't be added to the path. So we check if topPathCell has bottomPathCell as a
-                    // neighbour, and if path is open between them
-                    // May rework this logic later and not have Traversed property in MazeCell
-                    if((topPathCell.Neighbours.Contains(bottomPathCell))
-                    && (topPathCell.IsConnectedTo(bottomPathCell)))
+                    // If one of the paths contains cell of the other path, that's the intersection cell
+                    if(_pathTopStart.Contains(bottomPathCell))
+                    {
+                        intersectionCell = bottomPathCell;
+                        return true;
+                    }
+                    else if(_pathBottomStart.Contains(topPathCell))
                     {
                         intersectionCell = topPathCell;
                         return true;
@@ -146,15 +148,59 @@ namespace MazeMvcApp.Models.MazeSolverAlgos
             // if intersection cell is still null, that means either top or bottom path solved the maze,
             // and no intersection happened between the 2 paths
             // So I can check if top contains end else bottom contains start and return that as valid path
+            if(_intersectionCell == null)
+            {
+                if(_pathTopStart.Contains(_maze.EndCell))
+                {
+                    ValidPath = _pathTopStart.ToList();
+                }
+                else
+                {
+                    ValidPath = _pathBottomStart.ToList();
+                }
+            }
+            else
+            {
+                // if intersection cell isn't null, I can pop MazeCell entries from wherever the
+                // intersection cell is in both of the paths stacks and that will be the valid path
+                var currentCellBottom = _pathBottomStart.Peek();
 
+                // Travel to intersection cell and then pop remaining nodes to valid path
+                while (currentCellBottom != _intersectionCell)
+                {
+                    _pathBottomStart.Pop();
+                    currentCellBottom = _pathBottomStart.Peek();
+                }
 
+                while (currentCellBottom != _maze.EndCell)
+                {
+                    ValidPath.Add(currentCellBottom);
+                    _pathBottomStart.Pop();
+                    currentCellBottom = _pathBottomStart.Peek();
+                }
 
-            // if intersection cell isn't null, then I think given that this is DFS and that the maze only
-            // has 1 valid path and uses stacks, I can pop MazeCell entries from wherever the
-            // intersection cell or its neighbour (since only 1 of the stacks will contain intersection cell)
-            // is located in the stack and that's the valid path
+                // Reverse since we want to display path end -> Start, not intersection cell -> end
+                ValidPath.Reverse();
+                var currentCellTop = _pathTopStart.Peek();
 
+                // Travel to intersection cell in _pathTopStart then pop remaining nodes to valid path
+                while (currentCellTop != _intersectionCell)
+                {
+                    _pathTopStart.Pop();
+                    currentCellTop = _pathTopStart.Peek();
+                }
 
+                // This is to avoid adding intersection cell to valid path again here
+                _pathTopStart.Pop();
+                currentCellTop = _pathTopStart.Peek();
+
+                while (currentCellTop != _maze.StartCell)
+                {
+                    ValidPath.Add(currentCellTop);
+                    _pathTopStart.Pop();
+                    currentCellTop = _pathTopStart.Peek();
+                }
+            }
 
         }
 
