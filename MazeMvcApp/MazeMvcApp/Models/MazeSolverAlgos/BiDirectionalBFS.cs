@@ -104,19 +104,12 @@
                 else
                 {
                     _intersectionCell = intersectionCell;
-                    foreach(var neighbour in _intersectionCell.Neighbours)
-                    {
-                        if ((neighbour.IsConnectedTo(_intersectionCell)) && (!AlgorithmDisplayMap.ContainsKey(neighbour)))
-                        {
-                            AlgorithmDisplayMap.Add(neighbour, delay + 0.05);
-                        }
-                    }
                     break;
                 }
 
             }
 
-            ReconstructPath(topQueue, bottomQueue);
+            ReconstructPath(topQueue, bottomQueue, delay);
             _maze.AlgorithmDisplayMap = AlgorithmDisplayMap;
             _maze.PopulateFinalDisplayTimer();
 
@@ -151,7 +144,7 @@
             return false;
         }
 
-        private void ReconstructPath(Queue<MazeCell> pathTopStart, Queue<MazeCell> pathBottomStart)
+        private void ReconstructPath(Queue<MazeCell> pathTopStart, Queue<MazeCell> pathBottomStart, double delay)
         {
             if (_intersectionCell == null)
             {
@@ -186,6 +179,16 @@
                     currentCellTop = _cellCameFromTop[currentCellTop];
                 }
                 ValidPath.Add(_maze.StartCell);
+
+                // pass delay as argument and add any display cells missing here
+                // Solves issue of 1 cell sometimes not being included in the display map
+                foreach(var cell in ValidPath)
+                {
+                    if(!AlgorithmDisplayMap.ContainsKey(cell))
+                    {
+                        AlgorithmDisplayMap.Add(cell, delay);
+                    }
+                }
             }
         }
 
