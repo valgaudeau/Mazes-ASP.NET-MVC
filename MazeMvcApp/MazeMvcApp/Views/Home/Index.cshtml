@@ -97,7 +97,14 @@
 
         #prev-btn 
         {
+           border-radius: 5px;
            margin-left: 17px;
+           margin-right: 5px;
+        }
+
+        #next-btn 
+        {
+           border-radius: 5px;
         }
               
         /* margin:auto; horizontally centers the card even as the maze width increases */
@@ -278,6 +285,7 @@
 
         .dark-purple-btns
         {
+            margin-left: 3px;
             background-color: #4b0082;
             color: #fff;
         }
@@ -309,6 +317,7 @@
 
         #algorithmSearchDisplay
         {
+            margin-left: 3px;
             display: inline-block;
             padding: 7px 7px;
             background-color: #f3bb24;
@@ -587,7 +596,7 @@
 
     <script type="text/javascript">
 
-        /*
+        
         // DISPLAY VALID PATH
         function solveMazeFunc() 
         {
@@ -599,6 +608,7 @@
             }
         }
 
+        /*
         const solveMazeButton = document.querySelector("#solveMaze");
         solveMazeButton.addEventListener("click", solveMazeFunc);
         */
@@ -634,26 +644,7 @@
         const algorithmSearchDisplayButton = document.querySelector("#algorithmSearchDisplay");
         algorithmSearchDisplayButton.addEventListener("click", showSearchAlgorithmWorking);
 
-        // ALLOW USER TO DRAW THEIR OWN PATH
-        // Maybe should be left click to draw path, right to eraze
-        // Also the startCell and EndCell shouldn't get colored over
-        /*
-        const mazeCells = document.querySelectorAll("div.maze-cell");
-        for (const cell of mazeCells)
-        {
-            cell.addEventListener("mousedown", func, false);
-        }
-        function func(event)
-        {
-            if(event.buttons === 0)
-            {
-                this.setAttribute("style", "background-color:lightblue;") // left mouse button
-            }
-            else if(event.buttons === 2)
-            {
-                this.setAttribute("style", "background-color:white;") // right mouse button
-            }
-        }*/
+        // ALLOW USER TO DRAW THEIR OWN PATH - Left click = Draw, Right click = Eraze
 
         // DOMContentLoaded fires when the initial HTML document is completely loaded & parsed
         document.addEventListener('DOMContentLoaded', function() 
@@ -707,18 +698,21 @@
         // Modal content
         const modalContent = [
           {
-            title: 'Welcome to Maze Generator',
-            content: 'The goal of this application is to generate mazes of various sizes and complexities, and allow users to have fun interacting with those mazes.',
-            subheader: 'Key Features:',
-            listData: [ 'Generate mazes according to your specifications', 'Draw your own path through the maze: Hold left mouse-button down to draw your path, and hold right mouse-button down to eraze your path', 'Display a valid path through the maze automatically' ]
+            title: 'About Maze Generator',
+            content: 'This application allows you to create custom mazes, and observe how different pathfinding algorithms work their way through the twists and turns of your creation.',
+            subheader: 'How To Use It',
+            listData: [ 'Once you have entered how many rows and columns you want, click on the Generate Maze button. Note that if there is already a maze, it will be replaced.', 
+                        'Choose the pathfinding algorithm you want to see from the dropdown, click Confirm, and then click Show Algorithm to see it in action in your maze.', 
+                        'To draw your own path through the maze, hold left mouse-button down to draw your path, or hold right mouse-button down to eraze your path.', 
+                        'To restore the maze to its initial state, click on Clear Maze. If you have drawn your own path through the maze, you will need to clear it before you use Display Algorithm.' ]
           },
           {
-            title: 'Buttons & Inputs',
+            title: 'More Info',
             content: '',
             subheader: '',
-            listData: [ 'Choose how many rows and columns you want the generated maze to have with the input boxes. Once you have entered both, click on the Generate Maze button',
-                       'The Clear Path button will clear the maze of any path which has been generated either by the app or by yourself', 
-                        'The Clear Maze button will destroy the current maze if one exists' ]
+            listData: [ 'This application uses the "Hunt and Kill" algorithm as part of its process for maze creation. Here is a great blog if you want to learn more about this topic, check http://weblog.jamisbuck.org/2011/1/24/maze-generation-hunt-and-kill-algorithm .',
+                        'The generated mazes are "perfect mazes". A perfect maze is a maze with no loop areas and no unreachable areas. In a perfect maze, every cell is connected to another cell, and there is always one unique path between any two cells.', 
+                        'Application Author: Valentin Gaudeau' ]
           }];
 
         let currentIndex = 0;
