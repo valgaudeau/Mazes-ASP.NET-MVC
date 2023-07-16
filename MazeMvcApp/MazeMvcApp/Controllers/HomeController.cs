@@ -21,7 +21,7 @@ namespace MazeMvcApp.Controllers
         }
 
         public IActionResult Index()
-        {        
+        {
             return View(_maze);
         }
 
@@ -49,11 +49,12 @@ namespace MazeMvcApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /*
         public IActionResult EraseMaze()
         {
             _maze = new Maze();
             return RedirectToAction(nameof(Index));
-        }
+        }*/
 
         public IActionResult ChooseAlgorithm(string selectedAlgorithm)
         {
