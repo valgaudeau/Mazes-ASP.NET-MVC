@@ -698,7 +698,7 @@
         // Modal content
         const modalContent = 
         [{
-            title: 'About Maze Generator',
+            title: 'About',
             content: 'This application allows you to create custom mazes, and observe how different pathfinding algorithms work their way through the twists and turns of your creation.',
             subheader: 'How To Use It',
             listData: [ '', 
@@ -762,7 +762,7 @@
                   li.innerHTML = 'Choose the pathfinding algorithm you want to see from the dropdown, click ';
                   italicElem.textContent = 'Confirm';
                   li.appendChild(italicElem);
-                  li.innerHTML += ' , and then click ';
+                  li.innerHTML += ', and then click ';
                   italicElem.textContent = 'Show Algorithm';
                   li.appendChild(italicElem);
                   li.innerHTML += ' to see it in action in your maze.'
@@ -770,7 +770,7 @@
 
               if(index == 0 && i == 2)
               {
-                  li.innerHTML = 'To draw your own path through the maze, hold left mouse-button down to draw your path, or hold right mouse-button down to eraze your path.';
+                  li.innerHTML = 'Hold the left mouse-button down to draw your path, hold the right mouse-button down to eraze it.';
               }
 
               if(index == 0 && i == 3)
@@ -784,10 +784,10 @@
               // index 1 = modal page 2
               if(index == 1 && i == 0)
               {
-                  i.innerHTML = 'This application uses the ';
+                  li.innerHTML = 'The ';
                   italicElem.textContent = 'Hunt And Kill';
                   li.appendChild(italicElem);
-                  li.innerHTML += ' algorithm as part of its maze creation process. If you want to learn more about this topic, see ';
+                  li.innerHTML += ' algorithm is used as part of the maze creation process. If you want to learn more about this topic, see ';
                   var anchorTag = document.createElement('a');
                   anchorTag.setAttribute('href',"http://weblog.jamisbuck.org/2011/1/24/maze-generation-hunt-and-kill-algorithm");
                   anchorTag.setAttribute('target', "_blank");
@@ -806,7 +806,7 @@
 
               if(index == 1 && i == 2)
               {
-                  li.innerHTML = 'All of the generated mazes are unweighted, meaning that the edges connecting the vertices (vertices being the individual mazecells here) do not have any associated numerical weights of costs. In this case, we set all of the weights to 1, which is why Dijkstra\'s algorithm performs the same as BFS.';
+                  li.innerHTML = 'All of the generated mazes are unweighted, meaning that the edges connecting the vertices (vertices being the individual mazecells here) do not have any associated numerical weights or costs. In this case, we set all of the weights to 1, which is why Dijkstra\'s algorithm performs the same as BFS.';
               }
 
               if(index == 1 && i == 3)
