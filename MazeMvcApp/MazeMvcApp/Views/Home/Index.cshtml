@@ -701,18 +701,19 @@
             title: 'About Maze Generator',
             content: 'This application allows you to create custom mazes, and observe how different pathfinding algorithms work their way through the twists and turns of your creation.',
             subheader: 'How To Use It',
-            listData: [ 'Once you have entered how many rows and columns you want, click on the "Generate Maze" button. Note that if there is already a maze, it will be replaced.', 
-                        'Choose the pathfinding algorithm you want to see from the dropdown, click "Confirm", and then click "Show Algorithm" to see it in action in your maze.', 
-                        'To draw your own path through the maze, hold left mouse-button down to draw your path, or hold right mouse-button down to eraze your path.', 
-                        'To restore the maze to its initial state, click on "Clear Maze". If you have drawn your own path through the maze, you will need to clear it before you use Display Algorithm.' ]
+            listData: [ '', 
+                        '', 
+                        '', 
+                        '' ]
           },
           {
             title: 'More Info',
             content: '',
             subheader: '',
-            listData: [ 'This application uses the "Hunt and Kill" algorithm as part of its process for maze creation. For a great blog if you want to learn more about this topic, see http://weblog.jamisbuck.org/2011/1/24/maze-generation-hunt-and-kill-algorithm .',
-                        'The generated mazes are "Perfect Mazes". A perfect maze is a maze with no loop areas and no unreachable areas. In a perfect maze, every cell is connected to another cell, and there is always one unique path between any two cells.', 
-                        'Application Author: Valentin Gaudeau' ]
+            listData: [ '',
+                        '', 
+                        '',
+                        '' ]
         }];
 
         let currentIndex = 0;
@@ -740,10 +741,79 @@
           modalTitle.textContent = content.title;
           modalText.textContent = content.content;
           modalSubheader.textContent = content.subheader;
+
+          // Manually appending needed <em> and <a> elements where needed
           for(i = 0; i < content.listData.length; ++i) 
           {
               var li = document.createElement('li');
-              li.innerText = content.listData[i];
+              const italicElem = document.createElement('em');
+
+              // index 0 = modal page 1
+              if(index == 0 && i == 0)
+              {
+                  li.innerHTML = 'Once you have entered how many rows and columns you want, click on the ';
+                  italicElem.textContent = 'Generate Maze';
+                  li.appendChild(italicElem);
+                  li.innerHTML += ' button. Note that if there is already a maze, it will be replaced.';
+              }
+
+              if(index == 0 && i == 1)
+              {
+                  li.innerHTML = 'Choose the pathfinding algorithm you want to see from the dropdown, click ';
+                  italicElem.textContent = 'Confirm';
+                  li.appendChild(italicElem);
+                  li.innerHTML += ' , and then click ';
+                  italicElem.textContent = 'Show Algorithm';
+                  li.appendChild(italicElem);
+                  li.innerHTML += ' to see it in action in your maze.'
+              }
+
+              if(index == 0 && i == 2)
+              {
+                  li.innerHTML = 'To draw your own path through the maze, hold left mouse-button down to draw your path, or hold right mouse-button down to eraze your path.';
+              }
+
+              if(index == 0 && i == 3)
+              {
+                  li.innerHTML = 'To restore the maze to its initial state, click on ';
+                  italicElem.textContent = 'Clear Maze';
+                  li.appendChild(italicElem);
+                  li.innerHTML += '. If you have drawn your own path through the maze, you will need to clear it before you use Display Algorithm.';
+              }
+
+              // index 1 = modal page 2
+              if(index == 1 && i == 0)
+              {
+                  i.innerHTML = 'This application uses the ';
+                  italicElem.textContent = 'Hunt And Kill';
+                  li.appendChild(italicElem);
+                  li.innerHTML += ' algorithm as part of its maze creation process. If you want to learn more about this topic, see ';
+                  var anchorTag = document.createElement('a');
+                  anchorTag.setAttribute('href',"http://weblog.jamisbuck.org/2011/1/24/maze-generation-hunt-and-kill-algorithm");
+                  anchorTag.setAttribute('target', "_blank");
+                  anchorTag.innerHTML = "Jamis Buck's blog";
+                  li.appendChild(anchorTag);
+                  li.innerHTML += ' .';
+              }
+
+              if(index == 1 && i == 1)
+              {
+                  li.innerHTML = 'The generated mazes are ';
+                  italicElem.textContent = 'Perfect Mazes';
+                  li.appendChild(italicElem);
+                  li.innerHTML += '. A perfect maze is a maze with no loop areas and no unreachable areas. In a perfect maze, every cell is connected to another cell, and there is always one unique path between any two cells.';
+              }
+
+              if(index == 1 && i == 2)
+              {
+                  li.innerHTML = 'All of the generated mazes are unweighted, meaning that the edges connecting the vertices (vertices being the individual mazecells here) do not have any associated numerical weights of costs. In this case, we set all of the weights to 1, which is why Dijkstra\'s algorithm performs the same as BFS.';
+              }
+
+              if(index == 1 && i == 3)
+              {
+                  li.innerHTML = 'Application Author: Valentin Gaudeau';
+              }
+              
               modalList.appendChild(li);
           }
 
